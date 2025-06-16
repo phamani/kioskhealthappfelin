@@ -1,0 +1,428 @@
+{
+  "Premature Ventricular Contractions": {
+    "questions": [
+      {
+        "text": "Did you feel any unusual heartbeats like a \"thump,\" \"flutter,\" or skipped beat recently?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you noticed your heart suddenly beating harder or stronger for just one beat?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did this happen while you were resting or lying down?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you consumed caffeine, alcohol, or were you very tired recently?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": -1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Has this happened to you before?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      }
+    ],
+    "min_score_threshold": 2,
+    "calculated_max_score": 4
+  },
+  "Atrial Fibrillation": {
+    "questions": [
+      {
+        "text": "Have you noticed your heart beating irregularly, like it's \u201cfluttering\u201d or skipping around?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you ever felt lightheaded or almost fainted recently?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you been diagnosed with high blood pressure or had a stroke before?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did the irregular heartbeats last for several minutes or come and go?",
+        "type": "multiple_choice",
+        "options": [
+          "Lasted several minutes",
+          "Came and went",
+          "Not sure"
+        ],
+        "scoring": {
+          "Lasted several minutes": 1,
+          "Came and went": 1,
+          "Not sure": 0
+        }
+      }
+    ],
+    "min_score_threshold": 4,
+    "calculated_max_score": 7
+  },
+  "Myocardial Infarction": {
+    "questions": [
+      {
+        "text": "Are you currently experiencing chest pain, tightness, or pressure?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Does the chest pain\\pressure\\heaviness increase or occur on effort and relieved by rest?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 3,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did the chest pain spread to your arm, neck, or jaw?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you been diagnosed with heart disease before?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      },
+      {
+        "text": "Smoking?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Family history( first degree relative has heart attack or coronary stenting at age before 55)??",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      }
+    ],
+    "min_score_threshold": 6,
+    "calculated_max_score": 10
+  },
+  "Sleep Apnea": {
+    "questions": [
+      {
+        "text": "Do you snore loudly or have been told you stop breathing during sleep?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Do you often wake up feeling tired even after a full night\u2019s sleep?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Do you fall asleep easily during the day (e.g., watching TV, reading)?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Has anyone noticed you gasp or choke in your sleep?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Do you have high blood pressure?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Do you have a short neck?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      }
+    ],
+    "min_score_threshold": 3,
+    "calculated_max_score": 7
+  },
+  "Atrial Flutter": {
+    "questions": [
+      {
+        "text": "Have you felt a rapid, steady heartbeat that came on suddenly?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Was your heart beating fast even when you were resting?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did you feel dizzy, lightheaded, or breathless during it?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you ever been diagnosed with atrial fibrillation or flutter before?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did the episode end suddenly or come and go multiple times?",
+        "type": "multiple_choice",
+        "options": [
+          "Ended suddenly",
+          "Came and went",
+          "Not sure"
+        ],
+        "scoring": {
+          "Ended suddenly": 1,
+          "Came and went": 1,
+          "Not sure": 0
+        }
+      }
+    ],
+    "min_score_threshold": 3,
+    "calculated_max_score": 8
+  },
+  "Supraventricular Tachycardia": {
+    "questions": [
+      {
+        "text": "Did your heart suddenly start beating very fast, like racing?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Were you sitting, relaxing, or not doing anything active when it started?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 2,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did the fast heartbeat stop just as suddenly as it started?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did you feel chest pressure, shortness of breath, or anxiety during the episode?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Has this happened before in similar fashion?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      }
+    ],
+    "min_score_threshold": 4,
+    "calculated_max_score": 6
+  },
+  "Sinus Bradycardia": {
+    "questions": [
+      {
+        "text": "Was your heart rate below 50 bpm when you were resting?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Did you feel unusually tired, dizzy, or faint recently?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Are you very athletic or used to intense physical training?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": -1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Are you taking medications that might slow your heart rate (e.g., beta blockers)?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": -1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you felt your heart pause or beat irregularly when lying down?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      }
+    ],
+    "min_score_threshold": 2,
+    "calculated_max_score": 3
+  },
+  "Congestive Heart Failure": {
+    "questions": [
+      {
+        "text": "Do your ankles, feet, or legs often swell up?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Do you feel short of breath when lying flat or walking a short distance?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 3,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you gained weight rapidly over a few days without trying?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Do you wake up at night feeling breathless or coughing?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 3,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you been diagnosed with high blood pressure or heart disease before?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      }
+    ],
+    "min_score_threshold": 3,
+    "calculated_max_score": 9
+  },
+  "Heart Block": {
+    "questions": [
+      {
+        "text": "Do you sometimes feel like your heart is skipping beats or beating very slowly?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you had episodes of fainting or feeling close to fainting?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 3,
+          "No": 0
+        }
+      },
+      {
+        "text": "Are you using medications for the heart that might slow electrical signals (like beta-blockers or calcium channel blockers)?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": -1,
+          "No": 0
+        }
+      },
+      {
+        "text": "Have you had a pacemaker or been told your heart rhythm needs monitoring?",
+        "type": "yes_no",
+        "scoring": {
+          "Yes": 3,
+          "No": 0
+        }
+      }
+    ],
+    "min_score_threshold": 3,
+    "calculated_max_score": 7
+  }
+}

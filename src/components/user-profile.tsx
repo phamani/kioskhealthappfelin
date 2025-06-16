@@ -1,0 +1,866 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { ChevronLeft, Calendar } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Input } from "@/components/ui/input"
+// import { createDirectClient } from "@/lib/supabase-direct"
+// import type { User, Assessment, HealthReading, HealthTrend } from "@/lib/data-service"
+import type { Assessment, HealthTrend } from "@/lib/data-service"
+import { ClientProfile, LatestReading } from "@/types/client-profile" 
+
+import { QuestionnaireData } from "@/types/conditions"
+import questionnaireData from '@/data/questionnaire.json';
+import ConditionItem from "./condition-item"
+
+interface UserProfileProps {
+  onBack: () => void
+  clientId?: string
+}
+
+// Add new interface for ArrhythmiaRisk
+interface ArrhythmiaRisk {
+  id: string
+  user_id: string
+  condition_name: string
+  confidence_ratio: number
+  is_detected: boolean
+  created_at: string
+  updated_at: string
+}
+ 
+export default function UserProfile({ onBack, clientId = "" }: UserProfileProps) {
+  const [activeTab, setActiveTab] = useState("current-status")
+  const [loading, setLoading] = useState(true)
+  const [client, setClient] = useState<ClientProfile | null>(null)
+  // const [user, setUser] = useState<User | null>(null)
+  const [latestReading, setLatestReading] = useState<LatestReading | null>(null)
+  const [trends, setTrends] = useState<Record<string, HealthTrend>>({})
+  const [assessments, setAssessments] = useState<Assessment[]>([]) 
+
+  //const [arrhythmiaRisks, setArrhythmiaRisks] = useState<ArrhythmiaRisk[]>([]) 
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setLoading(true) 
+
+      try {
+        const response = await fetch(`${apiUrl}/Client/GetClientProfile?clientId=${clientId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true",
+            },
+        });
+
+        const responseJson = await response.json();
+        if (!responseJson.IsSuccess) throw new Error("Failed to fetch data");
+         
+        const clientProfile: ClientProfile = responseJson.Result;
+ 
+        setClient(clientProfile);
+        if(clientProfile.LatestReadings.length > 0){
+          setLatestReading(clientProfile.LatestReadings[0]);
+        } 
+        setTrends({
+          "3day": {
+            id: "1",
+            user_id: "87230325",
+            trend_type: "3day",
+            blood_pressure_avg: "111/71",
+            spo2_avg: 89,
+            heart_rate_avg: 57,
+            respiration_rate_avg: 14,
+            temperature_avg: 36.4,
+            glucose_avg: 76.71,
+            hba1c_avg: 21.4,
+            bmi_avg: 23,
+            blood_pressure_trend: "Stable",
+            spo2_trend: "Increasing",
+            heart_rate_trend: "Decreasing",
+            respiration_rate_trend: "Stable",
+            temperature_trend: "Decreasing",
+            glucose_trend: "Increasing",
+            hba1c_trend: "Decreasing",
+            bmi_trend: "Increasing",
+            calculated_at: new Date().toISOString(),
+          },
+          "7day": {
+            id: "2",
+            user_id: "87230325",
+            trend_type: "7day",
+            blood_pressure_avg: "102/73",
+            spo2_avg: 87,
+            heart_rate_avg: 62,
+            respiration_rate_avg: 14,
+            temperature_avg: 37.4,
+            glucose_avg: 62.36,
+            hba1c_avg: 22.4,
+            bmi_avg: 18,
+            blood_pressure_trend: "Stable",
+            spo2_trend: "Decreasing",
+            heart_rate_trend: "Decreasing",
+            respiration_rate_trend: "Decreasing",
+            temperature_trend: "Decreasing",
+            glucose_trend: "Decreasing",
+            hba1c_trend: "Decreasing",
+            bmi_trend: "Decreasing",
+            calculated_at: new Date().toISOString(),
+          },
+          "14day": {
+            id: "3",
+            user_id: "87230325",
+            trend_type: "14day",
+            blood_pressure_avg: "102/75",
+            spo2_avg: 88,
+            heart_rate_avg: 64,
+            respiration_rate_avg: 15,
+            temperature_avg: 37.9,
+            glucose_avg: 68.1,
+            hba1c_avg: 24.1,
+            bmi_avg: 20,
+            blood_pressure_trend: "Stable",
+            spo2_trend: "Decreasing",
+            heart_rate_trend: "Decreasing",
+            respiration_rate_trend: "Decreasing",
+            temperature_trend: "Decreasing",
+            glucose_trend: "Decreasing",
+            hba1c_trend: "Decreasing",
+            bmi_trend: "Decreasing",
+            calculated_at: new Date().toISOString(),
+          },
+        })
+
+        setAssessments([
+          {
+            id: "1",
+            user_id: "87230325",
+            assessment_type: "Fall risk",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: "2",
+            user_id: "87230325",
+            assessment_type: "Critical condition",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: "3",
+            user_id: "87230325",
+            assessment_type: "Depression",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: "4",
+            user_id: "87230325",
+            assessment_type: "Anxiety",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+        ]) 
+      } catch (error) {
+        console.error("Error fetching user data:", error)
+         
+        setTrends({
+          "3day": {
+            id: "1",
+            user_id: "87230325",
+            trend_type: "3day",
+            blood_pressure_avg: "111/71",
+            spo2_avg: 89,
+            heart_rate_avg: 57,
+            respiration_rate_avg: 14,
+            temperature_avg: 36.4,
+            glucose_avg: 76.71,
+            hba1c_avg: 21.4,
+            bmi_avg: 23,
+            blood_pressure_trend: "Stable",
+            spo2_trend: "Increasing",
+            heart_rate_trend: "Decreasing",
+            respiration_rate_trend: "Stable",
+            temperature_trend: "Decreasing",
+            glucose_trend: "Increasing",
+            hba1c_trend: "Decreasing",
+            bmi_trend: "Increasing",
+            calculated_at: new Date().toISOString(),
+          },
+          "7day": {
+            id: "2",
+            user_id: "87230325",
+            trend_type: "7day",
+            blood_pressure_avg: "102/73",
+            spo2_avg: 87,
+            heart_rate_avg: 62,
+            respiration_rate_avg: 14,
+            temperature_avg: 37.4,
+            glucose_avg: 62.36,
+            hba1c_avg: 22.4,
+            bmi_avg: 18,
+            blood_pressure_trend: "Stable",
+            spo2_trend: "Decreasing",
+            heart_rate_trend: "Decreasing",
+            respiration_rate_trend: "Decreasing",
+            temperature_trend: "Decreasing",
+            glucose_trend: "Decreasing",
+            hba1c_trend: "Decreasing",
+            bmi_trend: "Decreasing",
+            calculated_at: new Date().toISOString(),
+          },
+          "14day": {
+            id: "3",
+            user_id: "87230325",
+            trend_type: "14day",
+            blood_pressure_avg: "102/75",
+            spo2_avg: 88,
+            heart_rate_avg: 64,
+            respiration_rate_avg: 15,
+            temperature_avg: 37.9,
+            glucose_avg: 68.1,
+            hba1c_avg: 24.1,
+            bmi_avg: 20,
+            blood_pressure_trend: "Stable",
+            spo2_trend: "Decreasing",
+            heart_rate_trend: "Decreasing",
+            respiration_rate_trend: "Decreasing",
+            temperature_trend: "Decreasing",
+            glucose_trend: "Decreasing",
+            hba1c_trend: "Decreasing",
+            bmi_trend: "Decreasing",
+            calculated_at: new Date().toISOString(),
+          },
+        })
+
+        setAssessments([
+          {
+            id: "1",
+            user_id: "87230325",
+            assessment_type: "Fall risk",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: "2",
+            user_id: "87230325",
+            assessment_type: "Critical condition",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: "3",
+            user_id: "87230325",
+            assessment_type: "Depression",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: "4",
+            user_id: "87230325",
+            assessment_type: "Anxiety",
+            assessment_url: "#",
+            created_at: new Date().toISOString(),
+          },
+        ])
+ 
+      } finally {
+        setLoading(false)
+      }
+    }
+  
+    fetchUserData(); 
+  }, [clientId])
+
+   function formatDate(dateString: string) {
+    if (!dateString) return "N/A";
+    try {
+      const date = new Date(dateString);
+      const longDate = date.toISOString().split('T')[0];
+      const time = date.toISOString().split('T')[1].split('.')[0]
+      return longDate + " " + time ;
+    } catch (e) {
+      return dateString;
+    }
+  } 
+
+  const getTrendColor = (trend: string) => {
+    switch (trend) {
+      case "Increasing":
+        return "bg-amber-500 text-white px-2 py-1"
+      case "Decreasing":
+        return "bg-amber-500 text-white px-2 py-1"
+      default:
+        return "bg-gray-50 text-gray-800 px-2 py-1"
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-xl text-gray-600">Loading client data...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!client) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl text-red-600 mb-4">Client not found</p>
+          <Button onClick={onBack}>Go Back</Button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow-md py-4 px-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full">
+              <ChevronLeft className="h-6 w-6" />
+              <span className="sr-only">Back</span>
+            </Button>
+            <div>
+              <span className="text-lg font-medium text-blue-700">Member Risk Status</span>
+              <span className="mx-4 text-gray-300">|</span>
+              <span className="text-lg font-medium text-gray-500">Settings</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto py-6 px-4">
+        <div className="grid grid-cols-4 gap-6">
+          {/* Left sidebar with user info and navigation */}
+          <div className="col-span-1">
+            <div className="bg-white p-6 mb-4 border rounded-md flex flex-col items-center shadow-sm">
+              <div className="w-32 h-32 bg-gray-100 rounded-full mb-4 flex items-center justify-center">
+                <svg className="w-24 h-24 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="bg-white border rounded-md overflow-hidden shadow-sm">
+              <button
+                className={`w-full py-3 px-6 text-left font-medium ${
+                  activeTab === "current-status" ? "bg-teal-600 text-white" : "hover:bg-gray-50 text-gray-700"
+                }`}
+                onClick={() => setActiveTab("current-status")}
+              >
+                PATIENT PROFILE
+              </button>
+              {/* <button
+                className={`w-full py-3 px-6 text-left font-medium ${
+                  activeTab === "profile-info" ? "bg-teal-600 text-white" : "hover:bg-gray-50 text-gray-700"
+                }`}
+                onClick={() => setActiveTab("profile-info")}
+              >
+                PROFILE INFO
+              </button>
+              <button
+                className={`w-full py-3 px-6 text-left font-medium ${
+                  activeTab === "sleep-summary" ? "bg-teal-600 text-white" : "hover:bg-gray-50 text-gray-700"
+                }`}
+                onClick={() => setActiveTab("sleep-summary")}
+              >
+                SLEEP SUMMARY
+              </button>
+              <button
+                className={`w-full py-3 px-6 text-left font-medium ${
+                  activeTab === "biometric-history" ? "bg-teal-600 text-white" : "hover:bg-gray-50 text-gray-700"
+                }`}
+                onClick={() => setActiveTab("biometric-history")}
+              >
+                BIOMETRIC HISTORY
+              </button>
+              <button
+                className={`w-full py-3 px-6 text-left font-medium ${
+                  activeTab === "assessments" ? "bg-teal-600 text-white" : "hover:bg-gray-50 text-gray-700"
+                }`}
+                onClick={() => setActiveTab("assessments")}
+              >
+                ASSESSMENTS
+              </button> */}
+            </div>
+          </div>
+
+          {/* Main content area */}
+          <div className="col-span-3">
+            <Card className="p-6 mb-6 shadow-sm">
+              <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-semibold text-blue-700">{client.ClientInfo.FullName}</h1>
+                {/* <Button variant="outline" className="text-blue-600 hover:bg-blue-50">
+                  Edit Patient
+                </Button> */}
+              </div>
+            </Card>
+
+            {/* Current Status Tab */}
+            {activeTab === "current-status" && (
+              <Card className="p-6 shadow-sm space-y-8">
+                {/* PERSONAL INFORMATION Section */} 
+                <h2 className="text-xl font-semibold mb-6 text-blue-700 border-b pb-2">PERSONAL INFORMATION</h2>
+                <div className="grid grid-cols-2 gap-x-12 gap-y-4 mb-10">
+                  <div className="flex">
+                    <span className="font-medium w-24">Age:</span>
+                    <span>{client.ClientInfo.Age || "N/A"}</span>
+                  </div>
+                  {/* <div className="flex">
+                    <span className="font-medium w-24">Race:</span>
+                    <span>{client.ClientInfo.Race || "N/A"}</span>
+                  </div> */}
+                  <div className="flex">
+                    <span className="font-medium w-24">Gender:</span>
+                    <span>{client.ClientInfo.Gender || "N/A"}</span>
+                  </div>
+                  {/* <div className="flex">
+                    <span className="font-medium w-24">State:</span>
+
+                    <span>{client.ClientInfo.State || "N/A"}</span>
+                  </div> */}
+                  <div className="flex">
+                    <span className="font-medium w-24">Nationality:</span>
+                    <span>{client.Nationality || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Email:</span>
+                    <span>{client.ClientInfo.Email || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Phone:</span>
+                    <span>{client.ClientInfo.Phone || "N/A"}</span>
+                  </div>
+                  {/* <div className="flex">
+                    <span className="font-medium w-24">Provider:</span>
+                    <span>{client.ClientInfo.Provider || "N/A"}</span>
+                  </div> */}
+                  {/* <div className="flex">
+                    <span className="font-medium w-24">Product:</span>
+                    <span>{client.ClientInfo.Product || "N/A"}</span>
+                  </div> */}
+                  {/* <div className="flex">
+                    <span className="font-medium w-24">mia Health Score:</span>
+                    <span>{client.ClientInfo.MiaHealthScore || "N/A"}</span>
+                  </div> */}
+                </div>
+
+                {/* Vital Signs Section */}
+                <div>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Latest Vital Signs</h2>
+                  {latestReading && (
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-lg mb-2">Heart Rate: {latestReading.HeartRate || 'N/A'} bpm</p>
+                        <p className="text-lg mb-2">Blood Pressure: {latestReading.BloodPressure || 'N/A'}</p>
+                        <p className="text-lg mb-2">Heart Rate Variability: {latestReading.HeartRateVariability || 'N/A'} ms</p>
+                        <p className="text-lg mb-2">Breathing Rate: {latestReading.RespirationRate || 'N/A'} BPM</p>
+                      </div>
+                  </div>
+                  )} 
+                </div>
+
+                {/* Reported Symptoms Section */}
+                <div>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Reported Symptoms</h2>
+                  <ul className="list-disc list-inside">
+                    <li>{client.ClientInfo.HealthConcern || 'No symptoms reported'}</li>
+                  </ul>
+                </div>
+
+                {/* Suggested Care Section */}
+                {/* <div>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Suggested Care</h2>
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold text-red-700 mb-2">Emergency Department</h3>
+                    <p className="text-red-600">Based on your symptoms and vital signs, immediate medical attention is recommended.</p>
+                  </div>
+                </div> */}
+
+                {/* Possible Causes Section */}
+                {/* {client.PossibleCauses.length > 0 &&(
+                  <div>
+                    <h2 className="text-xl font-semibold mb-4 text-blue-700">Possible Causes</h2>
+                    <div className="space-y-2">
+                      {client.PossibleCauses.map((cause) => (
+                        <div className="flex justify-between items-center">
+                          <span>{cause.PossibleCause}</span>
+                          <span className={(cause.Level == "common" ? "bg-red-100 text-red-700" : cause.Level == "rare" ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-700") + "px-2 py-1 rounded text-sm" } >{cause.Level}</span>
+                        </div>
+                      ))} 
+                    </div>
+                  </div>
+                )} */}
+                 
+                {/* Health Risk Report Section */}
+                <div>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Health Risk Report</h2>
+                  <div className="bg-gray-50 rounded-lg p-6">
+                    <h3 className="text-lg font-semibold mb-4">Arrhythmia Detection</h3>
+                    <div className="space-y-4">
+                      {client.ArrhythmiaRisks.length > 0 ? 
+                      client.ArrhythmiaRisks.sort((a, b) => {
+                          // First sort by is_detected (true comes first)
+                          if (a.Detected !== b.Detected) {
+                            return b.Detected ? 1 : -1;
+                          }
+                          // Then sort by confidence_ratio in descending order
+                          return b.Confidence - a.Confidence;
+                        })
+                        .map((risk) => (
+                          <ConditionItem 
+                            key={risk.Id} 
+                            risk={risk} 
+                            questionnaireData={questionnaireData as unknown as QuestionnaireData} 
+                          />
+                        )) : "This client should do a face scan to show Arrhythmia Conditions!"}
+                    </div>
+                  </div>
+                </div> 
+
+                {/* Latest Readings Section */}
+                <div>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Latest Readings</h2> 
+
+                  <div className="space-y-6">
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow className="bg-gray-50">
+                            <TableHead className="font-medium">Blood Pressure</TableHead> 
+                            {/* <TableHead className="font-medium">SPO2</TableHead> */}
+                            <TableHead className="font-medium">HR</TableHead>
+                            <TableHead className="font-medium">RR</TableHead>
+                            <TableHead className="font-medium">Temp</TableHead>
+                            <TableHead className="font-medium">Glucose</TableHead>
+                            <TableHead className="font-medium">HbA1c</TableHead>
+                            <TableHead className="font-medium">BMI</TableHead>
+                            <TableHead className="font-medium">Scan Date</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody> 
+                          {client && client.LatestReadings.length > 0 ? (
+                            client.LatestReadings.map((latestClientReading) => (
+                              <TableRow
+                                key={latestClientReading.Id}
+                                className="cursor-pointer hover:bg-gray-50"
+                              >
+                                <TableCell>{latestClientReading.BloodPressure}</TableCell> 
+                                {/* <TableCell>{client.LatestReading.SPO2 ?? 0}</TableCell>  */}
+                                <TableCell>{latestClientReading.HeartRate}</TableCell>
+                                <TableCell>{latestClientReading.RespirationRate}</TableCell>
+                                <TableCell>{latestClientReading.Temperature ?? 0}</TableCell>
+                                <TableCell>{latestClientReading.Glucose ?? 0}</TableCell>
+                                <TableCell>{latestClientReading.Hba1c ?? 0}</TableCell>
+                                <TableCell>{latestClientReading.BmiScore ?? 0}</TableCell>
+                                <TableCell>{formatDate(latestClientReading.CreationTime)}</TableCell> 
+                              </TableRow>
+                            ))
+                            ) : (
+                              <TableRow>
+                                <TableCell colSpan={11} className="text-center py-8 text-gray-500">
+                                  No records found
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </TableBody> 
+                      </Table>
+                    </div>
+
+                      {/* Trend sections */}
+                      {/* {Object.entries(trends).map(([period, trend]) => (
+                        <div key={period} className="space-y-4">
+                          <h2 className="text-lg font-semibold text-gray-700">
+                            {period === "3day" ? "3 Day Trend" : period === "7day" ? "7 Day Trend" : "14 Day Trend"}
+                          </h2>
+                          <div className="overflow-x-auto">
+                            <Table>
+                              <TableBody>
+                                <TableRow className="bg-gray-50">
+                                  <TableCell className="font-medium">Average</TableCell>
+                                  <TableCell>{trend.blood_pressure_avg}</TableCell>
+                                  <TableCell>{trend.spo2_avg}</TableCell>
+                                  <TableCell>{trend.heart_rate_avg}</TableCell>
+                                  <TableCell>{trend.respiration_rate_avg}</TableCell>
+                                  <TableCell>{trend.temperature_avg}</TableCell>
+                                  <TableCell>{trend.glucose_avg}</TableCell>
+                                  <TableCell>{trend.hba1c_avg}</TableCell>
+                                  <TableCell>{trend.bmi_avg}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                  <TableCell className="font-medium">Trend</TableCell>
+                                  <TableCell className={`${getTrendColor(trend.blood_pressure_trend)} rounded-md text-center`}>
+                                    {trend.blood_pressure_trend}
+                                  </TableCell>
+                                  <TableCell className={`${getTrendColor(trend.spo2_trend)} rounded-md text-center`}>
+                                    {trend.spo2_trend}
+                                  </TableCell>
+                                  <TableCell className={`${getTrendColor(trend.heart_rate_trend)} rounded-md text-center`}>
+                                    {trend.heart_rate_trend}
+                                  </TableCell>
+                                  <TableCell className={`${getTrendColor(trend.respiration_rate_trend)} rounded-md text-center`}>
+                                    {trend.respiration_rate_trend}
+                                  </TableCell>
+                                  <TableCell className={`${getTrendColor(trend.temperature_trend)} rounded-md text-center`}>
+                                    {trend.temperature_trend}
+                                  </TableCell>
+                                  <TableCell className={`${getTrendColor(trend.glucose_trend)} rounded-md text-center`}>
+                                    {trend.glucose_trend}
+                                  </TableCell>
+                                  <TableCell className={`${getTrendColor(trend.hba1c_trend)} rounded-md text-center`}>
+                                    {trend.hba1c_trend}
+                                  </TableCell>
+                                  <TableCell className={`${getTrendColor(trend.bmi_trend)} rounded-md text-center`}>
+                                    {trend.bmi_trend}
+                                  </TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          </div>
+                        </div>
+                      ))} */}
+                  </div> 
+                </div>
+              </Card>
+            )}
+
+            {/* Profile Info Tab */}
+            {activeTab === "profile-info" && (
+              <Card className="p-6 shadow-sm">
+                <h2 className="text-xl font-semibold mb-6 text-blue-700 border-b pb-2">PERSONAL INFORMATION</h2>
+                <div className="grid grid-cols-2 gap-x-12 gap-y-4 mb-10">
+                  <div className="flex">
+                    <span className="font-medium w-24">Age:</span>
+                    <span>{client.ClientInfo.Age || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Race:</span>
+                    <span>{client.ClientInfo.Race || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Gender:</span>
+                    <span>{client.ClientInfo.Gender || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">State:</span>
+
+                    <span>{client.ClientInfo.State || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Nationality:</span>
+                    <span>{client.Nationality || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Email:</span>
+                    <span>{client.ClientInfo.Email || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Phone:</span>
+                    <span>{client.ClientInfo.Phone || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Provider:</span>
+                    <span>{client.ClientInfo.Provider || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Product:</span>
+                    <span>{client.ClientInfo.Product || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">mia Health Score:</span>
+                    <span>{client.ClientInfo.MiaHealthScore || "N/A"}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-semibold mb-6 text-blue-700 border-b pb-2">BASIC INFORMATION</h2>
+                <div className="grid grid-cols-2 gap-x-12 gap-y-4 mb-10">
+                  <div className="flex">
+                    <span className="font-medium w-24">Height:</span>
+                    <span>{client.ClientInfo.Height || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Sleep Score:</span>
+                    <span>{client.ClientInfo.SleepScore || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Weight:</span>
+                    <span>{client.ClientInfo.Weight || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Sleep Quality:</span>
+                    <span>{client.ClientInfo.SleepQuality || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Waist:</span>
+                    <span>{client.ClientInfo.Waist || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">PHQ9 Score:</span>
+                    <span>{client.ClientInfo.PHQ9Score || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">BMI Status:</span>
+                    <span>{client.ClientInfo.BMIStatus || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Devices:</span>
+                    <span>{client.ClientInfo.Devices || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Active:</span>
+                    <span>{client.ClientInfo.Active || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">LMP:</span>
+                    <span>{client.ClientInfo.LMP || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Activity Level:</span>
+                    <span>{client.ClientInfo.ActivityLevel || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Pregnant:</span>
+                    <span>{client.ClientInfo.Pregnant || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Smoker:</span>
+                    <span>{client.ClientInfo.Smoker || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Pregnancy Age:</span>
+                    <span>{client.ClientInfo.PregnancyAge || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-24">Current Medication:</span>
+                    <span>{client.ClientInfo.CurrentMedication || "N/A"}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-semibold mb-6 text-blue-700 border-b pb-2">MEDICAL INFORMATION</h2>
+                <div className="grid grid-cols-2 gap-x-12 gap-y-4 mb-10">
+                  <div className="flex">
+                    <span className="font-medium w-36">Medical Conditions:</span>
+                    <span>{client.ClientInfo.MedicalConditions || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-36">Medical History:</span>
+                    <span>{client.ClientInfo.MedicalHistory || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-36">Suspected Medical Conditions:</span>
+                    <span>{client.ClientInfo.SuspectedMedicalConditions || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-36">Family History:</span>
+                    <span>{client.ClientInfo.FamilyHistory || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-36">Current Symptoms:</span>
+                    <span>{client.ClientInfo.HealthConcern || "N/A"}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-semibold mb-6 text-blue-700 border-b pb-2">RISK ASSESSMENTS</h2>
+                <div className="grid grid-cols-2 gap-x-12 gap-y-4">
+                  <div className="flex">
+                    <span className="font-medium w-36">Diabetes:</span>
+                    <span>{client.ClientInfo.Diabetes || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-36">Pregnancy Complications:</span>
+                    <span>{client.ClientInfo.PregnancyComplications || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-36">Hypertension:</span>
+                    <span>{client.ClientInfo.Hypertension || "N/A"}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="font-medium w-36">Mental Health:</span>
+                    <span>{client.ClientInfo.MentalHealth || "N/A"}</span>
+                  </div>
+                </div>
+              </Card>
+            )}
+
+            {/* Sleep Summary Tab */}
+            {activeTab === "sleep-summary" && (
+              <Card className="p-6 shadow-sm">
+                <h2 className="text-xl font-semibold mb-6 text-blue-700">Sleep Summary</h2>
+                <div className="flex justify-end items-center mb-6 space-x-2">
+                  <Button variant="outline" size="sm" className="text-blue-600 hover:bg-blue-50">
+                    Last Night
+                  </Button>
+                  <Button variant="outline" size="sm" className="text-blue-600 hover:bg-blue-50">
+                    Last 7 Days
+                  </Button>
+                  <Button variant="outline" size="sm" className="text-blue-600 hover:bg-blue-50">
+                    Last 15 Days
+                  </Button>
+                  <div className="relative">
+                    <Input type="text" placeholder="Select date" className="pl-10" />
+                    <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-center h-64 text-gray-500">
+                  <p>Select a date range to view sleep data</p>
+                </div>
+              </Card>
+            )}
+
+            {/* Biometric History Tab */}
+            {activeTab === "biometric-history" && (
+              <Card className="p-6 shadow-sm">
+                <h2 className="text-xl font-semibold mb-6 text-blue-700">Biometric History</h2>
+                <div className="flex items-center justify-center h-64 text-gray-500">
+                  <p>Biometric history data will be displayed here</p>
+                </div>
+              </Card>
+            )}
+
+            {/* Assessments Tab */}
+            {activeTab === "assessments" && (
+              <Card className="p-6 shadow-sm">
+                <div className="grid grid-cols-2 gap-12">
+                  <div>
+                    <h2 className="text-xl font-semibold mb-4 text-blue-700">Assessments:</h2>
+                    {assessments.length > 0 ? (
+                      <ul className="space-y-2">
+                        {assessments.map((assessment) => (
+                          <li key={assessment.id}>
+                            <a href={assessment.assessment_url} className="text-blue-600 hover:text-blue-700 hover:underline">
+                              {assessment.assessment_type}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-500">No assessments available</p>
+                    )}
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold mb-4 text-blue-700">Assessment History:</h2>
+                    <a href="#" className="text-blue-600 hover:text-blue-700 hover:underline">
+                      All Assessment History
+                    </a>
+                  </div>
+                </div>
+              </Card>
+            )}
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
