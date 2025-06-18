@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Select, { SingleValue } from "react-select";
 import { Country } from "@/payload-types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type Props = {
     language: "en" | "ar";
@@ -18,6 +19,7 @@ interface DropDownOption {
 }
 
 const CountrySelector = ({ language, value, onSelect }: Props) => {
+    const { t } = useTranslation();
     const [countries, setCountries] = useState<Country[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -80,7 +82,7 @@ const CountrySelector = ({ language, value, onSelect }: Props) => {
                     onSelect(option?.value ?? null); // Send just the ID back to parent
                 }}
                 value={selectedOption} // Controlled by the value prop
-                placeholder={isArabic ? "اختر دولة..." : "Select a country..."}
+                placeholder={t('countrySelector.placeholder')}
                 isSearchable
                 isLoading={isLoading}
                 formatOptionLabel={(option: DropDownOption) => (

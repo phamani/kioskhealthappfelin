@@ -28,7 +28,7 @@ export default function PersonalInfoScreen({
   onNext,
   onPrev,
 }: PersonalInfoScreenProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [fullName, setFullName] = useState(
     userData.personalInfo?.fullName || ""
@@ -266,7 +266,7 @@ export default function PersonalInfoScreen({
             {t('personalInfo.nationality')}
           </Label>
  
-          <CountrySelector language={"en"} onSelect={(id) => setNationalityId(id ?? "")} />
+          <CountrySelector language={i18n.language as "en" | "ar"} onSelect={(id) => setNationalityId(id ?? "")} />
 
           {errors.nationalityId && (
             <p className="text-red-500 flex items-center gap-1">

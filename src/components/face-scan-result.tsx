@@ -12,6 +12,8 @@ import type { UserData } from "./home-screen";
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ClientModel } from '@/payload-types';
+import { useTranslation } from "@/hooks/useTranslation";
+import LanguageSwitcher from "@/components/language-switcher";
 
 interface FaceScanResultProps { 
     userData: UserData;
@@ -26,6 +28,7 @@ export default function FaceScanResult({
   onNext,
   onPrev
 }: FaceScanResultProps){
+    const { t } = useTranslation();
     const [latestResult, setLatestResult] = useState<HealthData | null>(null);
     const [isFetching, setIsFetching] = useState<Boolean>(false);
      
@@ -93,27 +96,32 @@ export default function FaceScanResult({
 
     return (
         <div className="flex flex-col space-y-8">
+            {/* Language Switcher */}
+            <div className="absolute top-4 right-4">
+                <LanguageSwitcher />
+            </div>
+
             <div className="text-center">
-                <h2 className="text-4xl font-bold text-blue-700 mb-4">Scan Complete</h2>
-                <p className="text-xl text-gray-600 mb-8">Here are your vital signs captured from the face scan:</p>
+                <h2 className="text-4xl font-bold text-blue-700 mb-4">{t('faceScan.scanComplete')}</h2>
+                <p className="text-xl text-gray-600 mb-8">{t('faceScan.scanCompleteSubtitle')}</p>
 
                 <div className="grid grid-cols-2 gap-6 mb-10">
                     <Card className="p-6 bg-blue-50">
-                        <p className="text-lg text-gray-600">Heart Rate</p>
+                        <p className="text-lg text-gray-600">{t('faceScan.vitals.heartRate')}</p>
                         <p className="text-3xl font-bold text-blue-700">
-                            {latestResult?.RealTimeHeartRate} <span className="text-lg">BPM</span>
+                            {latestResult?.RealTimeHeartRate} <span className="text-lg">{t('faceScan.vitals.bpm')}</span>
                         </p>
                     </Card>
                     <Card className="p-6 bg-blue-50">
-                        <p className="text-lg text-gray-600">Heart Rate Variability</p>
+                        <p className="text-lg text-gray-600">{t('faceScan.vitals.heartRateVariability')}</p>
                         <p className="text-3xl font-bold text-blue-700">{latestResult?.HrvSdnnMs}</p>
                     </Card>
                     <Card className="p-6 bg-blue-50">
-                        <p className="text-lg text-gray-600">Respiration Rate</p>
+                        <p className="text-lg text-gray-600">{t('faceScan.vitals.respirationRate')}</p>
                         <p className="text-3xl font-bold text-blue-700">{latestResult?.BreathingRate}</p>
                     </Card>
                     <Card className="p-6 bg-blue-50">
-                        <p className="text-lg text-gray-600">Blood Pressure</p>
+                        <p className="text-lg text-gray-600">{t('faceScan.vitals.bloodPressure')}</p>
                         <p className="text-2xl font-bold text-blue-700">{latestResult?.SystolicBloodPressureMmhg}/{latestResult?.DiastolicBloodPressureMmhg}</p>
                     </Card> 
                 </div>
@@ -121,10 +129,10 @@ export default function FaceScanResult({
 
             <div className="flex justify-between pt-6">
                 <Button onClick={onPrev} className="text-xl py-6 px-10 bg-gray-200 text-gray-800 hover:bg-gray-300">
-                    Back
+                    {t('buttons.back')}
                 </Button>
                 <Button onClick={onNext} className="text-xl py-6 px-10 bg-blue-600 hover:bg-blue-700">
-                    Continue
+                    {t('buttons.continue')}
                 </Button>
             </div>
         </div>

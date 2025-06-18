@@ -37,6 +37,8 @@
     "viewResults": "View Results",
     "vitals": {
       "heartRate": "Heart Rate",
+      "heartRateVariability": "Heart Rate Variability",
+      "respirationRate": "Respiration Rate",
       "bloodPressure": "Blood Pressure",
       "temperature": "Temperature",
       "oxygen": "Oxygen",
@@ -59,10 +61,25 @@
     }
   },
   "complaint": {
-    "title": "Health Complaint",
-    "subtitle": "Please describe any current health concerns or symptoms you're experiencing.",
+    "title": "What brings you in today?",
+    "subtitle": "Please select your health concerns (select all that apply):",
     "placeholder": "Describe your symptoms or health concerns...",
-    "optional": "This information is optional but will help provide better recommendations."
+    "optional": "This information is optional but will help provide better recommendations.",
+    "symptoms": {
+      "headache": "Headache",
+      "fever": "Fever",
+      "cough": "Cough",
+      "soreThroat": "Sore Throat",
+      "stomachPain": "Stomach Pain",
+      "backPain": "Back Pain",
+      "dizziness": "Dizziness",
+      "fatigue": "Fatigue",
+      "nausea": "Nausea",
+      "shortnessOfBreath": "Shortness of Breath",
+      "chestPain": "Chest Pain",
+      "other": "Other",
+      "nothing": "Nothing"
+    }
   },
   "assessment": {
     "title": "Health Assessment",
@@ -99,7 +116,8 @@
     "optional": "Optional",
     "pleaseWait": "Please wait...",
     "tryAgain": "Please try again later",
-    "somethingWentWrong": "Something went wrong, please try again later!"
+    "somethingWentWrong": "Something went wrong, please try again later!",
+    "years": "years"
   },
   "layout": {
     "step": "Step",
@@ -132,5 +150,9 @@
     "trends": "Trends",
     "alerts": "Alerts",
     "recommendations": "Recommendations"
+  },
+  "countrySelector": {
+    "placeholder": "Select a country...",
+    "placeholderAr": "اختر دولة..."
   }
 } 

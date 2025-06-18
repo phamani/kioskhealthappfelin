@@ -11,6 +11,8 @@ import type { UserData } from "./home-screen";
 import Cookies from 'js-cookie';
 import { ClientModel } from "@/payload-types";
 import HealthSummaryModal from "./health-summary-modal";
+import { useTranslation } from "@/hooks/useTranslation";
+import LanguageSwitcher from "@/components/language-switcher";
 
 interface ComplaintScreenProps {
   userData: UserData;
@@ -29,6 +31,7 @@ export default function ComplaintScreen({
   apiData = null, // Default value
   setApiData = () => {}, // Default empty function
 }: ComplaintScreenProps) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false); 
   const [showSummary, setShowSummary] = useState(false);
   const [localApiData, setLocalApiData] = useState<ClientModel | null>(apiData); // Local state fallback
@@ -38,19 +41,19 @@ export default function ComplaintScreen({
   );
 
   const commonComplaints = [
-    "Headache",
-    "Fever",
-    "Cough",
-    "Sore Throat",
-    "Stomach Pain",
-    "Back Pain",
-    "Dizziness",
-    "Fatigue",
-    "Nausea",
-    "Shortness of Breath",
-    "Chest Pain",
-    "Other",
-    "Nothing" 
+    { key: 'headache', value: 'Headache' },
+    { key: 'fever', value: 'Fever' },
+    { key: 'cough', value: 'Cough' },
+    { key: 'soreThroat', value: 'Sore Throat' },
+    { key: 'stomachPain', value: 'Stomach Pain' },
+    { key: 'backPain', value: 'Back Pain' },
+    { key: 'dizziness', value: 'Dizziness' },
+    { key: 'fatigue', value: 'Fatigue' },
+    { key: 'nausea', value: 'Nausea' },
+    { key: 'shortnessOfBreath', value: 'Shortness of Breath' },
+    { key: 'chestPain', value: 'Chest Pain' },
+    { key: 'other', value: 'Other' },
+    { key: 'nothing', value: 'Nothing' }
   ];
   
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -63,12 +66,12 @@ export default function ComplaintScreen({
     setLocalApiData(data);
   };
 
-  const toggleComplaint = (complaint: string) => {
+  const toggleComplaint = (complaintValue: string) => {
     setSelectedComplaints(prev => {
-      if (prev.includes(complaint)) {
-        return prev.filter(item => item !== complaint);
+      if (prev.includes(complaintValue)) {
+        return prev.filter(item => item !== complaintValue);
       } else {
-        return [...prev, complaint];
+        return [...prev, complaintValue];
       }
     });
   };
@@ -173,12 +176,17 @@ export default function ComplaintScreen({
 
   return (
     <div className="flex flex-col space-y-8">
+      {/* Language Switcher */}
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+
       <div className="text-center">
         <h2 className="text-4xl font-bold text-blue-700 mb-4">
-          What brings you in today?
+          {t('complaint.title')}
         </h2>
         <p className="text-xl text-gray-600 mb-8">
-          Please select your health concerns (select all that apply):
+          {t('complaint.subtitle')}
         </p>
       </div>
 
@@ -186,33 +194,33 @@ export default function ComplaintScreen({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {commonComplaints.map((complaint) => (
             <Card
-              key={complaint}
+              key={complaint.key}
               className={`p-6 cursor-pointer transition-all ${
-                selectedComplaints.includes(complaint)
+                selectedComplaints.includes(complaint.value)
                   ? "bg-blue-100 border-blue-500 border-2"
                   : "hover:bg-gray-50"
               }`}
-              onClick={() => toggleComplaint(complaint)}
+              onClick={() => toggleComplaint(complaint.value)}
             >
-              <p className="text-xl text-center">{complaint}</p>
+              <p className="text-xl text-center">{t(`complaint.symptoms.${complaint.key}`)}</p>
             </Card>
           ))}
         </div>
       </div>
 
-      <div className="justify-between pt-6">
+      <div className="flex justify-between pt-6">
         <Button
           onClick={onPrev}
           className="text-xl py-6 px-10 bg-gray-200 text-gray-800 hover:bg-gray-300"
         >
-          Back
+          {t('buttons.back')}
         </Button>
         <Button 
           onClick={handleShowSummary} 
           disabled={!selectedComplaints || selectedComplaints.length === 0 || isLoading}
           className="text-xl py-6 px-10 bg-green-600 hover:bg-green-700 disabled:opacity-50"
         >
-          {isLoading ? "Processing..." : "Complete & Print Summary"}
+          {isLoading ? t('common.loading') : t('buttons.submit')}
         </Button>
       </div>
 

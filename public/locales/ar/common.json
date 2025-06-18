@@ -37,6 +37,8 @@
     "viewResults": "عرض النتائج",
     "vitals": {
       "heartRate": "معدل ضربات القلب",
+      "heartRateVariability": "تقلب معدل ضربات القلب",
+      "respirationRate": "معدل التنفس",
       "bloodPressure": "ضغط الدم",
       "temperature": "درجة الحرارة",
       "oxygen": "الأكسجين",
@@ -59,10 +61,25 @@
     }
   },
   "complaint": {
-    "title": "الشكوى الصحية",
-    "subtitle": "يرجى وصف أي مخاوف صحية حالية أو أعراض تواجهها.",
+    "title": "ما الذي يجلبك اليوم؟",
+    "subtitle": "يرجى اختيار مخاوفك الصحية (اختر كل ما ينطبق):",
     "placeholder": "اوصف أعراضك أو مخاوفك الصحية...",
-    "optional": "هذه المعلومات اختيارية ولكنها ستساعد في تقديم توصيات أفضل."
+    "optional": "هذه المعلومات اختيارية ولكنها ستساعد في تقديم توصيات أفضل.",
+    "symptoms": {
+      "headache": "صداع",
+      "fever": "حمى",
+      "cough": "سعال",
+      "soreThroat": "التهاب الحلق",
+      "stomachPain": "ألم المعدة",
+      "backPain": "ألم الظهر",
+      "dizziness": "دوخة",
+      "fatigue": "إرهاق",
+      "nausea": "غثيان",
+      "shortnessOfBreath": "ضيق التنفس",
+      "chestPain": "ألم الصدر",
+      "other": "أخرى",
+      "nothing": "لا شيء"
+    }
   },
   "assessment": {
     "title": "التقييم الصحي",
@@ -99,7 +116,8 @@
     "optional": "اختياري",
     "pleaseWait": "يرجى الانتظار...",
     "tryAgain": "يرجى المحاولة مرة أخرى لاحقاً",
-    "somethingWentWrong": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقاً!"
+    "somethingWentWrong": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقاً!",
+    "years": "سنة"
   },
   "layout": {
     "step": "الخطوة",
@@ -132,5 +150,9 @@
     "trends": "الاتجاهات",
     "alerts": "التنبيهات",
     "recommendations": "التوصيات"
+  },
+  "countrySelector": {
+    "placeholder": "اختر دولة...",
+    "placeholderAr": "اختر دولة..."
   }
 } 
