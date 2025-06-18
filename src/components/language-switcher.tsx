@@ -28,19 +28,29 @@ export default function LanguageSwitcher() {
   }, []);
 
   useEffect(() => {
-    const current = languages.find(lang => lang.code === i18n.language) || languages[0];
-    setCurrentLanguage(current);
-    
-    // Update document direction for Arabic
-    if (typeof document !== 'undefined') {
-      document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
-      document.documentElement.lang = i18n.language;
+    if (i18n && i18n.language) {
+      const current = languages.find(lang => lang.code === i18n.language) || languages[0];
+      setCurrentLanguage(current);
+      
+      // Update document direction for Arabic
+      if (typeof document !== 'undefined') {
+        document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.lang = i18n.language;
+      }
     }
-  }, [i18n.language]);
+  }, [i18n?.language]);
 
   const changeLanguage = (languageCode: string) => {
-    i18n.changeLanguage(languageCode);
-    localStorage.setItem('i18nextLng', languageCode);
+    if (i18n && typeof i18n.changeLanguage === 'function') {
+      i18n.changeLanguage(languageCode);
+      localStorage.setItem('i18nextLng', languageCode);
+      
+      // Manually update document direction for immediate feedback
+      if (typeof document !== 'undefined') {
+        document.documentElement.dir = languageCode === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.lang = languageCode;
+      }
+    }
   };
 
   return (
