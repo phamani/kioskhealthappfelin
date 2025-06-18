@@ -1,7 +1,12 @@
 import { withPayload } from "@payloadcms/next/withPayload";
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = { 
+const nextConfig: NextConfig = {
+  i18n: {
+    locales: ['en', 'ar'],
+    defaultLocale: 'en',
+    localeDetection: false,
+  }, 
   reactStrictMode: false,
   async headers() {
     return [

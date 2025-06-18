@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import I18nProvider from "@/components/i18n-provider";
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
+  title: "Health Check Kiosk",
+  description: "Advanced health assessment kiosk application",
   generator: "v0.dev",
 };
 
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <I18nProvider>
+          {children}
+        </I18nProvider>
+      </body>
     </html>
   );
 }

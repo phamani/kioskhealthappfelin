@@ -12,6 +12,8 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import AgreementModal from "./agreementModal";
 import Cookies from 'js-cookie';
 import CountrySelector from "@/components/ui/country-selector";
+import { useTranslation } from "@/hooks/useTranslation";
+import LanguageSwitcher from "@/components/language-switcher";
 
 interface PersonalInfoScreenProps {
   userData: UserData;
@@ -26,6 +28,7 @@ export default function PersonalInfoScreen({
   onNext,
   onPrev,
 }: PersonalInfoScreenProps) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [fullName, setFullName] = useState(
     userData.personalInfo?.fullName || ""
@@ -85,37 +88,37 @@ export default function PersonalInfoScreen({
     };
 
     if (!fullName) {
-      newErrors.fullName = "Full Name is required!";
+      newErrors.fullName = t('personalInfo.errors.fullNameRequired');
       isValid = false;
     }
 
     if (!email) {
-      newErrors.email = "Email is required!";
+      newErrors.email = t('personalInfo.errors.emailRequired');
       isValid = false;
     }
 
     if (!nationalityId) {
-      newErrors.nationalityId = "Nationality is required!";
+      newErrors.nationalityId = t('personalInfo.errors.nationalityRequired');
       isValid = false;
     }
 
     if (email && !validateEmail(email)) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = t('personalInfo.errors.invalidEmail');
       isValid = false;
     }
 
     if (phone && !validatePhone(phone)) {
-      newErrors.phone = "Please enter a valid phone number";
+      newErrors.phone = t('personalInfo.errors.invalidPhone');
       isValid = false;
     }
 
     // Check consent if any information is provided
     if (!consent) {
-      newErrors.consent = "You must consent to share your information";
+      newErrors.consent = t('personalInfo.errors.consentRequired');
       isValid = false;
     }
     if (!agree) {
-      newErrors.agree = "You must agree to the Confidentially & Non-Disclosure ";
+      newErrors.agree = t('personalInfo.errors.agreementRequired');
       isValid = false;
     }
 
@@ -159,8 +162,8 @@ export default function PersonalInfoScreen({
       if (!responseJson.IsSuccess) {
         await Swal.fire({
           icon: "error",
-          title: "Error!",
-          text: "Something went wrong, please try again later!",
+          title: t('common.error'),
+          text: t('common.somethingWentWrong'),
           confirmButtonColor: "#dc2626",
         });
         return;
@@ -173,8 +176,8 @@ export default function PersonalInfoScreen({
       console.error("Error saving personal information:", error);
       await Swal.fire({
           icon: "error",
-          title: "Error!",
-          text: "Something went wrong, please try again later!",
+          title: t('common.error'),
+          text: t('common.somethingWentWrong'),
           confirmButtonColor: "#dc2626",
         });
     } finally {
@@ -187,26 +190,30 @@ export default function PersonalInfoScreen({
 
   return (
     <div className="flex flex-col space-y-8">
+      {/* Language Switcher */}
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+
       <div className="text-center">
         <h2 className="text-4xl font-bold text-blue-700 mb-4">
-          Personal Information
+          {t('personalInfo.title')}
         </h2>
         <p className="text-xl text-gray-600">
-          Would you like to share your contact information? This is optional and
-          will help us provide you with your health check results.
+          {t('personalInfo.subtitle')}
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="fullName" className="text-xl">
-            Full Name
+            {t('personalInfo.fullName')}
           </Label>
           <Input
             id="fullName"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            placeholder="Enter your full name"
+            placeholder={t('personalInfo.fullName')}
             className="text-xl py-6"
           />
           {errors.fullName && (
@@ -218,14 +225,14 @@ export default function PersonalInfoScreen({
 
         <div className="space-y-2">
           <Label htmlFor="email" className="text-xl">
-            Email Address
+            {t('personalInfo.email')}
           </Label>
           <Input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email address"
+            placeholder={t('personalInfo.email')}
             className="text-xl py-6"
           />
           {errors.email && (
@@ -237,14 +244,14 @@ export default function PersonalInfoScreen({
 
         <div className="space-y-2">
           <Label htmlFor="phone" className="text-xl">
-            Phone Number
+            {t('personalInfo.phone')}
           </Label>
           <Input
             id="phone"
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter your phone number"
+            placeholder={t('personalInfo.phone')}
             className="text-xl py-6"
           />
           {errors.phone && (
@@ -256,7 +263,7 @@ export default function PersonalInfoScreen({
 
         <div className="space-y-2">
           <Label htmlFor="nationalityId" className="text-xl">
-            Nationality
+            {t('personalInfo.nationality')}
           </Label>
  
           <CountrySelector language={"en"} onSelect={(id) => setNationalityId(id ?? "")} />
@@ -276,8 +283,7 @@ export default function PersonalInfoScreen({
             className="w-6 h-6 mt-1"
           />
           <Label htmlFor="consent" className="text-lg font-normal">
-            I consent to share my personal information and receive my health
-            check results
+            {t('personalInfo.consent')}
           </Label> 
         </div>
         {errors.consent && (
@@ -298,9 +304,9 @@ export default function PersonalInfoScreen({
             className="text-lg font-normal cursor-pointer"
             onClick={openModal}
           >
-            I understand and agree to the{" "}
+            {t('personalInfo.agreement')}{" "}
             <span className="text-blue-600 no-underline">
-              Confidentiality & Non-Disclosure
+              {t('personalInfo.viewAgreement')}
             </span>
           </Label> 
         </div> 
@@ -317,14 +323,14 @@ export default function PersonalInfoScreen({
           onClick={onPrev}
           className="text-xl py-6 px-10 bg-gray-200 text-gray-800 hover:bg-gray-300"
         >
-          Back
+          {t('buttons.back')}
         </Button>
         <div className="space-x-4">
           <Button
             onClick={handleNext}
             className="text-xl py-6 px-10 bg-blue-600 hover:bg-blue-700"
           >
-            {isLoading ? "Processing..." : "Next"}
+            {isLoading ? t('common.loading') : t('buttons.next')}
           </Button>
         </div>
       </div>

@@ -2,14 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/hooks/useTranslation";
+import LanguageSwitcher from "@/components/language-switcher";
 
 interface WelcomeScreenProps {
   onNext: () => void;
 }
 
 export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col items-center justify-center text-center space-y-12 py-10">
+      {/* Language Switcher */}
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -17,11 +26,10 @@ export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
         className="space-y-6"
       >
         <h1 className="text-5xl font-bold text-blue-700">
-          Welcome to Health Check
+          {t('welcome.title')}
         </h1>
         <p className="text-2xl text-gray-600 max-w-3xl">
-          Get a quick assessment of your health with our advanced kiosk system.
-          Touch the screen to begin your health check journey.
+          {t('welcome.subtitle')}
         </p>
       </motion.div>
 
@@ -33,7 +41,7 @@ export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
       >
         <img
           src="/carevision.jpg"
-          alt="Health Check Logo"
+          alt={t('welcome.logoAlt')}
           className="w-48 h-48"
         />
 
@@ -41,7 +49,7 @@ export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
           onClick={onNext}
           className="text-2xl py-8 px-16 rounded-full bg-blue-600 hover:bg-blue-700 transition-all"
         >
-          Start Health Check
+          {t('welcome.startButton')}
         </Button>
       </motion.div>
     </div>

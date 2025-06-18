@@ -1,0 +1,136 @@
+{
+  "welcome": {
+    "title": "Welcome to Health Check",
+    "subtitle": "Get a quick assessment of your health with our advanced kiosk system. Touch the screen to begin your health check journey.",
+    "logoAlt": "Health Check Logo",
+    "startButton": "Start Health Check"
+  },
+  "personalInfo": {
+    "title": "Personal Information",
+    "subtitle": "Would you like to share your contact information? This is optional and will help us provide you with your health check results.",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "nationality": "Nationality",
+    "consent": "I consent to sharing my information for health check purposes",
+    "agreement": "I agree to the Confidentiality & Non-Disclosure Agreement",
+    "viewAgreement": "View Agreement",
+    "errors": {
+      "fullNameRequired": "Full Name is required!",
+      "emailRequired": "Email is required!",
+      "nationalityRequired": "Nationality is required!",
+      "invalidEmail": "Please enter a valid email address",
+      "invalidPhone": "Please enter a valid phone number",
+      "consentRequired": "You must consent to share your information",
+      "agreementRequired": "You must agree to the Confidentiality & Non-Disclosure Agreement"
+    }
+  },
+  "faceScan": {
+    "title": "Face Scan",
+    "subtitle": "Please stand still and look directly at the screen. We'll capture your vital signs through our camera.",
+    "scanComplete": "Scan Complete",
+    "scanCompleteSubtitle": "Here are your vital signs captured from the face scan:",
+    "instructions": "Position your face in the center and press the button to begin.",
+    "startButton": "Start Face Scan",
+    "scanningInProgress": "Scanning in progress...",
+    "processingResults": "Processing results...",
+    "viewResults": "View Results",
+    "vitals": {
+      "heartRate": "Heart Rate",
+      "bloodPressure": "Blood Pressure",
+      "temperature": "Temperature",
+      "oxygen": "Oxygen",
+      "bpm": "BPM"
+    }
+  },
+  "userInfo": {
+    "title": "Personal Details",
+    "subtitle": "Please provide your basic information for a more personalized health assessment.",
+    "age": "Age",
+    "gender": "Gender",
+    "selectGender": "Select your gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "errors": {
+      "ageRequired": "Age is required",
+      "ageInvalid": "Please enter a valid age (18-120)",
+      "genderRequired": "Gender is required"
+    }
+  },
+  "complaint": {
+    "title": "Health Complaint",
+    "subtitle": "Please describe any current health concerns or symptoms you're experiencing.",
+    "placeholder": "Describe your symptoms or health concerns...",
+    "optional": "This information is optional but will help provide better recommendations."
+  },
+  "assessment": {
+    "title": "Health Assessment",
+    "subtitle": "Please answer the following questions to help us understand your health better.",
+    "questionnaireTitle": "Health Questionnaire",
+    "yes": "Yes",
+    "no": "No",
+    "sometimes": "Sometimes",
+    "never": "Never",
+    "always": "Always",
+    "often": "Often",
+    "rarely": "Rarely"
+  },
+  "buttons": {
+    "back": "Back",
+    "next": "Next",
+    "continue": "Continue",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "retry": "Retry"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error!",
+    "success": "Success!",
+    "warning": "Warning!",
+    "info": "Information",
+    "required": "Required",
+    "optional": "Optional",
+    "pleaseWait": "Please wait...",
+    "tryAgain": "Please try again later",
+    "somethingWentWrong": "Something went wrong, please try again later!"
+  },
+  "layout": {
+    "step": "Step",
+    "of": "of",
+    "progress": "Progress"
+  },
+  "results": {
+    "title": "Your Results",
+    "healthSummary": "Health Summary",
+    "recommendations": "Recommendations",
+    "vitalsTitle": "Vital Signs",
+    "riskAssessment": "Risk Assessment",
+    "lowRisk": "Low Risk",
+    "moderateRisk": "Moderate Risk",
+    "highRisk": "High Risk"
+  },
+  "physicians": {
+    "title": "Find a Physician",
+    "subtitle": "Connect with healthcare professionals in your area",
+    "searchPlaceholder": "Search physicians...",
+    "specialty": "Specialty",
+    "location": "Location",
+    "rating": "Rating",
+    "contact": "Contact",
+    "bookAppointment": "Book Appointment"
+  },
+  "healthSummary": {
+    "title": "Health Summary",
+    "overview": "Overview",
+    "trends": "Trends",
+    "alerts": "Alerts",
+    "recommendations": "Recommendations"
+  }
+} 
