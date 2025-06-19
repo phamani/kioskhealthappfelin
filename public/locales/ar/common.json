@@ -178,7 +178,8 @@
       "heartRateVariability": "تفاوت معدل ضربات القلب",
       "respirationRate": "معدل التنفس",
       "actions": "الإجراءات",
-      "requestReading": "طلب قراءة جديدة"
+      "requestReading": "طلب قراءة جديدة",
+      "trendIndicator": "الأسهم تشير إلى اتجاه 14 يومًا"
     },
     "riskLevels": {
       "low": "منخفض",

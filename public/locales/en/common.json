@@ -178,7 +178,8 @@
       "heartRateVariability": "Heart Rate Variability",
       "respirationRate": "Respiration Rate",
       "actions": "Actions",
-      "requestReading": "Request Reading"
+      "requestReading": "Request Reading",
+      "trendIndicator": "Arrows indicate 14 day trend"
     },
     "riskLevels": {
       "low": "Low",

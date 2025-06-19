@@ -546,7 +546,7 @@ return (
       </DialogContent>
     </Dialog>
 
-    <header className="bg-white shadow-md py-4 px-4 sm:px-8">
+    <header className="admin-header bg-white shadow-md py-4 px-4 sm:px-8">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="icon" onClick={onExit} className="rounded-full">
@@ -705,7 +705,7 @@ return (
               </div>
             </div>
 
-            <div className="text-right text-sm text-gray-600 mb-2">Arrows indicate 14 day trend</div>
+            <div className="text-right text-sm text-gray-600 mb-2">{t('admin.table.trendIndicator')}</div>
 
             <div className="overflow-x-auto relative">
               {gridLoading && (
@@ -821,7 +821,7 @@ return (
                 </Table>
               </div>
 
-              <div className="flex flex-col lg:flex-row items-center justify-between mt-4 gap-4">
+              <div className="admin-pagination flex flex-col lg:flex-row items-center justify-between mt-4 gap-4">
                 <div className="text-sm text-gray-600">
                   {t('admin.pagination.showing')} {indexOfFirstItem + 1}-{ Math.min(indexOfLastItem, clientRecords.length) < itemsPerPage ? clientsReport?.TotalItemsCount : Math.min(indexOfLastItem, clientRecords.length)} {t('admin.pagination.of')} {clientsReport?.TotalItemsCount} {t('admin.pagination.records')}
                 </div>

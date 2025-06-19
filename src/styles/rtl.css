@@ -25,6 +25,73 @@
   flex-direction: row-reverse;
 }
 
+/* Admin Panel Header - Force row layout in RTL */
+[dir="rtl"] .admin-header > div {
+  flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  [dir="rtl"] .admin-header > div {
+    flex-direction: row-reverse;
+  }
+}
+
+[dir="rtl"] .admin-header .flex.items-center.space-x-4 {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .admin-header .flex.items-center.space-x-4 > * + * {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .admin-header .flex.gap-2 {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  [dir="rtl"] .admin-header .flex.gap-2 {
+    flex-direction: row-reverse;
+  }
+}
+
+/* Force header buttons to stay in row on larger screens */
+@media (min-width: 640px) {
+  [dir="rtl"] .admin-header .flex.flex-col.sm\\:flex-row {
+    flex-direction: row-reverse !important;
+  }
+}
+
+/* Admin Panel Pagination - Force row layout in RTL */
+[dir="rtl"] .admin-pagination .flex.flex-col.lg\\:flex-row {
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  [dir="rtl"] .admin-pagination .flex.flex-col.lg\\:flex-row {
+    flex-direction: row-reverse;
+  }
+}
+
+[dir="rtl"] .admin-pagination .flex.flex-col.sm\\:flex-row {
+  flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  [dir="rtl"] .admin-pagination .flex.flex-col.sm\\:flex-row {
+    flex-direction: row-reverse;
+  }
+}
+
+[dir="rtl"] .admin-pagination .flex.gap-2 {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .admin-pagination .flex.gap-1 {
+  flex-direction: row-reverse;
+}
+
 /* Horizontal spacing adjustments */
 [dir="rtl"] .space-x-1 > * + * {
   margin-left: 0;
