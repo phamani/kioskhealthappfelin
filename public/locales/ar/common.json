@@ -372,9 +372,9 @@
     "highRisk": "خطر عالي"
   },
   "physicians": {
-    "title": "البحث عن طبيب",
+    "title": "البحث عن مستخدم",
     "subtitle": "تواصل مع المتخصصين في الرعاية الصحية في منطقتك",
-    "searchPlaceholder": "البحث عن الأطباء...",
+    "searchPlaceholder": "البحث عن مستخدم...",
     "specialty": "التخصص",
     "location": "الموقع",
     "rating": "التقييم",
