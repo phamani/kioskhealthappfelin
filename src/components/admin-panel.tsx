@@ -19,6 +19,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog" 
 import CountrySelector from "./ui/country-selector" 
+import { useTranslation } from "@/hooks/useTranslation"
 
 import PhysiciansGrid from "@/components/physicians-grid";
 import UserProfile from "./user-profile" 
@@ -74,6 +75,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
   const router = useRouter();
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const hostUrl = process.env.NEXT_PUBLIC_HOST_DOMAIN;
+  const { t } = useTranslation();
 
   // #region Auths 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -92,8 +94,8 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
   const [selectedGender, setSelectedGender] = useState("All")
   const [selectedAgeGroup, setSelectedAgeGroup] = useState("All")
 
-  const genderOptions: DropDownOption[] = [{ value: "All", label: "All" }, { value: "1", label: "Male" }, { value: "2", label: "Female" }];
-  const ageGroupOptions: DropDownOption[] = [{ value: "All", label: "All" }, { value: "18-30", label: "18-30" }, { value: "31-40", label: "31-40" }, { value: "41-50", label: "41-50" }, { value: "51-60", label: "51-60" }, { value: "60+", label: "60+" }];
+  const genderOptions: DropDownOption[] = [{ value: "All", label: t('admin.filters.reset') }, { value: "1", label: t('userInfo.male') }, { value: "2", label: t('userInfo.female') }];
+  const ageGroupOptions: DropDownOption[] = [{ value: "All", label: t('admin.filters.reset') }, { value: "18-30", label: "18-30" }, { value: "31-40", label: "31-40" }, { value: "41-50", label: "41-50" }, { value: "51-60", label: "51-60" }, { value: "60+", label: "60+" }];
 
   const genderSelectedOption = genderOptions.find(option => option.value === selectedGender);
   const ageGroupSelectedOption = ageGroupOptions.find(option => option.value === selectedAgeGroup);
@@ -120,7 +122,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
   // #endregion 
 
  // #region Request Reading 
- const defaultMessage = `Your care provider has requested you take a quick health scan using your phone. Please click the link below to be taken to the vitals scanning page, ${hostUrl}/home` 
+ const defaultMessage = `${t('requestReading.defaultMessageText')} ${t('requestReading.clickLink')} ${hostUrl}/home` 
  const [isRequestReadingOpen, setIsRequestReadingOpen] = useState(false);
  const [sendMethod, setSendMethod] = useState<"Phone" | "Email">("Email");
  const [scheduleType, setScheduleType] = useState<"Now" | "Schedule For Later">("Now");
@@ -289,7 +291,7 @@ useEffect(() => {
         setError("Invalid credentials");
       }
     } catch (err) {
-      setError("Login failed. Please try again.");
+      setError(t('common.tryAgain'));
     }
   };
 
@@ -336,7 +338,7 @@ useEffect(() => {
         if (responseJson.IsSuccess) {
           setIsRequestReadingOpen(false);
           setSelectedRecord(null);
-          Swal.fire({ icon: "success", title: "Request Reading sent via email!", showConfirmButton: false, timer: 1500 });
+          Swal.fire({ icon: "success", title: t('common.success'), showConfirmButton: false, timer: 1500 });
         } 
         else {
           console.error(responseJson.Message);
@@ -345,7 +347,7 @@ useEffect(() => {
       } 
       catch (error) {
         console.error("Error:", error);
-        alert("Error sending email");
+        alert(t('common.error'));
       }
       finally{
         setIsSendingEmail(false);
@@ -389,16 +391,16 @@ useEffect(() => {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-md">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Admin Login</h2>
+          <h2 className="text-2xl font-bold text-gray-800">{t('admin.login')}</h2>
           <Button variant="ghost" onClick={onExit} className="w-full sm:w-auto">
-            Back to Kiosk
+            {t('admin.backToKiosk')}
           </Button>
         </div>
         
         <form onSubmit={handleLogin}>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="login-username">Username</Label>
+              <Label htmlFor="login-username">{t('admin.username')}</Label>
               <Input
                 id="login-username"
                 type="text"
@@ -408,7 +410,7 @@ useEffect(() => {
               />
             </div>
             <div>
-              <Label htmlFor="login-password">Password</Label>
+              <Label htmlFor="login-password">{t('admin.password')}</Label>
               <Input
                 id="login-password"
                 type="password"
@@ -419,7 +421,7 @@ useEffect(() => {
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <Button type="submit" className="w-full">
-              Login
+              {t('admin.loginButton')}
             </Button>
           </div>
         </form>
@@ -433,15 +435,15 @@ return (
     <Dialog open={isRequestReadingOpen} onOpenChange={setIsRequestReadingOpen}>
       <DialogContent className="max-w-[95vw] sm:max-w-[600px] background-white">
         <DialogHeader>
-          <DialogTitle>Request Reading</DialogTitle>
+          <DialogTitle>{t('requestReading.title')}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-4">
-                <span className="text-sm font-medium">Schedule Send</span>
+                <span className="text-sm font-medium">{t('requestReading.scheduleSend')}</span>
                 <Button variant="link" className="text-blue-500 p-0 h-auto">
-                  View History
+                  {t('requestReading.viewHistory')}
                 </Button>
               </div>
               <div className="space-y-4">
@@ -454,7 +456,7 @@ return (
                       className="w-4 h-4 text-blue-600"
                       disabled={true}
                     />
-                    <span>Phone</span>
+                    <span>{t('requestReading.phone')}</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -463,7 +465,7 @@ return (
                       onChange={() => setSendMethod("Email")}
                       className="w-4 h-4 text-blue-600"
                     />
-                    <span>Email</span>
+                    <span>{t('requestReading.email')}</span>
                   </label>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -474,7 +476,7 @@ return (
                       onChange={() => setScheduleType("Now")}
                       className="w-4 h-4 text-blue-600"
                     />
-                    <span>Now</span>
+                    <span>{t('requestReading.now')}</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -484,7 +486,7 @@ return (
                       className="w-4 h-4 text-blue-600"
                       disabled={true}
                     />
-                    <span>Schedule For Later</span>
+                    <span>{t('requestReading.scheduleForLater')}</span>
                   </label>
                 </div>
               </div>
@@ -492,7 +494,7 @@ return (
           </div>
           <div>
             <div className="mb-4">
-              <span className="text-sm font-medium">Message</span>
+              <span className="text-sm font-medium">{t('requestReading.message')}</span>
               <div className="flex flex-col sm:flex-row gap-4 mt-2">
                 <label className="flex items-center gap-2">
                   <input
@@ -501,7 +503,7 @@ return (
                     onChange={() => {setMessageType("Default"); setRequestReadingMessage(defaultMessage); setRequestReadingValidationError("");}}
                     className="w-4 h-4 text-blue-600"
                   />
-                  <span>Default</span>
+                  <span>{t('requestReading.default')}</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -510,7 +512,7 @@ return (
                     onChange={() => {setMessageType("Custom"); setRequestReadingMessage("")}} 
                     className="w-4 h-4 text-blue-600"
                   />
-                  <span>Custom</span>
+                  <span>{t('requestReading.custom')}</span>
                 </label>
               </div>
             </div>
@@ -535,10 +537,10 @@ return (
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setIsRequestReadingOpen(false)}>
-            Cancel
+            {t('requestReading.cancel')}
           </Button>
           <Button onClick={handleSendRequest} disabled={isSendingEmail}> 
-            {isSendingEmail ? "Sending..." : "Send"}
+            {isSendingEmail ? t('common.loading') : t('requestReading.send')}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -549,17 +551,17 @@ return (
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="icon" onClick={onExit} className="rounded-full">
             <ChevronLeft className="h-6 w-6" />
-            <span className="sr-only">Back to Kiosk</span>
+            <span className="sr-only">{t('admin.backToKiosk')}</span>
           </Button>
-          <h1 className="text-xl sm:text-3xl font-bold text-blue-700">Health Check Kiosk Admin</h1>
+          <h1 className="text-xl sm:text-3xl font-bold text-blue-700">{t('admin.title')}</h1>
         </div>
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <Button variant="outline" onClick={onExit} className="w-full sm:w-auto">
-            Exit Admin Mode
+            {t('admin.exitAdminMode')}
           </Button>
           {isAuthenticated && 
             <Button variant="outline" onClick={handleLogout} className="w-full sm:w-auto">
-              Logout
+              {t('admin.logout')}
             </Button>
           } 
         </div>
@@ -571,40 +573,40 @@ return (
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-xl text-gray-600">Loading data...</p>
+            <p className="text-xl text-gray-600">{t('common.loading')}</p>
           </div>
         </div>
       ) : (
         <Tabs defaultValue="member-risk" className="w-full" onValueChange={setActiveTab}>
           <TabsList className="mb-6 flex flex-col sm:flex-row h-auto">
             <TabsTrigger value="member-risk" className="text-lg py-2 px-4">
-              Member Risk Status
+              {t('admin.tabs.memberRiskStatus')}
             </TabsTrigger>
             <TabsTrigger value="settings" className="text-lg py-2 px-4">
-              Settings
+              {t('admin.tabs.settings')}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="member-risk" className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <div className="space-y-2">
-                <label className="font-medium">Nationality</label>
+                <label className="font-medium">{t('admin.filters.nationality')}</label>
                 <CountrySelector language="en" value={selectedNationality} onSelect={(id) => { setSelectedNationality(id ?? ""); }} />
               </div>
 
               <div className="space-y-2">
-                <label className="font-medium">Gender</label>
+                <label className="font-medium">{t('admin.filters.gender')}</label>
                 <Select value={genderSelectedOption} options={genderOptions} onChange={(option: SingleValue<DropDownOption>) => { setSelectedGender(option?.value || ""); }} />
               </div>
 
               <div className="space-y-2">
-                <label className="font-medium">Age (Group)</label>
+                <label className="font-medium">{t('admin.filters.ageGroup')}</label>
                 <Select value={ageGroupSelectedOption} options={ageGroupOptions} onChange={(option: SingleValue<DropDownOption>) => { setSelectedAgeGroup(option?.value || ""); }} />
               </div>
 
               <div className="space-y-2 sm:col-span-2 md:col-span-1 flex items-end">
                 <Button variant="outline" onClick={() => clearFilters()} className="w-full sm:w-auto">
-                  Reset
+                  {t('admin.filters.reset')}
                 </Button>
               </div> 
             </div>
@@ -612,19 +614,19 @@ return (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-10 gap-4">
               {/* At Risk Card */}
               <Card className="col-span-1 sm:col-span-1 lg:col-span-2 p-3 flex flex-col items-center justify-center">
-                <h3 className="text-lg font-semibold mb-1">At Risk</h3>
+                <h3 className="text-lg font-semibold mb-1">{t('admin.summary.atRisk')}</h3>
                 <p className="text-4xl font-bold text-red-500">{totalAtRisk}</p>
                 <Button variant="outline" className="mt-3 w-full text-sm">
-                  View All
+                  {t('admin.summary.viewAll')}
                 </Button>
               </Card>
 
               {/* Total Card */}
               <Card className="col-span-1 sm:col-span-1 lg:col-span-2 p-3 flex flex-col items-center justify-center">
-                <h3 className="text-lg font-semibold mb-1">Total</h3>
+                <h3 className="text-lg font-semibold mb-1">{t('admin.summary.total')}</h3>
                 <p className="text-4xl font-bold">{totalRecords}</p>
                 <Button variant="outline" className="mt-3 w-full text-sm">
-                  View All
+                  {t('admin.summary.viewAll')}
                 </Button>
               </Card>
 
@@ -644,19 +646,19 @@ return (
                     <div className="grid grid-cols-3 gap-1">
                       <div className="text-center">
                         <p className="text-xl font-bold text-amber-400">{condition.SuspectedCount || 0}</p>
-                        <p className="text-xs text-gray-600">Suspected</p>
+                        <p className="text-xs text-gray-600">{t('doctor.riskStatus.suspected')}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-xl font-bold text-red-500">{condition.AtRiskCount || 0}</p>
-                        <p className="text-xs text-gray-600">At Risk</p>
+                        <p className="text-xs text-gray-600">{t('doctor.riskStatus.atRisk')}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-xl font-bold text-amber-500">{condition.ConfirmedCount || 0}</p>
-                        <p className="text-xs text-gray-600">Confirmed</p>
+                        <p className="text-xs text-gray-600">{t('doctor.riskStatus.confirmed')}</p>
                       </div>
                       <div className="col-span-3">
                         <Button variant="ghost" className="text-blue-500 w-full text-sm py-0.5">
-                          View
+                          {t('doctor.view')}
                         </Button>
                       </div>
                     </div>
@@ -666,7 +668,7 @@ return (
 
             {collapsedConditions.length > 0 && (
               <div className="mt-6 border-t pt-4">
-                <h3 className="text-lg font-semibold mb-3">Collapsed Conditions</h3>
+                <h3 className="text-lg font-semibold mb-3">{t('common.collapsed')}</h3>
                 <div className="flex flex-wrap gap-2">
                   {arrhythmiaReport?.Arrhythmias.filter(condition => collapsedConditions.includes(condition.ArrhythmiaName))
                     .map((condition, index) => (
@@ -693,10 +695,10 @@ return (
               </div>
 
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full md:w-auto">
-                <span className="text-sm sm:text-base">Search for a Member</span>
+                <span className="text-sm sm:text-base">{t('physicians.searchPlaceholder')}</span>
                 <Input
                   className="w-full sm:w-64"
-                  placeholder="Search..."
+                  placeholder={t('physicians.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -710,7 +712,7 @@ return (
                 <div className="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center z-10">
                   <div className="flex flex-col items-center"> 
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-2"></div>
-                    <span className="text-gray-600">Loading records...</span>
+                    <span className="text-gray-600">{t('common.loading')}</span>
                   </div>
                 </div>
               )}
@@ -719,16 +721,16 @@ return (
                 <Table className="w-full">
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="whitespace-nowrap">Member ID</TableHead>
-                      <TableHead className="whitespace-nowrap">Member Name</TableHead> 
-                      <TableHead className="whitespace-nowrap">Last Vitals Reading</TableHead>
-                      <TableHead className="whitespace-nowrap">Risk Category</TableHead>
-                      <TableHead className="whitespace-nowrap">Risk Level</TableHead>
-                      <TableHead className="whitespace-nowrap">Blood Pressure</TableHead> 
-                      <TableHead className="whitespace-nowrap">Heart Rate</TableHead>
-                      <TableHead className="whitespace-nowrap">Heart Rate Variability</TableHead>
-                      <TableHead className="whitespace-nowrap">Respiration Rate</TableHead>
-                      <TableHead className="whitespace-nowrap">Actions</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.memberId')}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.memberName')}</TableHead> 
+                      <TableHead className="whitespace-nowrap">{t('admin.table.lastVitalsReading')}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.riskCategory')}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.riskLevel')}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.bloodPressure')}</TableHead> 
+                      <TableHead className="whitespace-nowrap">{t('admin.table.heartRate')}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.heartRateVariability')}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.respirationRate')}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t('admin.table.actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -739,7 +741,7 @@ return (
                           className="cursor-pointer hover:bg-gray-50"
                         >
                           <TableCell onClick={() => record.ClientName && setSelectedUser(record.ClientId)}>{record.ClientId}</TableCell>
-                          <TableCell className="font-medium" onClick={() => record.ClientName && setSelectedUser(record.ClientId)}>{record.ClientName || "Anonymous"}</TableCell>
+                          <TableCell className="font-medium" onClick={() => record.ClientName && setSelectedUser(record.ClientId)}>{record.ClientName || t('common.anonymous')}</TableCell>
                           <TableCell onClick={() => record.ClientName && setSelectedUser(record.ClientId)}>{formatDate(record.LastVitalsReading)}</TableCell>
                           <TableCell onClick={() => record.ClientName && setSelectedUser(record.ClientId)}>
                             {record.RiskCategories.length > 0 ? (
@@ -760,12 +762,12 @@ return (
                                       : "bg-green-500"
                                     }`}
                                 >
-                                  {category.RiskLevel == "HighRisk" ? "High" : category.RiskLevel == "Suspected" ? "Medium" : "Low"}
+                                  {category.RiskLevel == "HighRisk" ? t('admin.riskLevels.high') : category.RiskLevel == "Suspected" ? t('doctor.riskStatus.suspected') : t('admin.riskLevels.low')}
                                 </span>
                               ))
                             ) : (
                               <span className={`px-2 py-1 rounded text-white bg-green-500`} >
-                                Low
+                                {t('admin.riskLevels.low')}
                               </span>
                             )}  
                           </TableCell>
@@ -803,7 +805,7 @@ return (
                                 handleRequestReading(record);
                               }}
                             >
-                              Request Reading
+                              {t('admin.table.requestReading')}
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -811,7 +813,7 @@ return (
                     ) : (
                       <TableRow>
                         <TableCell colSpan={11} className="text-center py-8 text-gray-500">
-                          No records found
+                          {t('common.noRecords')}
                         </TableCell>
                       </TableRow>
                     )}
@@ -821,7 +823,7 @@ return (
 
               <div className="flex flex-col lg:flex-row items-center justify-between mt-4 gap-4">
                 <div className="text-sm text-gray-600">
-                  Showing {indexOfFirstItem + 1}-{ Math.min(indexOfLastItem, clientRecords.length) < itemsPerPage ? clientsReport?.TotalItemsCount : Math.min(indexOfLastItem, clientRecords.length)} of {clientsReport?.TotalItemsCount} records
+                  {t('admin.pagination.showing')} {indexOfFirstItem + 1}-{ Math.min(indexOfLastItem, clientRecords.length) < itemsPerPage ? clientsReport?.TotalItemsCount : Math.min(indexOfLastItem, clientRecords.length)} {t('admin.pagination.of')} {clientsReport?.TotalItemsCount} {t('admin.pagination.records')}
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-2 w-full lg:w-auto">
@@ -832,7 +834,7 @@ return (
                       onClick={() => setCurrentPage(1)}
                       className="px-2 sm:px-4"
                     >
-                      First
+                      {t('admin.pagination.first')}
                     </Button>
 
                     <Button
@@ -841,7 +843,7 @@ return (
                       onClick={() => setCurrentPage(p => p - 1)}
                       className="px-2 sm:px-4"
                     >
-                      Previous
+                      {t('admin.pagination.previous')}
                     </Button>
                   </div>
 
@@ -880,7 +882,7 @@ return (
                       onClick={() => setCurrentPage(p => p + 1)}
                       className="px-2 sm:px-4"
                     >
-                      Next
+                      {t('admin.pagination.next')}
                     </Button>
 
                     <Button
@@ -889,16 +891,16 @@ return (
                       onClick={() => setCurrentPage(totalPages)}
                       className="px-2 sm:px-4"
                     >
-                      Last
+                      {t('admin.pagination.last')}
                     </Button>
                   </div>
 
                   {/* Items per page selector */}
                   <Select
-                    value={{ value: itemsPerPage, label: `${itemsPerPage} per page` }}
+                    value={{ value: itemsPerPage, label: `${itemsPerPage} ${t('admin.pagination.perPage')}` }}
                     options={[5, 10, 20, 50].map(num => ({
                       value: num,
-                      label: `${num} per page`
+                      label: `${num} ${t('admin.pagination.perPage')}`
                     }))}
                     onChange={(option) => {
                       setItemsPerPage(option?.value || 10);
@@ -913,7 +915,7 @@ return (
 
           <TabsContent value="settings">
             <Card className="p-4 sm:p-6">
-              <h2 className="text-xl sm:text-2xl font-bold mb-4">Kiosk Settings</h2>
+              <h2 className="text-xl sm:text-2xl font-bold mb-4">{t('admin.tabs.settings')}</h2>
               {isAdmin && <PhysiciansGrid />} 
             </Card>
           </TabsContent>

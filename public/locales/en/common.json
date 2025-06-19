@@ -346,7 +346,10 @@
     "pleaseWait": "Please wait...",
     "tryAgain": "Please try again later",
     "somethingWentWrong": "Something went wrong, please try again later!",
-    "years": "years"
+    "years": "years",
+    "collapsed": "Collapsed Conditions",
+    "anonymous": "Anonymous",
+    "noRecords": "No records found"
   },
   "layout": {
     "step": "Step",
