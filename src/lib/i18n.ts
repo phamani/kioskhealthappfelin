@@ -32,7 +32,10 @@ const initializeI18n = () => {
         detection: {
           order: ['localStorage', 'navigator'],
           caches: ['localStorage'],
+          lookupLocalStorage: 'i18nextLng',
+          checkWhitelist: true,
         },
+        whitelist: ['en', 'ar'],
         react: {
           useSuspense: false, // Disable suspense for SSR compatibility
         },

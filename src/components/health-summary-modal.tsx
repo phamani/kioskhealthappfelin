@@ -16,6 +16,7 @@ import { HealthData } from "@/types/health-data";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import Cookies from 'js-cookie';
+import { useTranslation } from "@/hooks/useTranslation";
 
 // interface SuggestedCare {
 //   level?: string;
@@ -35,6 +36,7 @@ export default function HealthSummaryModal({
   userData,
   //recommendation
 }: HealthSummaryModalProps) { 
+  const { t } = useTranslation();
   const [latestResult, setLatestResult] = useState<HealthData | null>(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const hostUrl = process.env.NEXT_PUBLIC_HOST_DOMAIN;
@@ -75,25 +77,25 @@ export default function HealthSummaryModal({
         },
         body: JSON.stringify({
           receiver: userData.Email,
-          subject: "Health Assessment Summary",
+          subject: t('healthSummary.emailSubject'),
           text: `
-            Date: ${currentDate}
-            Time: ${currentTime}
-            Name: ${userData.UserName}
-            Age: ${userData.Age}
-            Gender: ${userData.Gender}
+            ${t('healthSummary.date')} ${currentDate}
+            ${t('healthSummary.time')} ${currentTime}
+            ${t('healthSummary.name')} ${userData.UserName}
+            ${t('healthSummary.age')} ${userData.Age}
+            ${t('healthSummary.gender')} ${userData.Gender}
             
-            Vital Signs:
-            - Heart Rate: ${latestResult?.HeartRate10s ?? "N/A"} bpm
-            - Blood Pressure: ${latestResult ? `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}` : "N/A"} mmHg
-            - Heart Rate Variability: ${latestResult?.HrvSdnnMs ?? "N/A"} ms
-            - Breathing Rate: ${latestResult?.BreathingRate ?? "N/A"} pbs
+            ${t('healthSummary.vitalSigns')}:
+            - ${t('faceScan.vitals.heartRate')}: ${latestResult?.HeartRate10s ?? "N/A"} ${t('faceScan.vitals.bpm')}
+            - ${t('faceScan.vitals.bloodPressure')}: ${latestResult ? `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}` : "N/A"} mmHg
+            - ${t('faceScan.vitals.heartRateVariability')}: ${latestResult?.HrvSdnnMs ?? "N/A"} ms
+            - ${t('faceScan.vitals.respirationRate')}: ${latestResult?.BreathingRate ?? "N/A"} bps
             
-            Reported Symptoms:
+            ${t('healthSummary.reportedSymptoms')}:
             - ${userData.HealthConcern}
             
-            Important Notice:
-            This is an automated health assessment summary. It is not a medical diagnosis. Please consult with a healthcare provider for proper evaluation and treatment.`,
+            ${t('healthSummary.importantNoticeTitle')}:
+            ${t('healthSummary.importantNotice')}`,
         }),
       });
 
@@ -102,17 +104,17 @@ export default function HealthSummaryModal({
       if (responseJson.IsSuccess) {
           Swal.fire({
             icon: "success",
-            title: "Summary sent via email!",
+            title: t('healthSummary.emailSuccess'),
             showConfirmButton: false,
             timer: 1500, 
           });
       } else {
         console.error("Failed to send email");
-        alert("Failed to send email");
+        alert(t('healthSummary.emailError'));
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error sending email");
+      alert(t('healthSummary.emailError'));
     }
   };
   console.log('result:',latestResult);
@@ -123,19 +125,19 @@ export default function HealthSummaryModal({
       <DialogContent className="max-w-3xl w-[95vw] md:w-full max-h-[90vh] overflow-y-auto print:shadow-none print:border-none bg-white">
         <DialogHeader>
           <DialogTitle className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-700">
-            Health Assessment Summary
+            {t('healthSummary.title')}
           </DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
           <div className="w-full sm:w-auto">
-            <p className="text-sm sm:text-base text-gray-600">Date: {currentDate}</p>
-            <p className="text-sm sm:text-base text-gray-600">Time: {currentTime}</p>
+            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.date')} {currentDate}</p>
+            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.time')} {currentTime}</p>
             {userData.UserName && (
-              <p className="text-sm sm:text-base text-gray-600 mt-2">Name: {userData.UserName}</p>
+              <p className="text-sm sm:text-base text-gray-600 mt-2">{t('healthSummary.name')} {userData.UserName}</p>
             )}
-            <p className="text-sm sm:text-base text-gray-600">Age: {userData.Age}</p>
-            <p className="text-sm sm:text-base text-gray-600">Gender: {userData.Gender}</p>
+            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.age')} {userData.Age}</p>
+            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.gender')} {userData.Gender}</p>
           </div>
 
           <div className="w-full sm:w-auto text-center sm:text-right">
@@ -145,7 +147,7 @@ export default function HealthSummaryModal({
                 value={`${hostUrl}/health-summary?clientId=${userId}`}
               />
               <p className="text-xs text-gray-600 mt-1">
-                Scan to view on mobile
+                {t('healthSummary.scanToViewMobile')}
               </p>
             </div>
           </div>
@@ -154,33 +156,33 @@ export default function HealthSummaryModal({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6">
           <div>
             <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3">
-              Vital Signs
+              {t('healthSummary.vitalSigns')}
             </h3>
             <p className="text-sm sm:text-base mb-2">
-              Heart Rate: {!latestResult ? "..." : latestResult.HeartRate10s}
-              bpm
+              {t('faceScan.vitals.heartRate')}: {!latestResult ? "..." : latestResult.HeartRate10s}
+              {t('faceScan.vitals.bpm')}
             </p>
             <p className="text-sm sm:text-base mb-2">
-              Blood Pressure:{" "}
+              {t('faceScan.vitals.bloodPressure')}:{" "}
               {!latestResult
                 ? "..."
                 : `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}`}
               mmHg
             </p>
             <p className="text-sm sm:text-base mb-2">
-              Heart Rate Variability:{" "}
+              {t('faceScan.vitals.heartRateVariability')}:{" "}
               {!latestResult ? "..." : latestResult.HrvSdnnMs}
               ms
             </p>
             <p className="text-sm sm:text-base mb-2">
-              Breathing Rate:{" "}
-              {!latestResult ? "..." : latestResult.BreathingRate}pbs
+              {t('faceScan.vitals.respirationRate')}:{" "}
+              {!latestResult ? "..." : latestResult.BreathingRate}bps
             </p>
           </div>
 
           <div>
             <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3">
-              Reported Symptoms
+              {t('healthSummary.reportedSymptoms')}
             </h3>
             <ul className="list-disc pl-5 text-sm sm:text-base">
               {/* <li className="mb-1">{userData.reportedsymptoms}</li> */}
@@ -239,18 +241,16 @@ export default function HealthSummaryModal({
 
         <div className="mt-4 md:mt-6 bg-blue-50 p-3 sm:p-4 rounded-lg">
           <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-2">
-            Important Notice
+            {t('healthSummary.importantNoticeTitle')}
           </h3>
           <p className="text-sm sm:text-base text-gray-700">
-            This is an automated health assessment summary. It is not a medical
-            diagnosis. Please consult with a healthcare provider for proper
-            medical evaluation and treatment.
+            {t('healthSummary.importantNotice')}
           </p>
         </div>
 
         <DialogFooter className="mt-4 md:mt-6 flex flex-col sm:flex-row gap-2">
           <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
-            Close
+            {t('buttons.close')}
           </Button>
           <Button
             onClick={() => {
@@ -258,7 +258,7 @@ export default function HealthSummaryModal({
             }}
             className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
           >
-            Send Email
+            {t('healthSummary.sendEmail')}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -8,6 +8,8 @@ import ConditionQuestionnaire from '@/components/condition-questionnaire';
 import QuestionnaireSummary from '@/components/questionnaire-summary';
 import { ConditionWithQuestionnaire, QuestionnaireAnswer, QuestionnaireData, RiskLevel } from '@/types/conditions';
 import questionnaireData from '@/data/questionnaire.json';
+import { useTranslation } from "@/hooks/useTranslation";
+import LanguageSwitcher from "@/components/language-switcher";
     
 interface ClientAssessmentProps { 
   onNext: () => void;
@@ -15,6 +17,7 @@ interface ClientAssessmentProps {
 }
 
 const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => { 
+  const { t } = useTranslation();
   const [conditions, setConditions] = useState<ConditionWithQuestionnaire[]>([]);
   const [currentConditionIndex, setCurrentConditionIndex] = useState(0);
   const [showSummary, setShowSummary] = useState(false); 
@@ -158,7 +161,7 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600">Loading client data...</p>
+          <p className="text-xl text-gray-600">{t('assessment.loadingClientData')}</p>
         </div>
       </div>
     )
@@ -167,24 +170,29 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
   if (conditionsNeedingQuestionnaires.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        {/* Language Switcher */}
+        <div className="absolute top-4 right-4">
+          <LanguageSwitcher />
+        </div>
+        
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Assessment Complete</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">{t('assessment.complete')}</h1>
           <p className="text-gray-600 mb-6">
-            No questionnaires were required based on the initial assessment.
+            {t('assessment.noQuestionnairesRequired')}
           </p>
 
           <button
             onClick={onPrev}
             className="px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition" 
           >
-            Back
+            {t('buttons.back')}
           </button>
 
           <button
             onClick={onNext}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition ml-2"
           >
-            Continue
+            {t('buttons.continue')}
           </button> 
         </div>
       </div>
@@ -194,12 +202,12 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Head>
-        <title>Patient Assessment</title>
+        <title>{t('assessment.patientAssessment')}</title>
       </Head>
 
        <div className="max-w-7xl mx-auto">
         <> 
-          <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Patient Health Assessment</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">{t('assessment.patientHealthAssessment')}</h1>
           {!isQuestionnaireCompleted ? (
             <ConditionQuestionnaire
               key={`condition-${currentConditionIndex}`}
@@ -213,10 +221,15 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
             />
           ):(
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+              {/* Language Switcher */}
+              <div className="absolute top-4 right-4">
+                <LanguageSwitcher />
+              </div>
+              
               <div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">Assessment Complete</h1>
+                <h1 className="text-2xl font-bold text-gray-800 mb-4">{t('assessment.complete')}</h1>
                 <p className="text-gray-600 mb-6">
-                  The questionnaires are Completed you can continue to the next step.
+                  {t('assessment.completeSubtitle')}
                 </p> 
               </div>
             </div>
@@ -232,7 +245,7 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
         ) : 
         (
           <> 
-            <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Patient Health Assessment</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">{t('assessment.patientHealthAssessment')}</h1>
             
             <ConditionQuestionnaire
                 key={`condition-${currentConditionIndex}`}
@@ -253,7 +266,7 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
         onClick={onPrev}
         className="text-xl py-6 px-10 bg-gray-200 text-gray-800 hover:bg-gray-300"
         >
-        Back
+        {t('buttons.back')}
         </Button>
 
         <Button
@@ -261,7 +274,7 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
           disabled={!isQuestionnaireCompleted}
           className="text-xl py-6 px-10 bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
           >
-            Continue
+            {t('buttons.continue')}
         </Button>
     </div>
     </div>

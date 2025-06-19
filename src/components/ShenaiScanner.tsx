@@ -2,8 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const ShenaiScanner = () => {
+    const { t } = useTranslation();
     const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const hostUrl = process.env.NEXT_PUBLIC_HOST_DOMAIN; 
     const [isLoading, setIsLoading] = useState(false);
@@ -251,7 +253,7 @@ const ShenaiScanner = () => {
             <div className="loader">
               <div className="loader-content">
                 <div className="spinner"></div>
-                <div>Saving scan results...</div>
+                <div>{t('assessment.savingResults')}</div>
               </div>
             </div>
           )}

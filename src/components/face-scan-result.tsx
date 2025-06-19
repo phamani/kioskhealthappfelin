@@ -28,9 +28,18 @@ export default function FaceScanResult({
   onNext,
   onPrev
 }: FaceScanResultProps){
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [latestResult, setLatestResult] = useState<HealthData | null>(null);
     const [isFetching, setIsFetching] = useState<Boolean>(false);
+    
+    // Ensure language is preserved on component mount
+    useEffect(() => {
+        const savedLanguage = localStorage.getItem('i18nextLng');
+        if (savedLanguage && i18n.language !== savedLanguage) {
+            console.log('Face scan result: Restoring language to:', savedLanguage);
+            i18n.changeLanguage(savedLanguage);
+        }
+    }, [i18n]);
      
     useEffect(() => {
         console.log("FaceScan Result UserData: " + JSON.stringify(userData));

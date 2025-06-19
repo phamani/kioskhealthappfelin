@@ -3,17 +3,22 @@
     "title": "Welcome to Health Check",
     "subtitle": "Get a quick assessment of your health with our advanced kiosk system. Touch the screen to begin your health check journey.",
     "logoAlt": "Health Check Logo",
-    "startButton": "Start Health Check"
+    "startButton": "Start Health Check",
+    "disclaimer": "This tool is designed for general wellness screening and informational purposes only. It is not a medical device and does not provide a diagnosis. If you are experiencing symptoms or have any health concerns, please consult a physician."
   },
   "personalInfo": {
     "title": "Personal Information",
-    "subtitle": "Would you like to share your contact information? This is optional and will help us provide you with your health check results.",
+    "subtitle": "Please provide your personal information to create your profile, process your results accurately, and receive your health check results. Your submission confirms your consent.",
     "fullName": "Full Name",
-    "email": "Email",
+    "fullNamePlaceholder": "Enter your full name",
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email address",
     "phone": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
     "nationality": "Nationality",
-    "consent": "I consent to sharing my information for health check purposes",
-    "agreement": "I agree to the Confidentiality & Non-Disclosure Agreement",
+    "nationalityPlaceholder": "Select a country…",
+    "consent": "I consent to share my personal information and receive my health check results",
+    "agreement": "I understand and agree to the Confidentiality & Non-Disclosure",
     "viewAgreement": "View Agreement",
     "errors": {
       "fullNameRequired": "Full Name is required!",
@@ -23,34 +28,43 @@
       "invalidPhone": "Please enter a valid phone number",
       "consentRequired": "You must consent to share your information",
       "agreementRequired": "You must agree to the Confidentiality & Non-Disclosure Agreement"
-    }
+    },
+    "footer": "© 2025 Health Check Kiosk. Touch screen to interact.",
+    "medicalDisclaimer": "This is an automated health assessment. It does not replace professional medical advice."
   },
   "faceScan": {
     "title": "Face Scan",
-    "subtitle": "Please stand still and look directly at the screen. We'll capture your vital signs through our camera.",
+    "subtitle": "Please position your face inside the frame until the corners turn green. Stay still, breathe normally, and keep a neutral facial expression. We will estimate your wellness indicators through the camera. Click the \"Start\" button when you're ready, and wait until the green bar completes and \"Calculating\" appears.",
     "scanComplete": "Scan Complete",
     "scanCompleteSubtitle": "Here are your vital signs captured from the face scan:",
-    "instructions": "Position your face in the center and press the button to begin.",
-    "startButton": "Start Face Scan",
+    "instructions": "Position your face in front of the camera",
+    "instructionsCenter": "Center your face in the camera",
+    "measurementQuality": "MEASUREMENT QUALITY",
+    "measurementQualityAlt": "Measurement quality",
+    "startButton": "START",
     "scanningInProgress": "Scanning in progress...",
     "processingResults": "Processing results...",
+    "calculating": "Calculating",
     "viewResults": "View Results",
     "vitals": {
       "heartRate": "Heart Rate",
+      "pulse": "PULSE",
       "heartRateVariability": "Heart Rate Variability",
       "respirationRate": "Respiration Rate",
       "bloodPressure": "Blood Pressure",
+      "bloodPressureEstimated": "BLOOD PRESSURE (Estimated)",
       "temperature": "Temperature",
       "oxygen": "Oxygen",
       "bpm": "BPM"
     }
   },
   "userInfo": {
-    "title": "Personal Details",
-    "subtitle": "Please provide your basic information for a more personalized health assessment.",
+    "title": "Tell Us About Yourself",
+    "subtitle": "Please select your age and gender to help us personalize your health check.",
     "age": "Age",
+    "selectAge": "Select your age:",
     "gender": "Gender",
-    "selectGender": "Select your gender",
+    "selectGender": "Select your gender:",
     "male": "Male",
     "female": "Female",
     "other": "Other",
@@ -79,12 +93,20 @@
       "chestPain": "Chest Pain",
       "other": "Other",
       "nothing": "Nothing"
-    }
+    },
+    "completeAndPrint": "Complete & Print Summary"
   },
   "assessment": {
     "title": "Health Assessment",
     "subtitle": "Please answer the following questions to help us understand your health better.",
     "questionnaireTitle": "Health Questionnaire",
+    "complete": "Assessment Complete",
+    "completeSubtitle": "The questionnaires are completed. You can continue to the next step.",
+    "noQuestionnairesRequired": "No questionnaires were required based on the initial assessment.",
+    "savingResults": "Saving scan results...",
+    "loadingClientData": "Loading client data...",
+    "patientHealthAssessment": "Patient Health Assessment",
+    "patientAssessment": "Patient Assessment",
     "yes": "Yes",
     "no": "No",
     "sometimes": "Sometimes",
@@ -92,6 +114,213 @@
     "always": "Always",
     "often": "Often",
     "rarely": "Rarely"
+  },
+  "healthSummary": {
+    "title": "Health Assessment Summary",
+    "overview": "Overview",
+    "trends": "Trends",
+    "alerts": "Alerts",
+    "recommendations": "Recommendations",
+    "date": "Date:",
+    "time": "Time:",
+    "name": "Name:",
+    "age": "Age:",
+    "gender": "Gender:",
+    "vitalSigns": "Vital Signs",
+    "reportedSymptoms": "Reported Symptoms",
+    "heartRate": "Heart Rate: bpm",
+    "bloodPressure": "Blood Pressure: mmHg",
+    "heartRateVariability": "Heart Rate Variability: ms",
+    "breathingRate": "Breathing Rate: bps",
+    "noSymptoms": "Nothing",
+    "scanToViewMobile": "Scan to view on mobile",
+    "importantNoticeTitle": "Important Notice",
+    "importantNotice": "This is an automated health assessment summary. It is not a medical diagnosis. Please consult with a healthcare provider for proper medical evaluation and treatment.",
+    "sendEmail": "Send Email",
+    "emailSubject": "Health Assessment Summary",
+    "emailSuccess": "Summary sent via email!",
+    "emailError": "Failed to send email",
+    "disclaimer": "This tool is designed for general wellness screening and informational purposes only. It is not a medical device and does not provide a diagnosis. If you are experiencing symptoms or have any health concerns, please consult a physician."
+  },
+  "admin": {
+    "title": "Health Check Kiosk Admin",
+    "login": "Admin Login",
+    "backToKiosk": "Back to Kiosk",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "portal": "Admin Portal",
+    "exitAdminMode": "Exit Admin Mode",
+    "logout": "Logout",
+    "filters": {
+      "nationality": "Nationality",
+      "gender": "Gender",
+      "ageGroup": "Age (Group)",
+      "reset": "Reset"
+    },
+    "tabs": {
+      "memberRiskStatus": "Member Risk Status",
+      "settings": "Settings"
+    },
+    "summary": {
+      "atRisk": "At Risk",
+      "total": "Total",
+      "viewAll": "View All"
+    },
+    "table": {
+      "memberId": "Member ID",
+      "memberName": "Member Name",
+      "lastVitalsReading": "Last Vitals Reading",
+      "riskCategory": "Risk Category",
+      "riskLevel": "Risk Level",
+      "bloodPressure": "Blood Pressure",
+      "heartRate": "Heart Rate",
+      "heartRateVariability": "Heart Rate Variability",
+      "respirationRate": "Respiration Rate",
+      "actions": "Actions",
+      "requestReading": "Request Reading"
+    },
+    "riskLevels": {
+      "low": "Low",
+      "high": "High"
+    },
+    "pagination": {
+      "showing": "Showing",
+      "of": "of",
+      "records": "records",
+      "first": "First",
+      "previous": "Previous",
+      "next": "Next",
+      "last": "Last",
+      "perPage": "per page"
+    }
+  },
+  "doctor": {
+    "patientProfile": "PATIENT PROFILE",
+    "personalInformation": "PERSONAL INFORMATION",
+    "age": "Age",
+    "gender": "Gender",
+    "nationality": "Nationality",
+    "phone": "Phone",
+    "email": "Email",
+    "latestVitalSigns": "Latest Vital Signs",
+    "heartRate": "Heart Rate",
+    "bloodPressure": "Blood Pressure",
+    "heartRateVariability": "Heart Rate Variability",
+    "breathingRate": "Breathing Rate",
+    "reportedSymptoms": "Reported Symptoms",
+    "noSymptoms": "Nothing",
+    "healthRiskReport": "Health Risk Report",
+    "arrhythmiaDetection": "Arrhythmia Detection",
+    "conditions": {
+      "heartBlock": "Heart Block",
+      "atrialFlutter": "Atrial Flutter",
+      "sinusBradycardia": "Sinus Bradycardia",
+      "atrialFibrillation": "Atrial Fibrillation",
+      "sleepApnea": "Sleep Apnea",
+      "prematureVentricularContractions": "Premature Ventricular Contractions",
+      "supraventricularTachycardia": "Supraventricular Tachycardia",
+      "myocardialInfarction": "Myocardial Infarction",
+      "congestiveHeartFailure": "Congestive Heart Failure"
+    },
+    "confidenceRatio": "Confidence Ratio",
+    "latestReadingsTable": "Latest Readings Table",
+    "tableHeaders": {
+      "bloodPressure": "Blood Pressure",
+      "hr": "HR",
+      "hrv": "HRV",
+      "temp": "Temp",
+      "oxygen": "O₂",
+      "bmi": "BMI",
+      "scanDate": "Scan Date",
+      "confidenceRatio": "Confidence Ratio: %"
+    },
+    "riskStatus": {
+      "suspected": "Suspected",
+      "atRisk": "At Risk",
+      "confirmed": "Confirmed"
+    },
+    "view": "View"
+  },
+  "requestReading": {
+    "title": "Request Reading",
+    "scheduleSend": "Schedule Send",
+    "phone": "Phone",
+    "email": "Email",
+    "now": "Now",
+    "scheduleForLater": "Schedule For Later",
+    "viewHistory": "View History",
+    "message": "Message",
+    "default": "Default",
+    "custom": "Custom",
+    "defaultMessage": "Default Message",
+    "defaultMessageText": "Your care provider has requested you take a quick health scan using your phone.",
+    "clickLink": "Please click the link below to be taken to the vitals scanning page.",
+    "send": "Send",
+    "cancel": "Cancel"
+  },
+  "assessmentSummary": {
+    "scenarios": {
+      "patternDetectedNotSupported": {
+        "title": "ASSESSMENT SUMMARY:",
+        "subtitle": "Potential Heart Block pattern detected; questionnaire does not support finding",
+        "description": "The AI detected RR interval patterns consistent with potential Heart Block, but questionnaire responses did not indicate typical symptoms. A single abnormal pattern may occur due to technical factors during screening.",
+        "recommendation": "RECOMMENDATION:",
+        "recommendationText": "Moderate risk assessment (YELLOW). Consider repeating screening 5 additional times to establish pattern consistency.",
+        "disclaimer": "DISCLAIMER:",
+        "disclaimerText": "This screening tool supplements clinical judgment only. It uses facial video analysis to detect potential RR interval patterns. A single screening provides preliminary information only. Positive findings require clinical correlation and diagnostic testing. Negative findings do not rule out cardiac conditions. Apply professional judgment when interpreting results."
+      },
+      "noPatternDetected": {
+        "title": "ASSESSMENT SUMMARY:",
+        "subtitle": "No cardiac arrhythmia patterns detected",
+        "description": "The AI-based facial analysis did not detect abnormal RR interval patterns associated with the cardiac conditions screened. This screening tool analyzes facial video for RR interval patterns and is not equivalent to diagnostic tests. A negative result does not rule out cardiac conditions.",
+        "disclaimer": "DISCLAIMER:",
+        "disclaimerText": "This screening tool supplements clinical judgment only. It uses facial video analysis to detect potential RR interval patterns. A single screening provides preliminary information only. Positive findings require clinical correlation and diagnostic testing. Negative findings do not rule out cardiac conditions. Apply professional judgment when interpreting results."
+      },
+      "patternDetectedSupported": {
+        "title": "ASSESSMENT SUMMARY:",
+        "subtitle": "Potential Heart Block pattern detected; questionnaire supports finding",
+        "description": "The AI-based facial analysis detected RR interval patterns consistent with potential Heart Block. The patient's responses to the targeted questionnaire indicated symptoms and risk factors that align with this finding. While this screening combines AI pattern recognition with symptom assessment, it is not diagnostic and requires clinical confirmation.",
+        "recommendation": "RECOMMENDATION:",
+        "recommendationText": "Moderate risk assessment (YELLOW). Consider repeating screening 5 additional times to establish pattern consistency.",
+        "disclaimer": "DISCLAIMER:",
+        "disclaimerText": "This screening tool supplements clinical judgment only. It uses facial video analysis to detect potential RR interval patterns. A single screening provides preliminary information only. Positive findings require clinical correlation and diagnostic testing. Negative findings do not rule out cardiac conditions. Apply professional judgment when interpreting results."
+      }
+    }
+  },
+  "agreement": {
+    "title": "Carevision Confidentiality & Non-Disclosure Notice",
+    "sections": {
+      "confidential": {
+        "title": "1. Confidential & Proprietary:",
+        "content": "All content, design, software, features, workflow, and technology of this demo are the exclusive intellectual property and trade secrets of Carevision. The entire solution is confidential and protected."
+      },
+      "prohibitions": {
+        "title": "2. Strict Prohibitions:",
+        "items": {
+          "0": "You may not take any photos, videos, or screen recordings of the demo.",
+          "1": "You may not copy, store, share, or transmit any part of the solution or user experience.",
+          "2": "You may not build or attempt to build any product or solution based on this experience, even if modified."
+        }
+      },
+      "derivativeUse": {
+        "title": "3. No Derivative Use:",
+        "content": "Any effort to create, support, or contribute to the development of a competing or similar solution—directly or indirectly—based on any idea, flow, feature, or element of this demo is strictly forbidden."
+      },
+      "reverseEngineering": {
+        "title": "4. No Reverse Engineering:",
+        "content": "You may not decompile, disassemble, reverse engineer, analyze, or extract functionality or architecture from this demo in any form."
+      },
+      "nonDisclosure": {
+        "title": "5. Non-Disclosure:",
+        "content": "You may not disclose, discuss, or share any information about the Carevision solution with any third party, including your organization, partners, or collaborators."
+      },
+      "legalEnforcement": {
+        "title": "6. Legal Enforcement:",
+        "content": "Any violation will be treated as unauthorized use and misappropriation of trade secrets, and may result in immediate legal action, including injunctive relief and claims for damages."
+      }
+    },
+    "footer": "This is a confidential demonstration. Unauthorized use or replication is strictly prohibited."
   },
   "buttons": {
     "back": "Back",
@@ -122,7 +351,11 @@
   "layout": {
     "step": "Step",
     "of": "of",
-    "progress": "Progress"
+    "progress": "Progress",
+    "healthCheckKiosk": "Health Check Kiosk",
+    "adminPanel": "Admin Panel",
+    "footerCopyright": "© 2025 Health Check Kiosk. Touch screen to interact.",
+    "footerDisclaimer": "This is an automated health assessment. It does not replace professional medical advice."
   },
   "results": {
     "title": "Your Results",
@@ -143,13 +376,6 @@
     "rating": "Rating",
     "contact": "Contact",
     "bookAppointment": "Book Appointment"
-  },
-  "healthSummary": {
-    "title": "Health Summary",
-    "overview": "Overview",
-    "trends": "Trends",
-    "alerts": "Alerts",
-    "recommendations": "Recommendations"
   },
   "countrySelector": {
     "placeholder": "Select a country...",

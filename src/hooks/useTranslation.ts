@@ -13,6 +13,13 @@ export function useTranslation(namespace = 'common') {
       const checkI18nReady = async () => {
         try {
           await initializeI18n();
+          
+          // Ensure the saved language is applied after initialization
+          const savedLanguage = localStorage.getItem('i18nextLng');
+          if (savedLanguage && i18n.language !== savedLanguage) {
+            await i18n.changeLanguage(savedLanguage);
+          }
+          
           // Wait a bit for i18n to be fully ready
           await new Promise(resolve => setTimeout(resolve, 50));
           setIsReady(true);

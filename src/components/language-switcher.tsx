@@ -40,15 +40,22 @@ export default function LanguageSwitcher() {
     }
   }, [i18n?.language]);
 
-  const changeLanguage = (languageCode: string) => {
+  const changeLanguage = async (languageCode: string) => {
     if (i18n && typeof i18n.changeLanguage === 'function') {
-      i18n.changeLanguage(languageCode);
-      localStorage.setItem('i18nextLng', languageCode);
-      
-      // Manually update document direction for immediate feedback
-      if (typeof document !== 'undefined') {
-        document.documentElement.dir = languageCode === 'ar' ? 'rtl' : 'ltr';
-        document.documentElement.lang = languageCode;
+      try {
+        // Store language before changing to ensure persistence
+        localStorage.setItem('i18nextLng', languageCode);
+        await i18n.changeLanguage(languageCode);
+        
+        // Manually update document direction for immediate feedback
+        if (typeof document !== 'undefined') {
+          document.documentElement.dir = languageCode === 'ar' ? 'rtl' : 'ltr';
+          document.documentElement.lang = languageCode;
+        }
+        
+        console.log('Language changed to:', languageCode);
+      } catch (error) {
+        console.error('Failed to change language:', error);
       }
     }
   };

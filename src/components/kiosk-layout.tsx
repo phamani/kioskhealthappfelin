@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Settings } from "lucide-react"
 
 import AdminPanel from "@/components/admin-panel"
+import { useTranslation } from "@/hooks/useTranslation"
 
 interface KioskLayoutProps {
   children: ReactNode
@@ -11,6 +12,7 @@ interface KioskLayoutProps {
 }
 
 export default function KioskLayout({ children, currentStep, totalSteps }: KioskLayoutProps) {
+  const { t } = useTranslation()
   const [showAdmin, setShowAdmin] = useState(false)
 
   
@@ -23,10 +25,10 @@ export default function KioskLayout({ children, currentStep, totalSteps }: Kiosk
       {/* Header */}
       <header className="bg-white shadow-md py-4 px-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-blue-700">Health Check Kiosk</h1>
+          <h1 className="text-3xl font-bold text-blue-700">{t('layout.healthCheckKiosk')}</h1>
           <div className="flex items-center space-x-2">
             <span className="text-gray-500 text-xl">
-              {currentStep > 0 && `Step ${currentStep} of ${totalSteps - 1}`}
+              {currentStep > 0 && `${t('layout.step')} ${currentStep} ${t('layout.of')} ${totalSteps - 1}`}
             </span>
 
             <Button
@@ -34,10 +36,10 @@ export default function KioskLayout({ children, currentStep, totalSteps }: Kiosk
               size="icon"
               onClick={() => setShowAdmin(true)}
               className="ml-4 rounded-full"
-              title="Admin Panel"
+              title={t('layout.adminPanel')}
             >
               <Settings className="h-5 w-5" />
-              <span className="sr-only">Admin Panel</span>
+              <span className="sr-only">{t('layout.adminPanel')}</span>
             </Button>
 
           </div>
@@ -61,8 +63,8 @@ export default function KioskLayout({ children, currentStep, totalSteps }: Kiosk
 
       {/* Footer */}
       <footer className="bg-white py-4 px-8 text-center text-gray-500">
-        <p>© 2025 Health Check Kiosk. Touch screen to interact.</p>
-        <p>This is an automated health assessment.It does not replace professional medical advice.</p>
+        <p>{t('layout.footerCopyright')}</p>
+        <p>{t('layout.footerDisclaimer')}</p>
       </footer>
     </div>
   )
