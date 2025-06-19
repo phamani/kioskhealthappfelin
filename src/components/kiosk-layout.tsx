@@ -4,6 +4,7 @@ import { Settings } from "lucide-react"
 
 import AdminPanel from "@/components/admin-panel"
 import { useTranslation } from "@/hooks/useTranslation"
+import LanguageSwitcher from "@/components/language-switcher"
 
 interface KioskLayoutProps {
   children: ReactNode
@@ -24,9 +25,19 @@ export default function KioskLayout({ children, currentStep, totalSteps }: Kiosk
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-md py-4 px-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-blue-700">{t('layout.healthCheckKiosk')}</h1>
-          <div className="flex items-center space-x-2">
+        <div className="grid grid-cols-3 items-center">
+          {/* Left: Language Switcher (Right in RTL) */}
+          <div className="flex items-center justify-start">
+            <LanguageSwitcher />
+          </div>
+          
+          {/* Center: Header Title */}
+          <div className="flex justify-center">
+            <h1 className="text-3xl font-bold text-blue-700">{t('layout.healthCheckKiosk')}</h1>
+          </div>
+          
+          {/* Right: Step Counter + Admin Button (Left in RTL) */}
+          <div className="flex items-center justify-end space-x-2">
             <span className="text-gray-500 text-xl">
               {currentStep > 0 && `${t('layout.step')} ${currentStep} ${t('layout.of')} ${totalSteps - 1}`}
             </span>
@@ -41,7 +52,6 @@ export default function KioskLayout({ children, currentStep, totalSteps }: Kiosk
               <Settings className="h-5 w-5" />
               <span className="sr-only">{t('layout.adminPanel')}</span>
             </Button>
-
           </div>
         </div>
       </header>

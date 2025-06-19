@@ -9,7 +9,7 @@ import QuestionnaireSummary from '@/components/questionnaire-summary';
 import { ConditionWithQuestionnaire, QuestionnaireAnswer, QuestionnaireData, RiskLevel } from '@/types/conditions';
 import questionnaireData from '@/data/questionnaire.json';
 import { useTranslation } from "@/hooks/useTranslation";
-import LanguageSwitcher from "@/components/language-switcher";
+
     
 interface ClientAssessmentProps { 
   onNext: () => void;
@@ -169,12 +169,7 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
 
   if (conditionsNeedingQuestionnaires.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        {/* Language Switcher */}
-        <div className="absolute top-4 right-4">
-          <LanguageSwitcher />
-        </div>
-        
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">        
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">{t('assessment.complete')}</h1>
           <p className="text-gray-600 mb-6">
@@ -220,12 +215,7 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
               totalConditions={conditionsNeedingQuestionnaires.length}
             />
           ):(
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-              {/* Language Switcher */}
-              <div className="absolute top-4 right-4">
-                <LanguageSwitcher />
-              </div>
-              
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">              
               <div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">{t('assessment.complete')}</h1>
                 <p className="text-gray-600 mb-6">

@@ -13,7 +13,7 @@ import AgreementModal from "./agreementModal";
 import Cookies from 'js-cookie';
 import CountrySelector from "@/components/ui/country-selector";
 import { useTranslation } from "@/hooks/useTranslation";
-import LanguageSwitcher from "@/components/language-switcher";
+
 
 interface PersonalInfoScreenProps {
   userData: UserData;
@@ -190,11 +190,6 @@ export default function PersonalInfoScreen({
 
   return (
     <div className="flex flex-col space-y-8">
-      {/* Language Switcher */}
-      <div className="absolute top-4 right-4">
-        <LanguageSwitcher />
-      </div>
-
       <div className="text-center">
         <h2 className="text-4xl font-bold text-blue-700 mb-4">
           {t('personalInfo.title')}

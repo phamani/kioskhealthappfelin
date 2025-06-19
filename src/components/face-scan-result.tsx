@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ClientModel } from '@/payload-types';
 import { useTranslation } from "@/hooks/useTranslation";
-import LanguageSwitcher from "@/components/language-switcher";
+
 
 interface FaceScanResultProps { 
     userData: UserData;
@@ -105,11 +105,6 @@ export default function FaceScanResult({
 
     return (
         <div className="flex flex-col space-y-8">
-            {/* Language Switcher */}
-            <div className="absolute top-4 right-4">
-                <LanguageSwitcher />
-            </div>
-
             <div className="text-center">
                 <h2 className="text-4xl font-bold text-blue-700 mb-4">{t('faceScan.scanComplete')}</h2>
                 <p className="text-xl text-gray-600 mb-8">{t('faceScan.scanCompleteSubtitle')}</p>

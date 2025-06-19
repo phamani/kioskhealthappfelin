@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useTranslation } from "@/hooks/useTranslation";
-import LanguageSwitcher from "@/components/language-switcher";
 
 interface WelcomeScreenProps {
   onNext: () => void;
@@ -14,11 +13,6 @@ export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
 
   return (
     <div className="flex flex-col items-center justify-center text-center space-y-12 py-10">
-      {/* Language Switcher */}
-      <div className="absolute top-4 right-4">
-        <LanguageSwitcher />
-      </div>
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

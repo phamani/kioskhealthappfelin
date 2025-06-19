@@ -116,6 +116,11 @@
   direction: ltr; /* Keep grid layout LTR for consistency */
 }
 
+/* Header grid layout should maintain consistent positioning */
+[dir="rtl"] header .grid.grid-cols-3 {
+  direction: ltr; /* Keep grid columns in same order for consistent header layout */
+}
+
 /* Button and navigation alignment */
 [dir="rtl"] .justify-start {
   justify-content: flex-end;
