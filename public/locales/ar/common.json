@@ -113,7 +113,13 @@
     "never": "أبداً",
     "always": "دائماً",
     "often": "كثيراً",
-    "rarely": "نادراً"
+    "rarely": "نادراً",
+    "assessmentProgress": "تقدم التقييم",
+    "condition": "الحالة",
+    "of": "من",
+    "questionnaire": "الاستبيان",
+    "question": "السؤال",
+    "selectOption": "اختر خياراً"
   },
       "healthSummary": {
     "title": "ملخص التقييم الصحي",
@@ -334,7 +340,9 @@
     "edit": "تعديل",
     "delete": "حذف",
     "confirm": "تأكيد",
-    "retry": "إعادة المحاولة"
+    "retry": "إعادة المحاولة",
+    "previous": "السابق",
+    "complete": "إكمال"
   },
   "common": {
     "loading": "جاري التحميل...",
@@ -361,6 +369,10 @@
     "footerCopyright": "© 2025 كشك الفحص الصحي.  انقر على ابدأ الفحص الان للبدء.",
     "footerDisclaimer": "هذا تقييم صحي آلي. لا يُعتبر بديلاً عن الاستشارة الطبية المتخصصة."
   },
+  "progress": {
+    "of": "من",
+    "completed": "مكتمل"
+  },
   "results": {
     "title": "نتائجك",
     "healthSummary": "ملخص الصحة",
@@ -384,5 +396,117 @@
   "countrySelector": {
     "placeholder": "اختر دولة...",
     "placeholderAr": "اختر دولة..."
+  },
+  "userProfile": {
+    "memberRiskStatus": "حالة المخاطر لدى الأعضاء",
+    "settings": "الإعدادات",
+    "patientProfile": "ملف المريض",
+    "personalInformation": "المعلومات الشخصية",
+    "vitals": {
+      "latestVitalSigns": "أحدث المؤشرات الحيوية",
+      "heartRate": "معدل ضربات القلب",
+      "bloodPressure": "ضغط الدم",
+      "heartRateVariability": "تفاوت معدل ضربات القلب",
+      "breathingRate": "معدل التنفس",
+      "respirationRate": "معدل التنفس",
+      "temperature": "درجة الحرارة",
+      "glucose": "الجلوكوز",
+      "hba1c": "خضاب الدم السكري",
+      "bmi": "مؤشر كتلة الجسم",
+      "spo2": "تشبع الأكسجين",
+      "bpm": "نبضة/دقيقة",
+      "bps": "نفس/دقيقة",
+      "mmHg": "ملم زئبق",
+      "ms": "مللي ثانية"
+    },
+    "fields": {
+      "age": "العمر",
+      "race": "العرق",
+      "gender": "الجنس",
+      "state": "الولاية",
+      "nationality": "الجنسية",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "provider": "مقدم الخدمة",
+      "product": "المنتج",
+      "miaHealthScore": "نقاط الصحة mia",
+      "height": "الطول",
+      "weight": "الوزن",
+      "waist": "محيط الخصر",
+      "sleepScore": "نقاط النوم",
+      "sleepQuality": "جودة النوم",
+      "phq9Score": "نقاط PHQ9",
+      "bmiStatus": "حالة مؤشر كتلة الجسم",
+      "devices": "الأجهزة",
+      "active": "نشط",
+      "lmp": "آخر دورة شهرية",
+      "activityLevel": "مستوى النشاط",
+      "pregnant": "حامل",
+      "smoker": "مدخن",
+      "pregnancyAge": "عمر الحمل",
+      "currentMedication": "الدواء الحالي",
+      "medicalConditions": "الحالات الطبية",
+      "medicalHistory": "التاريخ الطبي",
+      "suspectedMedicalConditions": "الحالات الطبية المشتبه بها",
+      "familyHistory": "التاريخ العائلي",
+      "currentSymptoms": "الأعراض الحالية",
+      "diabetes": "السكري",
+      "pregnancyComplications": "مضاعفات الحمل",
+      "hypertension": "ارتفاع ضغط الدم",
+      "mentalHealth": "الصحة النفسية"
+    },
+    "sections": {
+      "reportedSymptoms": "الأعراض المبلغ عنها",
+      "suggestedCare": "الرعاية المقترحة",
+      "possibleCauses": "الأسباب المحتملة",
+      "healthRiskReport": "تقرير المخاطر الصحية",
+      "arrhythmiaDetection": "كشف اضطرابات نظم القلب",
+      "latestReadings": "أحدث القراءات",
+      "basicInformation": "المعلومات الأساسية",
+      "medicalInformation": "المعلومات الطبية",
+      "riskAssessments": "تقييمات المخاطر",
+      "sleepSummary": "ملخص النوم",
+      "biometricHistory": "تاريخ المؤشرات الحيوية",
+      "assessments": "التقييمات",
+      "assessmentHistory": "تاريخ التقييمات"
+    },
+    "messages": {
+      "noSymptomsReported": "لم يتم الإبلاغ عن أي أعراض",
+      "loading": "جاري تحميل بيانات العميل...",
+      "clientNotFound": "العميل غير موجود",
+      "goBack": "العودة",
+      "emergencyDepartment": "قسم الطوارئ",
+      "emergencyMessage": "بناءً على أعراضك ومؤشراتك الحيوية، يُنصح بطلب عناية طبية فورية.",
+      "shouldDoFaceScan": "هذا العميل يجب أن يقوم بمسح الوجه لإظهار حالات اضطراب نظم القلب!",
+      "noRecordsFound": "لا توجد سجلات",
+      "noAssessments": "لا توجد تقييمات متوفرة",
+      "allAssessmentHistory": "جميع تاريخ التقييمات",
+      "selectDateRange": "اختر نطاق زمني لعرض بيانات النوم",
+      "biometricHistoryPlaceholder": "سيتم عرض بيانات تاريخ المؤشرات الحيوية هنا",
+      "na": "غير متوفر"
+    },
+    "trends": {
+      "3dayTrend": "اتجاه 3 أيام",
+      "7dayTrend": "اتجاه 7 أيام",
+      "14dayTrend": "اتجاه 14 يوم",
+      "average": "المتوسط",
+      "trend": "الاتجاه",
+      "stable": "مستقر",
+      "increasing": "متزايد",
+      "decreasing": "متناقص"
+    },
+    "buttons": {
+      "editPatient": "تعديل المريض",
+      "lastNight": "الليلة الماضية",
+      "last7Days": "آخر 7 أيام",
+      "last15Days": "آخر 15 يوم",
+      "selectDate": "اختر التاريخ"
+    },
+    "riskLevels": {
+      "common": "شائع",
+      "rare": "نادر"
+    },
+    "scanDate": "تاريخ المسح",
+    "creationTime": "وقت الإنشاء"
   }
 } 

@@ -17,6 +17,7 @@ import { ClientProfile, LatestReading } from "@/types/client-profile"
 import { QuestionnaireData } from "@/types/conditions"
 import questionnaireData from '@/data/questionnaire.json';
 import ConditionItem from "./condition-item"
+import { useTranslation } from "@/hooks/useTranslation"
 
 interface UserProfileProps {
   onBack: () => void
@@ -35,6 +36,7 @@ interface ArrhythmiaRisk {
 }
  
 export default function UserProfile({ onBack, clientId = "" }: UserProfileProps) {
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState("current-status")
   const [loading, setLoading] = useState(true)
   const [client, setClient] = useState<ClientProfile | null>(null)
@@ -306,7 +308,7 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600">Loading client data...</p>
+          <p className="text-xl text-gray-600">{t('userProfile.messages.loading')}</p>
         </div>
       </div>
     )
@@ -316,8 +318,8 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-xl text-red-600 mb-4">Client not found</p>
-          <Button onClick={onBack}>Go Back</Button>
+          <p className="text-xl text-red-600 mb-4">{t('userProfile.messages.clientNotFound')}</p>
+          <Button onClick={onBack}>{t('userProfile.messages.goBack')}</Button>
         </div>
       </div>
     )
@@ -333,9 +335,9 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
               <span className="sr-only">Back</span>
             </Button>
             <div>
-              <span className="text-lg font-medium text-blue-700">Member Risk Status</span>
+              <span className="text-lg font-medium text-blue-700">{t('userProfile.memberRiskStatus')}</span>
               <span className="mx-4 text-gray-300">|</span>
-              <span className="text-lg font-medium text-gray-500">Settings</span>
+              <span className="text-lg font-medium text-gray-500">{t('userProfile.settings')}</span>
             </div>
           </div>
         </div>
@@ -360,7 +362,7 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
                 }`}
                 onClick={() => setActiveTab("current-status")}
               >
-                PATIENT PROFILE
+                {t('userProfile.patientProfile')}
               </button>
               {/* <button
                 className={`w-full py-3 px-6 text-left font-medium ${
@@ -412,19 +414,19 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
             {activeTab === "current-status" && (
               <Card className="p-6 shadow-sm space-y-8">
                 {/* PERSONAL INFORMATION Section */} 
-                <h2 className="text-xl font-semibold mb-6 text-blue-700 border-b pb-2">PERSONAL INFORMATION</h2>
+                <h2 className="text-xl font-semibold mb-6 text-blue-700 border-b pb-2">{t('userProfile.personalInformation')}</h2>
                 <div className="grid grid-cols-2 gap-x-12 gap-y-4 mb-10">
                   <div className="flex">
-                    <span className="font-medium w-24">Age:</span>
-                    <span>{client.ClientInfo.Age || "N/A"}</span>
+                    <span className="font-medium w-24">{t('userProfile.fields.age')}:</span>
+                    <span>{client.ClientInfo.Age || t('userProfile.messages.na')}</span>
                   </div>
                   {/* <div className="flex">
                     <span className="font-medium w-24">Race:</span>
                     <span>{client.ClientInfo.Race || "N/A"}</span>
                   </div> */}
                   <div className="flex">
-                    <span className="font-medium w-24">Gender:</span>
-                    <span>{client.ClientInfo.Gender || "N/A"}</span>
+                    <span className="font-medium w-24">{t('userProfile.fields.gender')}:</span>
+                    <span>{client.ClientInfo.Gender || t('userProfile.messages.na')}</span>
                   </div>
                   {/* <div className="flex">
                     <span className="font-medium w-24">State:</span>
@@ -432,16 +434,16 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
                     <span>{client.ClientInfo.State || "N/A"}</span>
                   </div> */}
                   <div className="flex">
-                    <span className="font-medium w-24">Nationality:</span>
-                    <span>{client.Nationality || "N/A"}</span>
+                    <span className="font-medium w-24">{t('userProfile.fields.nationality')}:</span>
+                    <span>{client.Nationality || t('userProfile.messages.na')}</span>
                   </div>
                   <div className="flex">
-                    <span className="font-medium w-24">Email:</span>
-                    <span>{client.ClientInfo.Email || "N/A"}</span>
+                    <span className="font-medium w-24">{t('userProfile.fields.email')}:</span>
+                    <span>{client.ClientInfo.Email || t('userProfile.messages.na')}</span>
                   </div>
                   <div className="flex">
-                    <span className="font-medium w-24">Phone:</span>
-                    <span>{client.ClientInfo.Phone || "N/A"}</span>
+                    <span className="font-medium w-24">{t('userProfile.fields.phone')}:</span>
+                    <span>{client.ClientInfo.Phone || t('userProfile.messages.na')}</span>
                   </div>
                   {/* <div className="flex">
                     <span className="font-medium w-24">Provider:</span>
@@ -459,14 +461,14 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
 
                 {/* Vital Signs Section */}
                 <div>
-                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Latest Vital Signs</h2>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">{t('userProfile.vitals.latestVitalSigns')}</h2>
                   {latestReading && (
                     <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <p className="text-lg mb-2">Heart Rate: {latestReading.HeartRate || 'N/A'} bpm</p>
-                        <p className="text-lg mb-2">Blood Pressure: {latestReading.BloodPressure || 'N/A'}</p>
-                        <p className="text-lg mb-2">Heart Rate Variability: {latestReading.HeartRateVariability || 'N/A'} ms</p>
-                        <p className="text-lg mb-2">Breathing Rate: {latestReading.RespirationRate || 'N/A'} BPM</p>
+                        <p className="text-lg mb-2">{t('userProfile.vitals.heartRate')}: {latestReading.HeartRate || t('userProfile.messages.na')} {t('userProfile.vitals.bpm')}</p>
+                        <p className="text-lg mb-2">{t('userProfile.vitals.bloodPressure')}: {latestReading.BloodPressure || t('userProfile.messages.na')}</p>
+                        <p className="text-lg mb-2">{t('userProfile.vitals.heartRateVariability')}: {latestReading.HeartRateVariability || t('userProfile.messages.na')} {t('userProfile.vitals.ms')}</p>
+                        <p className="text-lg mb-2">{t('userProfile.vitals.respirationRate')}: {latestReading.RespirationRate || t('userProfile.messages.na')} {t('userProfile.vitals.bps')}</p>
                       </div>
                   </div>
                   )} 
@@ -474,9 +476,9 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
 
                 {/* Reported Symptoms Section */}
                 <div>
-                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Reported Symptoms</h2>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">{t('userProfile.sections.reportedSymptoms')}</h2>
                   <ul className="list-disc list-inside">
-                    <li>{client.ClientInfo.HealthConcern || 'No symptoms reported'}</li>
+                    <li>{client.ClientInfo.HealthConcern || t('userProfile.messages.noSymptomsReported')}</li>
                   </ul>
                 </div>
 
@@ -506,9 +508,9 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
                  
                 {/* Health Risk Report Section */}
                 <div>
-                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Health Risk Report</h2>
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">{t('userProfile.sections.healthRiskReport')}</h2>
                   <div className="bg-gray-50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-4">Arrhythmia Detection</h3>
+                    <h3 className="text-lg font-semibold mb-4">{t('userProfile.sections.arrhythmiaDetection')}</h3>
                     <div className="space-y-4">
                       {client.ArrhythmiaRisks.length > 0 ? 
                       client.ArrhythmiaRisks.sort((a, b) => {
@@ -525,29 +527,29 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
                             risk={risk} 
                             questionnaireData={questionnaireData as unknown as QuestionnaireData} 
                           />
-                        )) : "This client should do a face scan to show Arrhythmia Conditions!"}
+                        )) : t('userProfile.messages.shouldDoFaceScan')}
                     </div>
                   </div>
                 </div> 
 
                 {/* Latest Readings Section */}
                 <div>
-                  <h2 className="text-xl font-semibold mb-4 text-blue-700">Latest Readings</h2> 
+                  <h2 className="text-xl font-semibold mb-4 text-blue-700">{t('userProfile.sections.latestReadings')}</h2> 
 
                   <div className="space-y-6">
                     <div className="overflow-x-auto">
                       <Table>
                         <TableHeader>
                           <TableRow className="bg-gray-50">
-                            <TableHead className="font-medium">Blood Pressure</TableHead> 
+                            <TableHead className="font-medium">{t('userProfile.vitals.bloodPressure')}</TableHead> 
                             {/* <TableHead className="font-medium">SPO2</TableHead> */}
-                            <TableHead className="font-medium">HR</TableHead>
-                            <TableHead className="font-medium">RR</TableHead>
-                            <TableHead className="font-medium">Temp</TableHead>
-                            <TableHead className="font-medium">Glucose</TableHead>
-                            <TableHead className="font-medium">HbA1c</TableHead>
-                            <TableHead className="font-medium">BMI</TableHead>
-                            <TableHead className="font-medium">Scan Date</TableHead>
+                            <TableHead className="font-medium">{t('userProfile.vitals.heartRate')}</TableHead>
+                            <TableHead className="font-medium">{t('userProfile.vitals.respirationRate')}</TableHead>
+                            <TableHead className="font-medium">{t('userProfile.vitals.temperature')}</TableHead>
+                            <TableHead className="font-medium">{t('userProfile.vitals.glucose')}</TableHead>
+                            <TableHead className="font-medium">{t('userProfile.vitals.hba1c')}</TableHead>
+                            <TableHead className="font-medium">{t('userProfile.vitals.bmi')}</TableHead>
+                            <TableHead className="font-medium">{t('userProfile.scanDate')}</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody> 
@@ -571,7 +573,7 @@ export default function UserProfile({ onBack, clientId = "" }: UserProfileProps)
                             ) : (
                               <TableRow>
                                 <TableCell colSpan={11} className="text-center py-8 text-gray-500">
-                                  No records found
+                                  {t('userProfile.messages.noRecordsFound')}
                                 </TableCell>
                               </TableRow>
                             )}

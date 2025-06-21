@@ -21,12 +21,16 @@ export interface ConditionWithQuestionnaire extends ApiConditionResult {
 
 export interface Question {
   text: string;
+  text_ar?: string;
   type: string; 
   options?: string[];
+  options_ar?: string[];
   scoring: Record<string, number>;
 }
 
 export interface ConditionQuestionnaire {
+  title: string;
+  title_ar?: string;
   questions: Question[];
   min_score_threshold: number;
   calculated_max_score: number;

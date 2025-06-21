@@ -1,5 +1,6 @@
 // components/ProgressBar.tsx
 import React from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface ProgressBarProps {
   current: number;
@@ -7,6 +8,7 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ current, total }) => {
+  const { t } = useTranslation();
   const percentage = Math.round((current / total) * 100);
 
   return (
@@ -16,7 +18,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ current, total }) => {
         style={{ width: `${percentage}%` }}
       ></div>
       <div className="text-xs text-gray-600 mt-1 text-right">
-        {current} of {total} completed ({percentage}%)
+        {current} {t('progress.of')} {total} {t('progress.completed')} ({percentage}%)
       </div>
     </div>
   );

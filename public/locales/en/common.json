@@ -113,7 +113,13 @@
     "never": "Never",
     "always": "Always",
     "often": "Often",
-    "rarely": "Rarely"
+    "rarely": "Rarely",
+    "assessmentProgress": "Assessment Progress",
+    "condition": "Condition",
+    "of": "of",
+    "questionnaire": "Questionnaire",
+    "question": "Question",
+    "selectOption": "Select an option"
   },
   "healthSummary": {
     "title": "Health Assessment Summary",
@@ -334,7 +340,9 @@
     "edit": "Edit",
     "delete": "Delete",
     "confirm": "Confirm",
-    "retry": "Retry"
+    "retry": "Retry",
+    "previous": "Previous",
+    "complete": "Complete"
   },
   "common": {
     "loading": "Loading...",
@@ -361,6 +369,10 @@
     "footerCopyright": "© 2025 Health Check Kiosk. Touch screen to interact.",
     "footerDisclaimer": "This is an automated health assessment. It does not replace professional medical advice."
   },
+  "progress": {
+    "of": "of",
+    "completed": "completed"
+  },
   "results": {
     "title": "Your Results",
     "healthSummary": "Health Summary",
@@ -384,5 +396,117 @@
   "countrySelector": {
     "placeholder": "Select a country...",
     "placeholderAr": "اختر دولة..."
+  },
+  "userProfile": {
+    "memberRiskStatus": "Member Risk Status",
+    "settings": "Settings",
+    "patientProfile": "PATIENT PROFILE",
+    "personalInformation": "PERSONAL INFORMATION",
+    "vitals": {
+      "latestVitalSigns": "Latest Vital Signs",
+      "heartRate": "Heart Rate",
+      "bloodPressure": "Blood Pressure",
+      "heartRateVariability": "Heart Rate Variability",
+      "breathingRate": "Breathing Rate",
+      "respirationRate": "Respiration Rate",
+      "temperature": "Temperature",
+      "glucose": "Glucose",
+      "hba1c": "HbA1c",
+      "bmi": "BMI",
+      "spo2": "SPO2",
+      "bpm": "bpm",
+      "bps": "BPM",
+      "mmHg": "mmHg",
+      "ms": "ms"
+    },
+    "fields": {
+      "age": "Age",
+      "race": "Race",
+      "gender": "Gender",
+      "state": "State",
+      "nationality": "Nationality",
+      "email": "Email",
+      "phone": "Phone",
+      "provider": "Provider",
+      "product": "Product",
+      "miaHealthScore": "mia Health Score",
+      "height": "Height",
+      "weight": "Weight",
+      "waist": "Waist",
+      "sleepScore": "Sleep Score",
+      "sleepQuality": "Sleep Quality",
+      "phq9Score": "PHQ9 Score",
+      "bmiStatus": "BMI Status",
+      "devices": "Devices",
+      "active": "Active",
+      "lmp": "LMP",
+      "activityLevel": "Activity Level",
+      "pregnant": "Pregnant",
+      "smoker": "Smoker",
+      "pregnancyAge": "Pregnancy Age",
+      "currentMedication": "Current Medication",
+      "medicalConditions": "Medical Conditions",
+      "medicalHistory": "Medical History",
+      "suspectedMedicalConditions": "Suspected Medical Conditions",
+      "familyHistory": "Family History",
+      "currentSymptoms": "Current Symptoms",
+      "diabetes": "Diabetes",
+      "pregnancyComplications": "Pregnancy Complications",
+      "hypertension": "Hypertension",
+      "mentalHealth": "Mental Health"
+    },
+    "sections": {
+      "reportedSymptoms": "Reported Symptoms",
+      "suggestedCare": "Suggested Care",
+      "possibleCauses": "Possible Causes",
+      "healthRiskReport": "Health Risk Report",
+      "arrhythmiaDetection": "Arrhythmia Detection",
+      "latestReadings": "Latest Readings",
+      "basicInformation": "BASIC INFORMATION",
+      "medicalInformation": "MEDICAL INFORMATION",
+      "riskAssessments": "RISK ASSESSMENTS",
+      "sleepSummary": "Sleep Summary",
+      "biometricHistory": "Biometric History",
+      "assessments": "Assessments",
+      "assessmentHistory": "Assessment History"
+    },
+    "messages": {
+      "noSymptomsReported": "No symptoms reported",
+      "loading": "Loading client data...",
+      "clientNotFound": "Client not found",
+      "goBack": "Go Back",
+      "emergencyDepartment": "Emergency Department",
+      "emergencyMessage": "Based on your symptoms and vital signs, immediate medical attention is recommended.",
+      "shouldDoFaceScan": "This client should do a face scan to show Arrhythmia Conditions!",
+      "noRecordsFound": "No records found",
+      "noAssessments": "No assessments available",
+      "allAssessmentHistory": "All Assessment History",
+      "selectDateRange": "Select a date range to view sleep data",
+      "biometricHistoryPlaceholder": "Biometric history data will be displayed here",
+      "na": "N/A"
+    },
+    "trends": {
+      "3dayTrend": "3 Day Trend",
+      "7dayTrend": "7 Day Trend",
+      "14dayTrend": "14 Day Trend",
+      "average": "Average",
+      "trend": "Trend",
+      "stable": "Stable",
+      "increasing": "Increasing",
+      "decreasing": "Decreasing"
+    },
+    "buttons": {
+      "editPatient": "Edit Patient",
+      "lastNight": "Last Night",
+      "last7Days": "Last 7 Days",
+      "last15Days": "Last 15 Days",
+      "selectDate": "Select date"
+    },
+    "riskLevels": {
+      "common": "common",
+      "rare": "rare"
+    },
+    "scanDate": "Scan Date",
+    "creationTime": "Creation Time"
   }
 } 
