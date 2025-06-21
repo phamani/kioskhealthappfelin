@@ -199,7 +199,7 @@ export default function PersonalInfoScreen({
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-6" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
         <div className="space-y-2">
           <Label htmlFor="fullName" className="text-xl">
             {t('personalInfo.fullName')}
@@ -212,7 +212,7 @@ export default function PersonalInfoScreen({
             className="text-xl py-6"
           />
           {errors.fullName && (
-            <p className="text-red-500 flex items-center gap-1">
+            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
               <AlertCircle size={16} /> {errors.fullName}
             </p>
           )}
@@ -231,7 +231,7 @@ export default function PersonalInfoScreen({
             className="text-xl py-6"
           />
           {errors.email && (
-            <p className="text-red-500 flex items-center gap-1">
+            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
               <AlertCircle size={16} /> {errors.email}
             </p>
           )}
@@ -250,7 +250,7 @@ export default function PersonalInfoScreen({
             className="text-xl py-6"
           />
           {errors.phone && (
-            <p className="text-red-500 flex items-center gap-1">
+            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
               <AlertCircle size={16} /> {errors.phone}
             </p>
           )}
@@ -260,57 +260,58 @@ export default function PersonalInfoScreen({
           <Label htmlFor="nationalityId" className="text-xl">
             {t('personalInfo.nationality')}
           </Label>
- 
           <CountrySelector language={i18n.language as "en" | "ar"} onSelect={(id) => setNationalityId(id ?? "")} />
-
           {errors.nationalityId && (
-            <p className="text-red-500 flex items-center gap-1">
+            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
               <AlertCircle size={16} /> {errors.nationalityId}
             </p>
           )}
         </div>
 
-        <div className={`flex items-start gap-3 pt-4 ${i18n.language === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
-          <Checkbox
-            id="consent"
-            checked={consent}
-            onCheckedChange={(checked) => setConsent(checked === true)}
-            className="w-6 h-6 mt-1 flex-shrink-0"
-          />
-          <Label htmlFor="consent" className={`text-lg font-normal ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
-            {t('personalInfo.consent')}
-          </Label> 
-        </div>
-        {errors.consent && (
+        <div className="space-y-2">
+          <div className={`flex items-start gap-3 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+            <Checkbox
+              id="consent"
+              checked={consent}
+              onCheckedChange={(checked) => setConsent(checked === true)}
+              className="w-6 h-6 mt-1 flex-shrink-0"
+            />
+            <Label htmlFor="consent" className={`text-lg font-normal ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
+              {t('personalInfo.consent')}
+            </Label>
+          </div>
+          {errors.consent && (
             <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
               <AlertCircle size={16} /> {errors.consent}
             </p>
           )}
+        </div>
          
-        <div className={`flex items-start gap-3 pt-4 ${i18n.language === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
-          <Checkbox
-            id="agree"
-            checked={agree}
-            onCheckedChange={(checked) => setAgree(checked === true)}
-            className="w-6 h-6 mt-1 flex-shrink-0"
-          />
-          <Label
-            htmlFor="agree"
-            className={`text-lg font-normal cursor-pointer ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
-            onClick={openModal}
-          >
-            {t('personalInfo.agreement')}{" "}
-            <span className="text-blue-600 no-underline">
-              {t('personalInfo.viewAgreement')}
-            </span>
-          </Label> 
-        </div> 
-        {errors.agree && (
-          <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
-            <AlertCircle size={16} /> {errors.agree}
-          </p>
-        )}
-
+        <div className="space-y-2">
+          <div className={`flex items-start gap-3 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+            <Checkbox
+              id="agree"
+              checked={agree}
+              onCheckedChange={(checked) => setAgree(checked === true)}
+              className="w-6 h-6 mt-1 flex-shrink-0"
+            />
+            <Label
+              htmlFor="agree"
+              className={`text-lg font-normal cursor-pointer ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
+              onClick={openModal}
+            >
+              {t('personalInfo.agreement')}{" "}
+              <span className="text-blue-600 no-underline">
+                {t('personalInfo.viewAgreement')}
+              </span>
+            </Label>
+          </div>
+          {errors.agree && (
+            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
+              <AlertCircle size={16} /> {errors.agree}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="flex justify-between pt-6">
@@ -320,14 +321,12 @@ export default function PersonalInfoScreen({
         >
           {t('buttons.back')}
         </Button>
-        <div className="space-x-4">
-          <Button
-            onClick={handleNext}
-            className="text-xl py-6 px-10 bg-blue-600 hover:bg-blue-700"
-          >
-            {isLoading ? t('common.loading') : t('buttons.next')}
-          </Button>
-        </div>
+        <Button
+          onClick={handleNext}
+          className="text-xl py-6 px-10 bg-blue-600 hover:bg-blue-700"
+        >
+          {isLoading ? t('common.loading') : t('buttons.next')}
+        </Button>
       </div>
 
       <AgreementModal isOpen={isModalOpen} onClose={closeModal} />
