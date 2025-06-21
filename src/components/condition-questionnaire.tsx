@@ -92,7 +92,7 @@ const ConditionQuestionnaire = ({ condition, questionnaireData, onComplete, curr
         <ProgressBar current={currentConditionProgressIndex} total={totalConditions} />
       </div>
  
-      <h3 className="text-xl font-bold text-blue-800 mb-4">
+      <h3 className="text-xl font-bold text-blue-800 mb-4 hidden">
         {getConditionTitle()} - {t('assessment.questionnaire')}
       </h3>
 
