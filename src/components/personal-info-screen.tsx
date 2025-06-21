@@ -270,33 +270,33 @@ export default function PersonalInfoScreen({
           )}
         </div>
 
-        <div className="flex items-start space-x-3 pt-4">
+        <div className={`flex items-start gap-3 pt-4 ${i18n.language === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
           <Checkbox
             id="consent"
             checked={consent}
             onCheckedChange={(checked) => setConsent(checked === true)}
-            className="w-6 h-6 mt-1"
+            className="w-6 h-6 mt-1 flex-shrink-0"
           />
-          <Label htmlFor="consent" className="text-lg font-normal">
+          <Label htmlFor="consent" className={`text-lg font-normal ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
             {t('personalInfo.consent')}
           </Label> 
         </div>
         {errors.consent && (
-            <p className="text-red-500 flex items-center gap-1">
+            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
               <AlertCircle size={16} /> {errors.consent}
             </p>
           )}
          
-        <div className="flex items-start space-x-3 pt-4">
+        <div className={`flex items-start gap-3 pt-4 ${i18n.language === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
           <Checkbox
             id="agree"
             checked={agree}
             onCheckedChange={(checked) => setAgree(checked === true)}
-            className="w-6 h-6 mt-1"
+            className="w-6 h-6 mt-1 flex-shrink-0"
           />
           <Label
             htmlFor="agree"
-            className="text-lg font-normal cursor-pointer"
+            className={`text-lg font-normal cursor-pointer ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
             onClick={openModal}
           >
             {t('personalInfo.agreement')}{" "}
@@ -306,7 +306,7 @@ export default function PersonalInfoScreen({
           </Label> 
         </div> 
         {errors.agree && (
-          <p className="text-red-500 flex items-center gap-1">
+          <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
             <AlertCircle size={16} /> {errors.agree}
           </p>
         )}

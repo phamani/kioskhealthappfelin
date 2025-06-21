@@ -278,6 +278,44 @@
   margin-right: 0.75rem;
 }
 
+/* Additional checkbox RTL support */
+[dir="rtl"] .flex.items-start.gap-3 {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+/* RTL checkbox label alignment */
+[dir="rtl"] label[for="consent"],
+[dir="rtl"] label[for="agree"] {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Ensure checkbox containers have proper RTL spacing */
+[dir="rtl"] .checkbox-container {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Fix checkbox input alignment in RTL */
+[dir="rtl"] input[type="checkbox"] + label,
+[dir="rtl"] [role="checkbox"] + label {
+  margin-right: 0.75rem;
+  margin-left: 0;
+  text-align: right;
+}
+
+/* RTL error message alignment for checkboxes */
+[dir="rtl"] p.text-red-500 {
+  justify-content: flex-end;
+  direction: rtl;
+}
+
+/* Ensure checkbox sections are right-aligned in RTL */
+[dir="rtl"] .flex.items-start.gap-3.pt-4 {
+  justify-content: flex-end;
+}
+
 /* Fix progress bar for RTL */
 [dir="rtl"] .progress-bar {
   transform: scaleX(-1);
