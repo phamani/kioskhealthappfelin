@@ -69,6 +69,24 @@ interface DropDownOption {
   label: string;
 } 
 
+// Add condition name mapping function
+function getConditionTranslationKey(conditionName: string): string {
+  const conditionMap: Record<string, string> = {
+    "Heart Block": "conditions.heartBlock",
+    "Atrial Flutter": "conditions.atrialFlutter", 
+    "Sinus Bradycardia": "conditions.sinusBradycardia",
+    "Atrial Fibrillation": "conditions.atrialFibrillation",
+    "Sleep Apnea": "conditions.sleepApnea",
+    "Premature Ventricular Contractions": "conditions.prematureVentricularContractions",
+    "PVC": "conditions.prematureVentricularContractions", // Alternative name for PVC
+    "Supraventricular Tachycardia": "conditions.supraventricularTachycardia",
+    "Myocardial Infarction": "conditions.myocardialInfarction", 
+    "Congestive Heart Failure": "conditions.congestiveHeartFailure"
+  };
+  
+  return conditionMap[conditionName] || conditionName;
+}
+
 export default function AdminPanel({ onExit }: { onExit: () => void }) {
   const [activeTab, setActiveTab] = useState("member-risk") 
   const [loading, setLoading] = useState(true) 
@@ -76,6 +94,13 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const hostUrl = process.env.NEXT_PUBLIC_HOST_DOMAIN;
   const { t } = useTranslation();
+
+  // Helper function to get translated condition name
+  const getTranslatedConditionName = (conditionName: string): string => {
+    const translationKey = getConditionTranslationKey(conditionName);
+    // If it's a translation key, use the translation, otherwise return the original name
+    return translationKey.startsWith('conditions.') ? t(translationKey) : conditionName;
+  };
 
   // #region Auths 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -635,7 +660,7 @@ return (
                 .map((condition, index) => (
                   <Card key={index} className="col-span-1 sm:col-span-1 lg:col-span-2 p-3">
                     <div className="flex justify-between items-center mb-1">
-                      <h3 className="text-lg font-semibold">{condition.ArrhythmiaName}</h3>
+                      <h3 className="text-lg font-semibold">{getTranslatedConditionName(condition.ArrhythmiaName)}</h3>
                       <button
                         onClick={() => toggleConditionCollapse(condition.ArrhythmiaName)}
                         className="hover:bg-gray-100 rounded-full p-1 transition-colors"
@@ -677,7 +702,7 @@ return (
                         onClick={() => toggleConditionCollapse(condition.ArrhythmiaName)}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-md border hover:bg-gray-50 transition-colors"
                       >
-                        <span className="text-sm font-medium">{condition.ArrhythmiaName}</span>
+                        <span className="text-sm font-medium">{getTranslatedConditionName(condition.ArrhythmiaName)}</span>
                         <Plus className="h-3.5 w-3.5 text-teal-500" />
                       </button>
                     ))}
@@ -689,7 +714,7 @@ return (
               <div className="flex items-center space-x-2"> 
                 {gridFilterByArrhythmia &&(
                   <Card className="p-3">
-                    <span>Selected Arrhythmia: </span> <span>{gridFilterByArrhythmia}</span>
+                    <span>Selected Arrhythmia: </span> <span>{getTranslatedConditionName(gridFilterByArrhythmia)}</span>
                   </Card> 
                 )} 
               </div>
