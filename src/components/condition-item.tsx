@@ -115,7 +115,7 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
 
         {/* Condition Name and Confidence */}
         <div className="flex-1 min-w-0">
-          <div className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
             <span className={`font-medium truncate ${risk.Detected ? 'text-green-700' : 'text-gray-800'} ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
                   style={{
                     direction: isArabic ? 'rtl' : 'ltr',

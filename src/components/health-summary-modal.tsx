@@ -45,6 +45,48 @@ export default function HealthSummaryModal({
   // Check if current language is Arabic
   const isArabic = i18n.language === 'ar';
 
+  // Function to translate symptoms from English to Arabic
+  const translateSymptoms = (symptomsText: string): string => {
+    if (!isArabic || !symptomsText) return symptomsText;
+    
+    // Create mapping of English symptoms to direct Arabic translations
+    const symptomMap: { [key: string]: string } = {
+      'headache': t('complaint.symptoms.headache'),
+      'fever': t('complaint.symptoms.fever'), 
+      'cough': t('complaint.symptoms.cough'),
+      'sore throat': t('complaint.symptoms.soreThroat'),
+      'stomach pain': t('complaint.symptoms.stomachPain'),
+      'back pain': t('complaint.symptoms.backPain'),
+      'dizziness': t('complaint.symptoms.dizziness'),
+      'fatigue': t('complaint.symptoms.fatigue'),
+      'nausea': t('complaint.symptoms.nausea'),
+      'shortness of breath': t('complaint.symptoms.shortnessOfBreath'),
+      'chest pain': t('complaint.symptoms.chestPain'),
+      'other': t('complaint.symptoms.other'),
+      'nothing': t('complaint.symptoms.nothing')
+    };
+
+    let translatedText = symptomsText;
+    
+    // Split by common separators (comma, semicolon, and/or) and translate each symptom
+    const symptoms = symptomsText.split(/[,;]|\band\b/i).map(s => s.trim());
+    
+    for (const symptom of symptoms) {
+      const lowerSymptom = symptom.toLowerCase();
+      for (const [englishSymptom, translation] of Object.entries(symptomMap)) {
+        if (lowerSymptom.includes(englishSymptom)) {
+          // Make sure we have a valid translation and it's not the same as the key
+          if (translation && translation !== `complaint.symptoms.${englishSymptom}`) {
+            translatedText = translatedText.replace(new RegExp(symptom, 'gi'), translation);
+          }
+          break;
+        }
+      }
+    }
+    
+    return translatedText;
+  };
+
   useEffect(() => {
     const fetcherResults = async () => {  
       const allResults = await fetch(`${apiUrl}/ScanResult/GetClientLatestScanResult?clientId=${userId}`, {
@@ -89,13 +131,13 @@ export default function HealthSummaryModal({
             ${t('healthSummary.gender')} ${userData.Gender}
             
             ${t('healthSummary.vitalSigns')}:
-            - ${t('faceScan.vitals.heartRate')}: ${latestResult?.HeartRate10s ?? "N/A"} ${t('faceScan.vitals.bpm')}
-            - ${t('faceScan.vitals.bloodPressure')}: ${latestResult ? `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}` : "N/A"} mmHg
-            - ${t('faceScan.vitals.heartRateVariability')}: ${latestResult?.HrvSdnnMs ?? "N/A"} ms
-            - ${t('faceScan.vitals.respirationRate')}: ${latestResult?.BreathingRate ?? "N/A"} bps
+            - ${t('faceScan.vitals.heartRate')}: ${latestResult?.HeartRate10s ?? "N/A"} ${t('userProfile.vitals.bpm')}
+            - ${t('faceScan.vitals.bloodPressure')}: ${latestResult ? `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}` : "N/A"} ${t('userProfile.vitals.mmHg')}
+            - ${t('faceScan.vitals.heartRateVariability')}: ${latestResult?.HrvSdnnMs ?? "N/A"} ${t('userProfile.vitals.ms')}
+            - ${t('faceScan.vitals.respirationRate')}: ${latestResult?.BreathingRate ?? "N/A"} ${t('userProfile.vitals.bps')}
             
             ${t('healthSummary.reportedSymptoms')}:
-            - ${userData.HealthConcern}
+            - ${translateSymptoms(userData.HealthConcern)}
             
             ${t('healthSummary.importantNoticeTitle')}:
             ${t('healthSummary.importantNotice')}`,
@@ -132,18 +174,8 @@ export default function HealthSummaryModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className={`flex flex-col sm:flex-row justify-between items-start gap-4 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
-          <div className="w-full sm:w-auto">
-            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.date')} {currentDate}</p>
-            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.time')} {currentTime}</p>
-            {userData.UserName && (
-              <p className={`text-sm sm:text-base text-gray-600 mt-2 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.name')} {userData.UserName}</p>
-            )}
-            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.age')} {userData.Age}</p>
-            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.gender')} {userData.Gender}</p>
-          </div>
-
-          <div className={`w-full sm:w-auto text-center ${isArabic ? 'sm:text-left' : 'sm:text-right'}`}>
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+          <div className="w-full sm:w-auto text-center sm:text-start">
             <div className="inline-flex flex-col items-center bg-blue-100 p-2 rounded-lg">
               <QRCode
                 size={window.innerWidth < 400 ? 100 : 120}
@@ -154,53 +186,111 @@ export default function HealthSummaryModal({
               </p>
             </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6">
-          <div>
-            <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {t('healthSummary.vitalSigns')}
-            </h3>
-            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {t('faceScan.vitals.heartRate')}: {!latestResult ? "..." : latestResult.HeartRate10s}
-              {t('faceScan.vitals.bpm')}
+          <div className="w-full sm:w-auto">
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+               style={{
+                 direction: isArabic ? 'rtl' : 'ltr',
+                 unicodeBidi: 'plaintext'
+               }}
+               dir={isArabic ? 'rtl' : 'ltr'}>
+              {t('healthSummary.date')} {currentDate}
             </p>
-            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {t('faceScan.vitals.bloodPressure')}:{" "}
-              {!latestResult
-                ? "..."
-                : `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}`}
-              mmHg
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+               style={{
+                 direction: isArabic ? 'rtl' : 'ltr',
+                 unicodeBidi: 'plaintext'
+               }}
+               dir={isArabic ? 'rtl' : 'ltr'}>
+              {t('healthSummary.time')} {currentTime}
             </p>
-            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {t('faceScan.vitals.heartRateVariability')}:{" "}
-              {!latestResult ? "..." : latestResult.HrvSdnnMs}
-              ms
+            {userData.UserName && (
+              <p className={`text-sm sm:text-base text-gray-600 mt-2 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+                 style={{
+                   direction: isArabic ? 'rtl' : 'ltr',
+                   unicodeBidi: 'plaintext'
+                 }}
+                 dir={isArabic ? 'rtl' : 'ltr'}>
+                {t('healthSummary.name')} {userData.UserName}
+              </p>
+            )}
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+               style={{
+                 direction: isArabic ? 'rtl' : 'ltr',
+                 unicodeBidi: 'plaintext'
+               }}
+               dir={isArabic ? 'rtl' : 'ltr'}>
+              {t('healthSummary.age')} {userData.Age}
             </p>
-            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {t('faceScan.vitals.respirationRate')}:{" "}
-              {!latestResult ? "..." : latestResult.BreathingRate}bps
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+               style={{
+                 direction: isArabic ? 'rtl' : 'ltr',
+                 unicodeBidi: 'plaintext'
+               }}
+               dir={isArabic ? 'rtl' : 'ltr'}>
+              {t('healthSummary.gender')} {userData.Gender}
             </p>
           </div>
+        </div>
 
-          <div>
-            <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3 ${isArabic ? 'text-right' : 'text-left'}`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6" dir={isArabic ? 'rtl' : 'ltr'}>
+          <div className={`${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+            <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3 ${isArabic ? 'text-right' : 'text-left'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+              {t('healthSummary.vitalSigns')}
+            </h3>
+            <div className={`${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+              <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`} 
+                 style={{
+                   direction: isArabic ? 'rtl' : 'ltr',
+                   unicodeBidi: 'plaintext'
+                 }}
+                 dir={isArabic ? 'rtl' : 'ltr'}>
+                • {t('faceScan.vitals.heartRate')}: {!latestResult ? "..." : latestResult.HeartRate10s} {t('userProfile.vitals.bpm')}
+              </p>
+              <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+                 style={{
+                   direction: isArabic ? 'rtl' : 'ltr',
+                   unicodeBidi: 'plaintext'
+                 }}
+                 dir={isArabic ? 'rtl' : 'ltr'}>
+                • {t('faceScan.vitals.bloodPressure')}:{" "}
+                {!latestResult
+                  ? "..."
+                  : `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}`} {t('userProfile.vitals.mmHg')}
+              </p>
+              <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+                 style={{
+                   direction: isArabic ? 'rtl' : 'ltr',
+                   unicodeBidi: 'plaintext'
+                 }}
+                 dir={isArabic ? 'rtl' : 'ltr'}>
+                • {t('faceScan.vitals.heartRateVariability')}:{" "}
+                {!latestResult ? "..." : latestResult.HrvSdnnMs} {t('userProfile.vitals.ms')}
+              </p>
+              <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+                 style={{
+                   direction: isArabic ? 'rtl' : 'ltr',
+                   unicodeBidi: 'plaintext'
+                 }}
+                 dir={isArabic ? 'rtl' : 'ltr'}>
+                • {t('faceScan.vitals.respirationRate')}:{" "}
+                {!latestResult ? "..." : latestResult.BreathingRate} {t('userProfile.vitals.bps')}
+              </p>
+            </div>
+          </div>
+
+          <div className={`${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+            <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3 ${isArabic ? 'text-right' : 'text-left'}`} dir={isArabic ? 'rtl' : 'ltr'}>
               {t('healthSummary.reportedSymptoms')}
             </h3>
-            <ul className={`list-disc mb-1 text-sm sm:text-base ${isArabic ? 'list-inside text-right' : 'pl-5 text-left'}`}>
-              {/* <li className="mb-1">{userData.reportedsymptoms}</li> */}
-                {/* {additionalSymptoms.map((symptom, index) => (
-                  <li key={index} className="mb-1">
-                    {symptom}
-                  </li>
-                ))} */}
-
+            <ul className={`list-disc mb-1 text-sm sm:text-base ${isArabic ? 'list-inside text-right' : 'pl-5 text-left'}`} dir={isArabic ? 'rtl' : 'ltr'}>
               <li className={`mb-1 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`} 
                   style={{
                     direction: isArabic ? 'rtl' : 'ltr',
                     unicodeBidi: 'plaintext'
-                  }}>
-                {userData.HealthConcern}
+                  }}
+                  dir={isArabic ? 'rtl' : 'ltr'}>
+                {translateSymptoms(userData.HealthConcern)}
               </li>
             </ul>
           </div>
@@ -248,20 +338,21 @@ export default function HealthSummaryModal({
             </div>
           </div> */}
 
-        <div className="mt-4 md:mt-6 bg-blue-50 p-3 sm:p-4 rounded-lg">
-          <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+        <div className="mt-4 md:mt-6 bg-blue-50 p-3 sm:p-4 rounded-lg" dir={isArabic ? 'rtl' : 'ltr'}>
+          <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 ${isArabic ? 'text-right' : 'text-left'}`} dir={isArabic ? 'rtl' : 'ltr'}>
             {t('healthSummary.importantNoticeTitle')}
           </h3>
           <p className={`text-sm sm:text-base text-gray-700 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
              style={{
                direction: isArabic ? 'rtl' : 'ltr',
                unicodeBidi: 'plaintext'
-             }}>
+             }}
+             dir={isArabic ? 'rtl' : 'ltr'}>
             {t('healthSummary.importantNotice')}
           </p>
         </div>
 
-        <DialogFooter className={`mt-4 md:mt-6 flex flex-col sm:flex-row gap-2 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
+        <DialogFooter className="mt-4 md:mt-6 flex flex-col sm:flex-row gap-2">
           <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
             {t('buttons.close')}
           </Button>

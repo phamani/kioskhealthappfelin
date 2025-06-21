@@ -75,6 +75,28 @@
   flex-direction: row-reverse;
 }
 
+/* Ensure responsive flex containers reverse in RTL */
+[dir="rtl"] .sm\:flex-row.justify-between {
+  direction: rtl;
+}
+
+@media (min-width: 640px) {
+  [dir="rtl"] .sm\:flex-row.justify-between {
+  flex-direction: row-reverse !important;
+}
+
+/* Health Summary Content RTL styling */
+[dir="rtl"] .health-summary-content {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .health-summary-content,
+[dir="rtl"] .health-summary-content * {
+  unicode-bidi: plaintext !important;
+}
+}
+
 /* Admin Panel Header - Force row layout in RTL */
 [dir="rtl"] .admin-header > div {
   flex-direction: column;
@@ -253,6 +275,14 @@
 }
 
 [dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .text-start {
+  text-align: right;
+}
+
+[dir="rtl"] .text-end {
   text-align: left;
 }
 
