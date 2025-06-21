@@ -83,13 +83,7 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
                 </span>
               </div>
 
-              {/* Score */}
-              <div className="mb-4 text-sm md:text-base">
-                <span className="font-medium">Score: </span>
-                <span>
-                  {risk.QuestionnaireScore} / {conditionData.calculated_max_score}
-                </span>
-              </div>
+
 
               {/* Questions & Answers */}
               <div className="space-y-4">
@@ -98,14 +92,10 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
                   {conditionData.questions.map((question, qIndex) => (
                     <div key={qIndex} className="border-b border-gray-200 pb-4 last:border-0">
                       <p className="text-sm md:text-base font-medium text-gray-700">{question.text}</p>
-                      <div className="flex flex-col sm:flex-row sm:justify-between mt-2 gap-1 text-sm md:text-base">
+                      <div className="mt-2 text-sm md:text-base">
                         <p className="text-gray-600">
                           <span className="font-medium">Answer: </span>
                           {risk.Answers?.[qIndex]?.Answer || 'Not answered'}
-                        </p>
-                        <p className="text-gray-600">
-                          <span className="font-medium">Score: </span>
-                          {question.scoring[risk.Answers?.[qIndex]?.Answer || 0]}
                         </p>
                       </div>
                     </div>
