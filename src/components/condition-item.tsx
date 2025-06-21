@@ -204,13 +204,26 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
                          }}>
                         {getQuestionText(question)}
                       </p>
-                      <div className={`mt-2 text-sm md:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
-                        <p className="text-gray-600">
-                          <span className="font-medium">{t('conditions.answer')}: </span>
-                          <span className={`${isArabic ? 'health-summary-content' : ''}`}
+                      <div className={`mt-2 text-sm md:text-base ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                           style={{
+                             direction: isArabic ? 'rtl' : 'ltr',
+                             textAlign: isArabic ? 'right' : 'left'
+                           }}>
+                        <p className={`text-gray-600 ${isArabic ? 'force-rtl-text' : ''}`}
+                           style={{
+                             direction: isArabic ? 'rtl' : 'ltr',
+                             textAlign: isArabic ? 'right' : 'left'
+                           }}>
+                          <span className={`font-medium ${isArabic ? 'force-rtl-text' : ''}`}
                                 style={{
                                   direction: isArabic ? 'rtl' : 'ltr',
-                                  unicodeBidi: 'plaintext'
+                                  textAlign: isArabic ? 'right' : 'left'
+                                }}>{t('conditions.answer')}: </span>
+                          <span className={`${isArabic ? 'health-summary-content force-rtl-text' : ''}`}
+                                style={{
+                                  direction: isArabic ? 'rtl' : 'ltr',
+                                  unicodeBidi: 'plaintext',
+                                  textAlign: isArabic ? 'right' : 'left'
                                 }}>
                             {risk.Answers?.[qIndex]?.Answer 
                               ? getAnswerText(question, risk.Answers[qIndex].Answer)
