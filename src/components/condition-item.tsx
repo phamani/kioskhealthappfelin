@@ -93,10 +93,11 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
   };
 
   return (
-    <div className="flex flex-col space-y-4 bg-white rounded-lg shadow-sm p-4 md:p-6">
+    <div className={`flex flex-col space-y-4 bg-white rounded-lg shadow-sm p-4 md:p-6 ${isArabic ? 'rtl' : 'ltr'}`}
+         dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Header Section - Collapsible */}
       <div 
-        className="flex items-center space-x-4 cursor-pointer"
+        className={`flex items-center cursor-pointer ${isArabic ? 'space-x-reverse space-x-4' : 'space-x-4'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {/* Status Indicator */}
@@ -114,20 +115,33 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
 
         {/* Condition Name and Confidence */}
         <div className="flex-1 min-w-0">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-            <span className={`font-medium truncate ${risk.Detected ? 'text-green-700' : 'text-gray-800'}`}>
+          <div className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
+            <span className={`font-medium truncate ${risk.Detected ? 'text-green-700' : 'text-gray-800'} ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
+                  style={{
+                    direction: isArabic ? 'rtl' : 'ltr',
+                    unicodeBidi: 'plaintext',
+                    textAlign: isArabic ? 'right' : 'left'
+                  }}>
               {risk.ArrhythmiaName}
             </span>
-            <span className="text-sm text-gray-500 whitespace-nowrap">{t('conditions.confidenceRatio')}</span>
+            <span className={`text-sm text-gray-500 whitespace-nowrap ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                  style={{
+                    direction: isArabic ? 'rtl' : 'ltr',
+                    textAlign: isArabic ? 'right' : 'left'
+                  }}>{t('conditions.confidenceRatio')}</span>
           </div>
-          <div className="mt-1 flex items-center gap-2">
+          <div className={`mt-1 flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className="flex-1 bg-gray-200 rounded-full h-2 min-w-[100px]">
               <div
                 className={`${risk.Detected ? 'bg-green-600' : 'bg-blue-600'} h-2 rounded-full`}
                 style={{ width: `${risk.Confidence}%` }}
               ></div>
             </div>
-            <span className="text-sm font-medium whitespace-nowrap">{risk.Confidence.toFixed(2)}%</span>
+            <span className={`text-sm font-medium whitespace-nowrap ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                  style={{
+                    direction: isArabic ? 'rtl' : 'ltr',
+                    textAlign: isArabic ? 'right' : 'left'
+                  }}>{risk.Confidence.toFixed(2)}%</span>
           </div>
         </div>
 
@@ -144,37 +158,65 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
 
       {/* Expanded Content */}
       {isExpanded && conditionData && risk.Answers && (
-        <div className="ml-2 sm:ml-10 pl-4 border-l-2 border-gray-200">
+        <div className={`pl-4 border-gray-200 ${isArabic ? 'mr-2 sm:mr-10 pr-4 border-r-2' : 'ml-2 sm:ml-10 border-l-2'}`}>
           <div className="bg-gray-50 rounded-lg p-4 md:p-6 space-y-4">
             
             {risk.InitialRiskLevel !== "Confirmed" ? (
               <>
               {/* Condition Header */}
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3 mb-4">
-                <h4 className="text-lg md:text-xl font-semibold text-blue-800">{risk.ArrhythmiaName}</h4>
-                <span className={`px-3 py-1 rounded-full text-xs md:text-sm font-medium ${
+              <div className={`flex flex-col md:flex-row md:justify-between md:items-start gap-3 mb-4 ${isArabic ? 'md:flex-row-reverse' : ''}`}>
+                <h4 className={`text-lg md:text-xl font-semibold text-blue-800 ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
+                    style={{
+                      direction: isArabic ? 'rtl' : 'ltr',
+                      unicodeBidi: 'plaintext',
+                      textAlign: isArabic ? 'right' : 'left'
+                    }}>
+                  {risk.ArrhythmiaName}
+                </h4>
+                <span className={`px-3 py-1 rounded-full text-xs md:text-sm font-medium ${isArabic ? 'text-right force-rtl-text' : 'text-left'} ${
                   risk.QuestionnaireRiskLevel === 'HighRisk' 
                     ? 'bg-red-100 text-red-800' 
                     : 'bg-yellow-100 text-yellow-800'
-                }`}>
+                }`}
+                      style={{
+                        direction: isArabic ? 'rtl' : 'ltr',
+                        textAlign: isArabic ? 'right' : 'left'
+                      }}>
                   {risk.QuestionnaireRiskLevel === 'HighRisk' ? t('conditions.highRisk') : t('conditions.mediumRisk')}
                 </span>
               </div>
 
               {/* Questions & Answers */}
               <div className="space-y-4">
-                <h5 className="text-md font-semibold text-gray-800">{t('conditions.questionnaireResponses')}</h5>
+                <h5 className={`text-md font-semibold text-gray-800 ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                    style={{
+                      direction: isArabic ? 'rtl' : 'ltr',
+                      textAlign: isArabic ? 'right' : 'left'
+                    }}>{t('conditions.questionnaireResponses')}</h5>
                 <div className="space-y-4">
                   {conditionData.questions.map((question, qIndex) => (
                     <div key={qIndex} className="border-b border-gray-200 pb-4 last:border-0">
-                      <p className="text-sm md:text-base font-medium text-gray-700">{getQuestionText(question)}</p>
-                      <div className="mt-2 text-sm md:text-base">
+                      <p className={`text-sm md:text-base font-medium text-gray-700 ${isArabic ? 'text-right health-summary-content' : 'text-left'}`}
+                         style={{
+                           direction: isArabic ? 'rtl' : 'ltr',
+                           unicodeBidi: 'plaintext',
+                           textAlign: isArabic ? 'right' : 'left'
+                         }}>
+                        {getQuestionText(question)}
+                      </p>
+                      <div className={`mt-2 text-sm md:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
                         <p className="text-gray-600">
                           <span className="font-medium">{t('conditions.answer')}: </span>
-                          {risk.Answers?.[qIndex]?.Answer 
-                            ? getAnswerText(question, risk.Answers[qIndex].Answer)
-                            : t('conditions.notAnswered')
-                          }
+                          <span className={`${isArabic ? 'health-summary-content' : ''}`}
+                                style={{
+                                  direction: isArabic ? 'rtl' : 'ltr',
+                                  unicodeBidi: 'plaintext'
+                                }}>
+                            {risk.Answers?.[qIndex]?.Answer 
+                              ? getAnswerText(question, risk.Answers[qIndex].Answer)
+                              : t('conditions.notAnswered')
+                            }
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -186,27 +228,54 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
  
             {/* Assessment Summary */}
             <div className="space-y-4 mt-6">
-              <h4 className="text-lg md:text-xl font-semibold text-blue-800">{t('conditions.assessmentSummary')}</h4>
+              <h4 className={`text-lg md:text-xl font-semibold text-blue-800 ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                  style={{
+                    direction: isArabic ? 'rtl' : 'ltr',
+                    textAlign: isArabic ? 'right' : 'left'
+                  }}>{t('conditions.assessmentSummary')}</h4>
               <hr className="border-gray-200" />
 
               <div className="space-y-2">
                 <div className="flex flex-col">
-                  <span className="font-semibold text-gray-800">{t('assessmentSummary.scenarios.noPatternDetected.title')}</span>
-                  <span className="text-sm md:text-base mt-1 font-semibold">
+                  <span className={`font-semibold text-gray-800 ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                        style={{
+                          direction: isArabic ? 'rtl' : 'ltr',
+                          textAlign: isArabic ? 'right' : 'left'
+                        }}>{t('assessmentSummary.scenarios.noPatternDetected.title')}</span>
+                  <span className={`text-sm md:text-base mt-1 font-semibold ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
+                        style={{
+                          direction: isArabic ? 'rtl' : 'ltr',
+                          unicodeBidi: 'plaintext',
+                          textAlign: isArabic ? 'right' : 'left'
+                        }}>
                     {getAssessmentSummary()}
                   </span>
                 </div>
 
                 <div className="border-b border-gray-200 pb-4 last:border-0">
-                  <p className="text-sm md:text-base text-gray-700">
+                  <p className={`text-sm md:text-base text-gray-700 ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
+                     style={{
+                       direction: isArabic ? 'rtl' : 'ltr',
+                       unicodeBidi: 'plaintext',
+                       textAlign: isArabic ? 'right' : 'left'
+                     }}>
                     {getAssessmentDescription()}
                   </p> 
                 </div> 
 
                 {risk.InitialRiskLevel !== "Confirmed" && (
                   <div className="flex flex-col">
-                    <span className="font-semibold text-gray-800">{t('conditions.recommendation')}</span>
-                    <span className="text-sm md:text-base mt-1">
+                    <span className={`font-semibold text-gray-800 ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                          style={{
+                            direction: isArabic ? 'rtl' : 'ltr',
+                            textAlign: isArabic ? 'right' : 'left'
+                          }}>{t('conditions.recommendation')}</span>
+                    <span className={`text-sm md:text-base mt-1 ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
+                          style={{
+                            direction: isArabic ? 'rtl' : 'ltr',
+                            unicodeBidi: 'plaintext',
+                            textAlign: isArabic ? 'right' : 'left'
+                          }}>
                       {getRecommendation()}
                     </span>
                   </div>
@@ -216,9 +285,18 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
 
             {/* Disclaimer */}
             <div className="space-y-4 mt-6">
-              <h4 className="text-lg md:text-xl font-semibold text-blue-800">{t('conditions.disclaimer')}</h4>
+              <h4 className={`text-lg md:text-xl font-semibold text-blue-800 ${isArabic ? 'text-right force-rtl-text' : 'text-left'}`}
+                  style={{
+                    direction: isArabic ? 'rtl' : 'ltr',
+                    textAlign: isArabic ? 'right' : 'left'
+                  }}>{t('conditions.disclaimer')}</h4>
               <hr className="border-gray-200" />
-              <p className="text-sm md:text-base text-gray-700">
+              <p className={`text-sm md:text-base text-gray-700 ${isArabic ? 'text-right health-summary-content' : 'text-left'}`}
+                 style={{
+                   direction: isArabic ? 'rtl' : 'ltr',
+                   unicodeBidi: 'plaintext',
+                   textAlign: isArabic ? 'right' : 'left'
+                 }}>
                 {t('conditions.assessmentTexts.disclaimerText')}
               </p> 
             </div>

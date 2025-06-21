@@ -36,11 +36,14 @@ export default function HealthSummaryModal({
   userData,
   //recommendation
 }: HealthSummaryModalProps) { 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [latestResult, setLatestResult] = useState<HealthData | null>(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const hostUrl = process.env.NEXT_PUBLIC_HOST_DOMAIN;
   const userId = Cookies.get('userId');
+
+  // Check if current language is Arabic
+  const isArabic = i18n.language === 'ar';
 
   useEffect(() => {
     const fetcherResults = async () => {  
@@ -122,25 +125,25 @@ export default function HealthSummaryModal({
   
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-3xl w-[95vw] md:w-full max-h-[90vh] overflow-y-auto print:shadow-none print:border-none bg-white">
+      <DialogContent className={`max-w-3xl w-[95vw] md:w-full max-h-[90vh] overflow-y-auto print:shadow-none print:border-none bg-white ${isArabic ? 'rtl' : 'ltr'}`}>
         <DialogHeader>
-          <DialogTitle className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-700">
+          <DialogTitle className={`text-xl sm:text-2xl md:text-3xl font-bold text-blue-700 ${isArabic ? 'text-right' : 'text-left'}`}>
             {t('healthSummary.title')}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+        <div className={`flex flex-col sm:flex-row justify-between items-start gap-4 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
           <div className="w-full sm:w-auto">
-            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.date')} {currentDate}</p>
-            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.time')} {currentTime}</p>
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.date')} {currentDate}</p>
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.time')} {currentTime}</p>
             {userData.UserName && (
-              <p className="text-sm sm:text-base text-gray-600 mt-2">{t('healthSummary.name')} {userData.UserName}</p>
+              <p className={`text-sm sm:text-base text-gray-600 mt-2 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.name')} {userData.UserName}</p>
             )}
-            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.age')} {userData.Age}</p>
-            <p className="text-sm sm:text-base text-gray-600">{t('healthSummary.gender')} {userData.Gender}</p>
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.age')} {userData.Age}</p>
+            <p className={`text-sm sm:text-base text-gray-600 ${isArabic ? 'text-right' : 'text-left'}`}>{t('healthSummary.gender')} {userData.Gender}</p>
           </div>
 
-          <div className="w-full sm:w-auto text-center sm:text-right">
+          <div className={`w-full sm:w-auto text-center ${isArabic ? 'sm:text-left' : 'sm:text-right'}`}>
             <div className="inline-flex flex-col items-center bg-blue-100 p-2 rounded-lg">
               <QRCode
                 size={window.innerWidth < 400 ? 100 : 120}
@@ -155,36 +158,36 @@ export default function HealthSummaryModal({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6">
           <div>
-            <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3">
+            <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3 ${isArabic ? 'text-right' : 'text-left'}`}>
               {t('healthSummary.vitalSigns')}
             </h3>
-            <p className="text-sm sm:text-base mb-2">
+            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
               {t('faceScan.vitals.heartRate')}: {!latestResult ? "..." : latestResult.HeartRate10s}
               {t('faceScan.vitals.bpm')}
             </p>
-            <p className="text-sm sm:text-base mb-2">
+            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
               {t('faceScan.vitals.bloodPressure')}:{" "}
               {!latestResult
                 ? "..."
                 : `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}`}
               mmHg
             </p>
-            <p className="text-sm sm:text-base mb-2">
+            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
               {t('faceScan.vitals.heartRateVariability')}:{" "}
               {!latestResult ? "..." : latestResult.HrvSdnnMs}
               ms
             </p>
-            <p className="text-sm sm:text-base mb-2">
+            <p className={`text-sm sm:text-base mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
               {t('faceScan.vitals.respirationRate')}:{" "}
               {!latestResult ? "..." : latestResult.BreathingRate}bps
             </p>
           </div>
 
           <div>
-            <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3">
+            <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 sm:mb-3 ${isArabic ? 'text-right' : 'text-left'}`}>
               {t('healthSummary.reportedSymptoms')}
             </h3>
-            <ul className="list-disc pl-5 text-sm sm:text-base">
+            <ul className={`list-disc mb-1 text-sm sm:text-base ${isArabic ? 'list-inside text-right' : 'pl-5 text-left'}`}>
               {/* <li className="mb-1">{userData.reportedsymptoms}</li> */}
                 {/* {additionalSymptoms.map((symptom, index) => (
                   <li key={index} className="mb-1">
@@ -192,7 +195,13 @@ export default function HealthSummaryModal({
                   </li>
                 ))} */}
 
-              <li className="mb-1">{userData.HealthConcern}</li>
+              <li className={`mb-1 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`} 
+                  style={{
+                    direction: isArabic ? 'rtl' : 'ltr',
+                    unicodeBidi: 'plaintext'
+                  }}>
+                {userData.HealthConcern}
+              </li>
             </ul>
           </div>
         </div>
@@ -240,15 +249,19 @@ export default function HealthSummaryModal({
           </div> */}
 
         <div className="mt-4 md:mt-6 bg-blue-50 p-3 sm:p-4 rounded-lg">
-          <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-2">
+          <h3 className={`text-lg sm:text-xl font-semibold text-blue-600 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
             {t('healthSummary.importantNoticeTitle')}
           </h3>
-          <p className="text-sm sm:text-base text-gray-700">
+          <p className={`text-sm sm:text-base text-gray-700 ${isArabic ? 'text-right health-summary-content' : 'text-left'} break-words whitespace-pre-wrap`}
+             style={{
+               direction: isArabic ? 'rtl' : 'ltr',
+               unicodeBidi: 'plaintext'
+             }}>
             {t('healthSummary.importantNotice')}
           </p>
         </div>
 
-        <DialogFooter className="mt-4 md:mt-6 flex flex-col sm:flex-row gap-2">
+        <DialogFooter className={`mt-4 md:mt-6 flex flex-col sm:flex-row gap-2 ${isArabic ? 'sm:flex-row-reverse' : ''}`}>
           <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
             {t('buttons.close')}
           </Button>

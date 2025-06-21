@@ -5,6 +5,56 @@
   text-align: right;
 }
 
+/* Bidirectional text support for mixed content */
+.bidi-text, 
+[dir="rtl"] .bidi-text {
+  unicode-bidi: plaintext;
+  direction: rtl;
+  text-align: right;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Mixed content handling - for text that contains both Arabic and English */
+[dir="rtl"] .mixed-content {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: embed;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* Health summary specific styling for mixed content */
+[dir="rtl"] .health-summary-content {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: plaintext;
+  white-space: pre-wrap;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Force RTL text alignment for condition items */
+[dir="rtl"] .condition-item-rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Stronger override for Arabic text in components */
+[dir="rtl"] .force-rtl-text {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: embed !important;
+}
+
+/* Preserve text direction in mixed language scenarios */
+[dir="rtl"] .preserve-bidi {
+  unicode-bidi: isolate;
+  direction: rtl;
+  text-align: right;
+}
+
 /* Only reverse flex direction for horizontal flex containers */
 [dir="rtl"] .flex:not(.flex-col):not(.flex-col-reverse) {
   flex-direction: row-reverse;
