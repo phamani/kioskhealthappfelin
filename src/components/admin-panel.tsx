@@ -705,7 +705,7 @@ return (
               </div>
             </div>
 
-            <div className="text-right text-sm text-gray-600 mb-2">{t('admin.table.trendIndicator')}</div>
+
 
             <div className="overflow-x-auto relative">
               {gridLoading && (
