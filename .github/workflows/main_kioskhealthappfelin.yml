@@ -59,5 +59,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kioskhealthappfelin'
+          slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A5839331863B4007AE1E81AE69C22764 }}
