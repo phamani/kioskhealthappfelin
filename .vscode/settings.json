@@ -1,4 +1,4 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/8272d246-38d0-4c88-a6d8-f94730459bc0/resourceGroups/healthkioskapp/providers/Microsoft.Web/sites/kioskhealthappfelin",
+    "appService.defaultWebAppToDeploy": "/subscriptions/8272d246-38d0-4c88-a6d8-f94730459bc0/resourceGroups/healthkioskapp/providers/Microsoft.Web/sites/kioskhealthappfelin/slots/production",
     "appService.deploySubpath": "."
 }
