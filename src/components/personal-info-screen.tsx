@@ -269,45 +269,84 @@ export default function PersonalInfoScreen({
         </div>
 
         <div className="space-y-2">
-          <div className={`flex items-start gap-3 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-            <Checkbox
-              id="consent"
-              checked={consent}
-              onCheckedChange={(checked) => setConsent(checked === true)}
-              className="w-6 h-6 mt-1 flex-shrink-0"
-            />
-            <Label htmlFor="consent" className={`text-lg font-normal ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
-              {t('personalInfo.consent')}
-            </Label>
+          <div className="flex items-start gap-3">
+            {i18n.language === 'ar' ? (
+              <>
+                <Label htmlFor="consent" className="text-lg font-normal">
+                  {t('personalInfo.consent')}
+                </Label>
+                <Checkbox
+                  id="consent"
+                  checked={consent}
+                  onCheckedChange={(checked) => setConsent(checked === true)}
+                  className="w-6 h-6 mt-1 flex-shrink-0"
+                />
+              </>
+            ) : (
+              <>
+                <Checkbox
+                  id="consent"
+                  checked={consent}
+                  onCheckedChange={(checked) => setConsent(checked === true)}
+                  className="w-6 h-6 mt-1 flex-shrink-0"
+                />
+                <Label htmlFor="consent" className="text-lg font-normal">
+                  {t('personalInfo.consent')}
+                </Label>
+              </>
+            )}
           </div>
           {errors.consent && (
-            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
+            <p className="text-red-500 flex items-center gap-1">
               <AlertCircle size={16} /> {errors.consent}
             </p>
           )}
         </div>
          
         <div className="space-y-2">
-          <div className={`flex items-start gap-3 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-            <Checkbox
-              id="agree"
-              checked={agree}
-              onCheckedChange={(checked) => setAgree(checked === true)}
-              className="w-6 h-6 mt-1 flex-shrink-0"
-            />
-            <Label
-              htmlFor="agree"
-              className={`text-lg font-normal cursor-pointer ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
-              onClick={openModal}
-            >
-              {t('personalInfo.agreement')}{" "}
-              <span className="text-blue-600 no-underline">
-                {t('personalInfo.viewAgreement')}
-              </span>
-            </Label>
+          <div className="flex items-start gap-3">
+            {i18n.language === 'ar' ? (
+              <>
+                <Label
+                  htmlFor="agree"
+                  className="text-lg font-normal cursor-pointer"
+                  onClick={openModal}
+                >
+                  {t('personalInfo.agreement')}{" "}
+                  <span className="text-blue-600 no-underline">
+                    {t('personalInfo.viewAgreement')}
+                  </span>
+                </Label>
+                <Checkbox
+                  id="agree"
+                  checked={agree}
+                  onCheckedChange={(checked) => setAgree(checked === true)}
+                  className="w-6 h-6 mt-1 flex-shrink-0"
+                />
+              </>
+            ) : (
+              <>
+                <Checkbox
+                  id="agree"
+                  checked={agree}
+                  onCheckedChange={(checked) => setAgree(checked === true)}
+                  className="w-6 h-6 mt-1 flex-shrink-0"
+                />
+                <Label
+                  htmlFor="agree"
+                  className="text-lg font-normal cursor-pointer"
+                  onClick={openModal}
+                >
+                  {t('personalInfo.agreement')}{" "}
+                  <span className="text-blue-600 no-underline">
+                    {t('personalInfo.viewAgreement')}
+                  </span>
+                </Label>
+              </>
+            )}
           </div>
           {errors.agree && (
-            <p className={`text-red-500 flex items-center gap-1 ${i18n.language === 'ar' ? 'justify-end flex-row-reverse' : ''}`}>
+            <p className="text-red-500 flex items-center gap-1">
               <AlertCircle size={16} /> {errors.agree}
             </p>
           )}
