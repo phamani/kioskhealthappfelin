@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 import { Button } from "@/components/ui/button";
 import ConditionQuestionnaire from '@/components/condition-questionnaire';
-import QuestionnaireSummary from '@/components/questionnaire-summary';
+// import QuestionnaireSummary from '@/components/questionnaire-summary';
 import { ConditionWithQuestionnaire, QuestionnaireAnswer, QuestionnaireData, RiskLevel } from '@/types/conditions';
 import questionnaireData from '@/data/questionnaire.json';
 import { useTranslation } from "@/hooks/useTranslation";
@@ -20,7 +20,7 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
   const { t } = useTranslation();
   const [conditions, setConditions] = useState<ConditionWithQuestionnaire[]>([]);
   const [currentConditionIndex, setCurrentConditionIndex] = useState(0);
-  const [showSummary, setShowSummary] = useState(false); 
+  // const [showSummary, setShowSummary] = useState(false); 
   const [loading, setLoading] = useState(true)
   const [isQuestionnaireCompleted, setIsQuestionnaireCompleted] = useState(false);
 
@@ -103,13 +103,13 @@ const ClientAssessment = ({onNext, onPrev}: ClientAssessmentProps) => {
     }
   };
 
-  const handleEditCondition = (conditionName: string) => {
-    const index = conditionsNeedingQuestionnaires.findIndex(
-      c => c.ArrhythmiaName === conditionName
-    );
-    setCurrentConditionIndex(index);
-    setShowSummary(false);
-  };
+  // const handleEditCondition = (conditionName: string) => {
+  //   const index = conditionsNeedingQuestionnaires.findIndex(
+  //     c => c.ArrhythmiaName === conditionName
+  //   );
+  //   setCurrentConditionIndex(index);
+  //   setShowSummary(false);
+  // };
 
   const handleSubmit = async () => {
     await submitResults(conditions);
