@@ -8,45 +8,15 @@ const nextConfig: NextConfig = {
     localeDetection: false,
   }, 
   reactStrictMode: false,
+  output: 'standalone',
   async headers() {
     return [
       { 
-        // source: "/:path*", // Match all routes
-        // headers: [
-        //   {
-        //     key: "Access-Control-Allow-Origin",
-        //     value: "*", // Allow all origins, or specify a domain
-        //   },
-        //   {
-        //     key: "Access-Control-Allow-Methods",
-        //     value: "GET, POST, PUT, PATCH, DELETE, OPTIONS", // Include PATCH
-        //   },
-        //   {
-        //     key: "Access-Control-Allow-Headers",
-        //     value: "X-Requested-With, Content-Type, Authorization",
-        //   },
-
-        //   {
-        //     key: "Cross-Origin-Opener-Policy",
-        //     value: "same-origin",
-        //   },
-        //   {
-        //     key: "Cross-Origin-Embedder-Policy",
-        //     value: "require-corp",
-        //   },
-        //   {
-        //     key: "Cross-Origin-Resource-Policy",
-        //     value: "same-origin",
-        //   }
-
-        // ],
-
-        //For Development only
-        source: "/:path*", // apply to all routes
+        source: "/:path*",
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "*", // allow any origin (development only!)
+            value: process.env.NODE_ENV === 'production' ? "https://kioskhealthappfelin-c7fva9dfhsgzadef.uaenorth-01.azurewebsites.net" : "*",
           },
           {
             key: "Access-Control-Allow-Methods",
@@ -58,15 +28,15 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Cross-Origin-Opener-Policy",
-            value: "same-origin", // disables COOP (not secure for prod)
+            value: "same-origin",
           },
           {
             key: "Cross-Origin-Embedder-Policy",
-            value: "require-corp", // disables COEP (not secure for prod)
+            value: "require-corp",
           },
           {
             key: "Cross-Origin-Resource-Policy",
-            value: "cross-origin",
+            value: process.env.NODE_ENV === 'production' ? "same-origin" : "cross-origin",
           },
         ],
       },

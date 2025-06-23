@@ -23,11 +23,12 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build, and test
+      - name: npm install and build
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm ci
+          npm run build
+        env:
+          NODE_ENV: production
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -59,6 +60,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kioskhealthappfelin'
-          slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A5839331863B4007AE1E81AE69C22764 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AE099D32111649DDB292BC51C0E67F96 }}
