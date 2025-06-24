@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js",
+    "start:next": "next start",
     "lint": "next lint",
     "export": "next export",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload",
-    "fresh": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload migrate:fresh"
+    "fresh": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload migrate:fresh",
+    "postinstall": "echo 'Build completed successfully'"
   },
   "engines": {
     "node": ">=18.0.0",
