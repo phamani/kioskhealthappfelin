@@ -246,7 +246,7 @@
     "disclaimer": "إخلاء المسؤولية",
     "riskLevel": "مستوى الخطر",
     "lowRisk": "خطر منخفض",
-    "moderateRisk": "خطر متوسط",
+    "moderateRisk": "خطر متوقع",
     "highRisk": "خطر عالي",
     "mediumRisk": "خطر متوسط",
     "assessmentTexts": {
@@ -427,7 +427,7 @@
     "vitalsTitle": "العلامات الحيوية",
     "riskAssessment": "تقييم المخاطر",
     "lowRisk": "خطر منخفض",
-    "moderateRisk": "خطر متوسط",
+    "moderateRisk": "خطر متوقع",
     "highRisk": "خطر عالي"
   },
   "physicians": {

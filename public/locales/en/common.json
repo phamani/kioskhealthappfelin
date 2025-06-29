@@ -246,7 +246,7 @@
     "disclaimer": "Disclaimer",
     "riskLevel": "Risk Level",
     "lowRisk": "Low Risk",
-    "moderateRisk": "Moderate Risk",
+    "moderateRisk": "Suspected Risk",
     "highRisk": "High Risk",
     "mediumRisk": "Medium Risk",
     "assessmentTexts": {
@@ -427,7 +427,7 @@
     "vitalsTitle": "Vital Signs",
     "riskAssessment": "Risk Assessment",
     "lowRisk": "Low Risk",
-    "moderateRisk": "Moderate Risk",
+    "moderateRisk": "Suspected Risk",
     "highRisk": "High Risk"
   },
   "physicians": {
