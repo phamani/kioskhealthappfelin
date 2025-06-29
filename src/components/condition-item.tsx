@@ -19,6 +19,59 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
   // Check if current language is Arabic
   const isArabic = i18n.language === 'ar';
 
+  // Helper function to determine colors based on risk level
+  const getRiskColors = () => {
+    // If confirmed (no pattern detected) - Green (low risk)
+    if (risk.InitialRiskLevel === "Confirmed") {
+      return {
+        textColor: 'text-green-700',
+        bgColor: 'bg-green-600',
+        iconBg: 'bg-green-100',
+        iconColor: 'text-green-500'
+      };
+    }
+    
+    // If high risk - Red (high risk)
+    if (risk.QuestionnaireRiskLevel === 'HighRisk') {
+      return {
+        textColor: 'text-red-700',
+        bgColor: 'bg-red-600',
+        iconBg: 'bg-red-100',
+        iconColor: 'text-red-500'
+      };
+    }
+    
+    // If suspected or medium risk - Orange (suspected)
+    if (risk.QuestionnaireRiskLevel === 'Suspected' || risk.QuestionnaireRiskLevel === 'MediumRisk') {
+      return {
+        textColor: 'text-orange-700',
+        bgColor: 'bg-orange-500',
+        iconBg: 'bg-orange-100',
+        iconColor: 'text-orange-500'
+      };
+    }
+    
+    // Fallback based on detected status
+    if (risk.Detected) {
+      return {
+        textColor: 'text-orange-700',
+        bgColor: 'bg-orange-500',
+        iconBg: 'bg-orange-100',
+        iconColor: 'text-orange-500'
+      };
+    }
+    
+    // Default (not detected) - Green
+    return {
+      textColor: 'text-green-700',
+      bgColor: 'bg-green-600',
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-500'
+    };
+  };
+
+  const riskColors = getRiskColors();
+
   // Helper function to get localized question text
   const getQuestionText = (question: any) => {
     return isArabic && question.text_ar ? question.text_ar : question.text;
@@ -101,13 +154,13 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {/* Status Indicator */}
-        <div className={`min-w-6 h-6 rounded-full ${risk.Detected ? 'bg-green-100' : 'bg-blue-100'} flex items-center justify-center`}>
-          {risk.Detected ? (
-            <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className={`min-w-6 h-6 rounded-full ${riskColors.iconBg} flex items-center justify-center`}>
+          {risk.Detected || risk.InitialRiskLevel !== "Confirmed" ? (
+            <svg className={`w-4 h-4 ${riskColors.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           ) : (
-            <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={`w-4 h-4 ${riskColors.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           )}
@@ -116,7 +169,7 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
         {/* Condition Name and Confidence */}
         <div className="flex-1 min-w-0">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-            <span className={`font-medium truncate ${risk.Detected ? 'text-green-700' : 'text-gray-800'} ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
+            <span className={`font-medium truncate ${riskColors.textColor} ${isArabic ? 'text-right health-summary-content force-rtl-text' : 'text-left'}`}
                   style={{
                     direction: isArabic ? 'rtl' : 'ltr',
                     unicodeBidi: 'plaintext',
@@ -133,7 +186,7 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
           <div className={`mt-1 flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className="flex-1 bg-gray-200 rounded-full h-2 min-w-[100px]">
               <div
-                className={`${risk.Detected ? 'bg-green-600' : 'bg-blue-600'} h-2 rounded-full`}
+                className={`${riskColors.bgColor} h-2 rounded-full`}
                 style={{ width: `${risk.Confidence}%` }}
               ></div>
             </div>
@@ -176,13 +229,13 @@ const ConditionItem: React.FC<ConditionItemProps> = ({ risk, questionnaireData }
                 <span className={`px-3 py-1 rounded-full text-xs md:text-sm font-medium ${isArabic ? 'text-right force-rtl-text' : 'text-left'} ${
                   risk.QuestionnaireRiskLevel === 'HighRisk' 
                     ? 'bg-red-100 text-red-800' 
-                    : 'bg-yellow-100 text-yellow-800'
+                    : 'bg-orange-100 text-orange-800'
                 }`}
                       style={{
                         direction: isArabic ? 'rtl' : 'ltr',
                         textAlign: isArabic ? 'right' : 'left'
                       }}>
-                  {risk.QuestionnaireRiskLevel === 'HighRisk' ? t('conditions.highRisk') : t('conditions.mediumRisk')}
+                  {risk.QuestionnaireRiskLevel === 'HighRisk' ? t('conditions.highRisk') : t('conditions.suspected')}
                 </span>
               </div>
 

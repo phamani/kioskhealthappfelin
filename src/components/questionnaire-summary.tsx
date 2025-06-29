@@ -38,9 +38,9 @@ const QuestionnaireSummary: React.FC<SummaryProps> = ({
                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                   condition.questionnaire?.calculatedRiskLevel === 'HighRisk' 
                     ? 'bg-red-100 text-red-800' 
-                    : 'bg-yellow-100 text-yellow-800'
+                    : 'bg-orange-100 text-orange-800'
                 }`}>
-                  {condition.questionnaire?.calculatedRiskLevel === 'HighRisk' ? "High Risk" : "Meduim Risk"}
+                  {condition.questionnaire?.calculatedRiskLevel === 'HighRisk' ? "High Risk" : "Suspected"}
                 </span>
               </div>
 
