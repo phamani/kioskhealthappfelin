@@ -22,6 +22,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -50,6 +57,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Healthkioskappfront'
-          slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AD665AD923074A15A730A9DB62BB4F44 }}

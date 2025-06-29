@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: process.env.NODE_ENV === 'production' ? "https://kioskhealthappfelin-c7fva9dfhsgzadef.uaenorth-01.azurewebsites.net" : "*",
+            value: process.env.NODE_ENV === 'production' ? "https://healthkioskappfront-auawcdcqg9aaanf0.uaenorth-01.azurewebsites.net" : "*",
           },
           {
             key: "Access-Control-Allow-Methods",
