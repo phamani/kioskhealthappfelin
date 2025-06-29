@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import type { UserData } from "./home-screen";
 import Cookies from 'js-cookie';
 import { ClientModel } from "@/payload-types";
@@ -39,6 +40,11 @@ export default function ComplaintScreen({
   const [selectedComplaints, setSelectedComplaints] = useState<string[]>(
     userData.complaint ? userData.complaint.split(',').map(s => s.trim()) : []
   );
+  
+  // New state for "Other" functionality
+  const [showOtherInput, setShowOtherInput] = useState(false);
+  const [otherComplaint, setOtherComplaint] = useState("");
+  const [otherComplaintError, setOtherComplaintError] = useState("");
 
   const commonComplaints = [
     { key: 'headache', value: 'Headache' },
@@ -66,19 +72,72 @@ export default function ComplaintScreen({
     setLocalApiData(data);
   };
 
+  // Updated toggleComplaint function to handle "Other" specially
   const toggleComplaint = (complaintValue: string) => {
-    setSelectedComplaints(prev => {
-      if (prev.includes(complaintValue)) {
-        return prev.filter(item => item !== complaintValue);
+    if (complaintValue === "Other") {
+      if (selectedComplaints.includes("Other")) {
+        // Remove "Other" and hide input
+        setSelectedComplaints(prev => prev.filter(item => item !== "Other"));
+        setShowOtherInput(false);
+        setOtherComplaint("");
+        setOtherComplaintError("");
       } else {
-        return [...prev, complaintValue];
+        // Add "Other" and show input
+        setSelectedComplaints(prev => [...prev, "Other"]);
+        setShowOtherInput(true);
       }
-    });
+    } else {
+      setSelectedComplaints(prev => {
+        if (prev.includes(complaintValue)) {
+          return prev.filter(item => item !== complaintValue);
+        } else {
+          return [...prev, complaintValue];
+        }
+      });
+    }
+  };
+
+  // Validation function for "Other" input
+  const validateOtherComplaint = (text: string) => {
+    const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+    if (words.length > 10) {
+      setOtherComplaintError(t('complaint.validation.maxWords'));
+      return false;
+    }
+    setOtherComplaintError("");
+    return true;
+  };
+
+  // Handle "Other" input change
+  const handleOtherComplaintChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setOtherComplaint(value);
+    validateOtherComplaint(value);
+  };
+
+  // Get final complaints list including custom "Other" text
+  const getFinalComplaintsList = () => {
+    const complaints = selectedComplaints.filter(item => item !== "Other");
+    if (selectedComplaints.includes("Other") && otherComplaint.trim()) {
+      complaints.push(otherComplaint.trim());
+    }
+    return complaints;
   };
 
   const handleNext = async () => {
     const userId = Cookies.get('userId');
-    const complaintsString = selectedComplaints.join(", ");
+    
+    // Validate "Other" input if it's selected
+    if (selectedComplaints.includes("Other") && !validateOtherComplaint(otherComplaint)) {
+      return;
+    }
+    
+    if (selectedComplaints.includes("Other") && !otherComplaint.trim()) {
+      setOtherComplaintError(t('complaint.validation.required'));
+      return;
+    }
+
+    const complaintsString = getFinalComplaintsList().join(", ");
 
     try {
       setIsLoading(true); 
@@ -92,7 +151,17 @@ export default function ComplaintScreen({
   };
   
   const handleShowSummary = async () => {
-    const complaintsString = selectedComplaints.join(", ");
+    // Validate "Other" input if it's selected
+    if (selectedComplaints.includes("Other") && !validateOtherComplaint(otherComplaint)) {
+      return;
+    }
+    
+    if (selectedComplaints.includes("Other") && !otherComplaint.trim()) {
+      setOtherComplaintError(t('complaint.validation.required'));
+      return;
+    }
+
+    const complaintsString = getFinalComplaintsList().join(", ");
     await submitSymptoms(complaintsString);
     setShowSummary(true);
   };
@@ -159,7 +228,19 @@ export default function ComplaintScreen({
         setIsError(false);
 
         if (data.HealthConcern) {
-          setSelectedComplaints(data.HealthConcern.split(',').map(s => s.trim()));
+          const complaints = data.HealthConcern.split(',').map(s => s.trim());
+          // Check if there's a custom complaint that's not in the predefined list
+          const predefinedValues = commonComplaints.map(c => c.value);
+          const customComplaints = complaints.filter(c => !predefinedValues.includes(c));
+          
+          if (customComplaints.length > 0) {
+            // If there are custom complaints, add "Other" to selection and set the first custom complaint
+            setSelectedComplaints([...complaints.filter(c => predefinedValues.includes(c)), "Other"]);
+            setOtherComplaint(customComplaints[0]);
+            setShowOtherInput(true);
+          } else {
+            setSelectedComplaints(complaints);
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -201,6 +282,29 @@ export default function ComplaintScreen({
             </Card>
           ))}
         </div>
+        
+        {/* "Other" input field */}
+        {showOtherInput && (
+          <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <label className="block text-lg font-medium text-gray-700 mb-2">
+              {t('complaint.other.label')}
+            </label>
+            <Input
+              type="text"
+              value={otherComplaint}
+              onChange={handleOtherComplaintChange}
+              placeholder={t('complaint.other.placeholder')}
+              className={`text-lg p-3 ${otherComplaintError ? 'border-red-500' : ''}`}
+              maxLength={100} // Character limit to help enforce word limit
+            />
+            {otherComplaintError && (
+              <p className="text-red-500 text-sm mt-1">{otherComplaintError}</p>
+            )}
+            <p className="text-gray-500 text-sm mt-1">
+              {t('complaint.other.hint')}
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="flex justify-between pt-6">
@@ -212,7 +316,8 @@ export default function ComplaintScreen({
         </Button>
         <Button 
           onClick={handleShowSummary} 
-          disabled={!selectedComplaints || selectedComplaints.length === 0 || isLoading}
+          disabled={!selectedComplaints || selectedComplaints.length === 0 || isLoading || 
+                   (selectedComplaints.includes("Other") && (!otherComplaint.trim() || !!otherComplaintError))}
           className="text-xl py-6 px-10 bg-green-600 hover:bg-green-700 disabled:opacity-50"
         >
           {isLoading ? t('common.loading') : t('buttons.submit')}

@@ -94,6 +94,15 @@
       "other": "Other",
       "nothing": "Nothing"
     },
+    "other": {
+      "label": "Please describe your specific health concern:",
+      "placeholder": "Enter your health concern here...",
+      "hint": "Maximum 10 words allowed"
+    },
+    "validation": {
+      "maxWords": "Please limit your description to 10 words or less",
+      "required": "Please describe your health concern when selecting 'Other'"
+    },
     "completeAndPrint": "Complete & Print Summary"
   },
   "assessment": {
