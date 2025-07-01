@@ -147,7 +147,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
   // #endregion 
 
  // #region Request Reading 
- const defaultMessage = `${t('requestReading.defaultMessageText')} ${t('requestReading.clickLink')} ${hostUrl}/home` 
+ const defaultMessage = `${t('requestReading.defaultMessageText')} ${t('requestReading.clickLink')} ${hostUrl}/` 
  const [isRequestReadingOpen, setIsRequestReadingOpen] = useState(false);
  const [sendMethod, setSendMethod] = useState<"Phone" | "Email">("Email");
  const [scheduleType, setScheduleType] = useState<"Now" | "Schedule For Later">("Now");
@@ -242,16 +242,18 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "true",
         },
-        body: JSON.stringify({
-          Page: currentPage, 
-          PageSize: itemsPerPage,
-          ClientName: searchTerm,
-          ArrhythmiaName: gridFilterByArrhythmia,
-          NationalityId: selectedNationality,
-          Gender: selectedGender != "All" ? selectedGender : "",
-          AgeGroup: selectedAgeGroup,
-          AtRisk: gridFilterAtRisk,
-        }),
+              body: JSON.stringify({
+        Page: currentPage, 
+        PageSize: itemsPerPage,
+        ClientName: searchTerm,
+        ArrhythmiaName: gridFilterByArrhythmia,
+        NationalityId: selectedNationality,
+        Gender: selectedGender != "All" ? selectedGender : "",
+        AgeGroup: selectedAgeGroup,
+        AtRisk: gridFilterAtRisk,
+        SortBy: "LastVitalsReading",
+        SortOrder: "desc"
+      }),
       });
   
       const responseJson = await response.json();
@@ -262,8 +264,15 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
 
       const clientsReport: ClientReport = responseJson.Result;
 
-      setClientsReport(clientsReport);
-      setClientRecords(clientsReport.Items);
+      // Sort records by LastVitalsReading date (newest first) as fallback
+      const sortedItems = [...clientsReport.Items].sort((a, b) => {
+        const dateA = new Date(a.LastVitalsReading || 0);
+        const dateB = new Date(b.LastVitalsReading || 0);
+        return dateB.getTime() - dateA.getTime(); // Descending order (newest first)
+      });
+
+      setClientsReport({ ...clientsReport, Items: sortedItems });
+      setClientRecords(sortedItems);
     }
     catch (error) {
       console.error("Error fetching Grid data:", error)
@@ -324,7 +333,7 @@ useEffect(() => {
     Cookies.set('adminToken', "", { expires: 1 }); 
     setIsAuthenticated(false);
 
-    router.push('/home');
+    router.push('/');
   };
 // #endregion 
 
@@ -346,7 +355,7 @@ useEffect(() => {
 
         setIsSendingEmail(true);
 
-        const response = await fetch(`${apiUrl}/email/SendEmail`, {
+        const response = await fetch(`${apiUrl}/email/SendMedicalReport`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

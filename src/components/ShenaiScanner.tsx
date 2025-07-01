@@ -80,7 +80,7 @@ const ShenaiScanner = () => {
               })
             });
 
-            window.location.href = hostUrl + '/home?ischecked=true';
+            window.location.href = hostUrl + '/?ischecked=true';
 
           } catch (error) {
             const errorDiv = document.createElement('div');

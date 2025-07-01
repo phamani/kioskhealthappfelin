@@ -115,32 +115,26 @@ export default function HealthSummaryModal({
   
   const sendSummaryByEmail = async () => {
     try { 
-      const response = await fetch(`${apiUrl}/email/SendEmail`, {
+      const response = await fetch(`${apiUrl}/email/SendMedicalReport`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           receiver: userData.Email,
-          subject: t('healthSummary.emailSubject'),
-          text: `
-            ${t('healthSummary.date')} ${currentDate}
-            ${t('healthSummary.time')} ${currentTime}
-            ${t('healthSummary.name')} ${userData.UserName}
-            ${t('healthSummary.age')} ${userData.Age}
-            ${t('healthSummary.gender')} ${userData.Gender}
-            
-            ${t('healthSummary.vitalSigns')}:
-            - ${t('faceScan.vitals.heartRate')}: ${latestResult?.HeartRate10s ?? "N/A"} ${t('userProfile.vitals.bpm')}
-            - ${t('faceScan.vitals.bloodPressure')}: ${latestResult ? `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}` : "N/A"} ${t('userProfile.vitals.mmHg')}
-            - ${t('faceScan.vitals.heartRateVariability')}: ${latestResult?.HrvSdnnMs ?? "N/A"} ${t('userProfile.vitals.ms')}
-            - ${t('faceScan.vitals.respirationRate')}: ${latestResult?.BreathingRate ?? "N/A"} ${t('userProfile.vitals.bps')}
-            
-            ${t('healthSummary.reportedSymptoms')}:
-            - ${translateSymptoms(userData.HealthConcern)}
-            
-            ${t('healthSummary.importantNoticeTitle')}:
-            ${t('healthSummary.importantNotice')}`,
+          subject: "Health Assessment Report / ملخص التقييم الصحي",
+          reportData: {
+            date: currentDate,
+            time: currentTime,
+            name: userData.UserName || "N/A",
+            age: userData.Age || "N/A",
+            gender: userData.Gender || "N/A",
+            heartRate: latestResult?.HeartRate10s || "N/A",
+            bloodPressure: latestResult ? `${latestResult.SystolicBloodPressureMmhg}/${latestResult.DiastolicBloodPressureMmhg}` : "N/A",
+            heartRateVariability: latestResult?.HrvSdnnMs || "N/A",
+            respirationRate: latestResult?.BreathingRate || "N/A",
+            reportedSymptoms: translateSymptoms(userData.HealthConcern) || "No symptoms reported"
+          }
         }),
       });
 
