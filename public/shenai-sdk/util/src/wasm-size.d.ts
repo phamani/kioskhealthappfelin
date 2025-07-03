@@ -1,1 +1,1 @@
-export const WASM_SIZE: 49523225;
+export const WASM_SIZE: 49726543;

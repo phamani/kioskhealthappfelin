@@ -12,13 +12,25 @@ import {
   MeasurementResults,
   Heartbeat,
   PrecisionMode,
+  Screen,
   InitializationSettings,
   CustomColorTheme,
   CustomMeasurementConfig,
-} from "/shenai-sdk";
+} from "shenai-sdk";
 import { Collapse, message } from "antd";
 import { useEffect, useRef, useState } from "react";
+import { CodeSnippet } from "../components/CodeSnippet";
 import { useRouter } from "next/router";
+import { CustomMeasurementConfigurator } from "../components/CustomMeasurementConfigurator";
+import { UIElementsControls } from "../components/UIElementsControls";
+import { ColorTheme } from "../components/ColorTheme";
+import Link from "next/link";
+import { FileTextOutlined } from "@ant-design/icons";
+import { Visualizations } from "../components/Visualizations";
+import { SignalsPreview } from "../components/SignalsPreview";
+import { ResultsView } from "../components/ResultsView";
+import { BasicOutputsView } from "../components/BasicOutputsView";
+import { ControlsView } from "../components/ControlsView";
 import { InitializationView } from "../components/InitializationView";
 import { useShenaiSdk } from "../hooks/useShenaiSdk";
 import { getEnumName } from "../helpers";
@@ -109,17 +121,6 @@ export default function ShenAiComponent() {
       if (res === shenaiSDK.InitializationResult.OK) {
         console.log("Shen.AI License result: ", res);
         shenaiSDK.attachToCanvas("#mxcanvas");
-        
-        // Camera workaround as suggested by shen.ai team
-        setTimeout(() => {
-          console.log("Applying camera workaround...");
-          shenaiSDK.setCameraMode(shenaiSDK.CameraMode.OFF);
-          setTimeout(() => {
-            shenaiSDK.setCameraMode(shenaiSDK.CameraMode.FACING_USER);
-            console.log("Camera workaround applied - permission prompt should now appear");
-          }, 100);
-        }, 500);
-        
         onSuccess?.();
         scrollToCanvas();
       } else {
