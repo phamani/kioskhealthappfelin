@@ -15,7 +15,7 @@ import {
   InitializationSettings,
   CustomColorTheme,
   CustomMeasurementConfig,
-} from "shenai-sdk";
+} from "/shenai-sdk";
 import { Collapse, message } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";

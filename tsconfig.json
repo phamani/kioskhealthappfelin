@@ -28,9 +28,6 @@
       ],
       "@payload-config": [
         "./src/payload.config.ts"
-      ],
-      "shenai-sdk": [
-        "./public/shenai-sdk"
       ]
     },
     "sourceMap": true
