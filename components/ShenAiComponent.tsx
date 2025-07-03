@@ -121,6 +121,17 @@ export default function ShenAiComponent() {
       if (res === shenaiSDK.InitializationResult.OK) {
         console.log("Shen.AI License result: ", res);
         shenaiSDK.attachToCanvas("#mxcanvas");
+        
+        // Camera workaround as suggested by shen.ai team
+        setTimeout(() => {
+          console.log("Applying camera workaround...");
+          shenaiSDK.setCameraMode(shenaiSDK.CameraMode.OFF);
+          setTimeout(() => {
+            shenaiSDK.setCameraMode(shenaiSDK.CameraMode.FACING_USER);
+            console.log("Camera workaround applied - permission prompt should now appear");
+          }, 100);
+        }, 500);
+        
         onSuccess?.();
         scrollToCanvas();
       } else {
