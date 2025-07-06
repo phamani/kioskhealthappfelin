@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
+import { type ScanResults } from '@/types/global';
 
 interface FastScanScannerProps {
-  onScanComplete?: (results: any) => void;
+  onScanComplete?: (results: ScanResults) => void;
   onError?: (error: string) => void;
 }
 

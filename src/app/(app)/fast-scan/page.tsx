@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -9,31 +8,27 @@ import { CheckCircle, AlertCircle } from 'lucide-react';
 import FastScanScanner from '@/components/FastScanScanner';
 import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSwitcher from '@/components/language-switcher';
+import { type ScanResults } from '@/types/global';
 
 export default function FastScanPage() {
-  const router = useRouter();
   const { t } = useTranslation();
-  const [scanResults, setScanResults] = useState<any>(null);
+  const [scanResults, setScanResults] = useState<ScanResults | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [isScanning, setIsScanning] = useState<boolean>(false);
 
-  const handleScanComplete = (results: any) => {
+  const handleScanComplete = (results: ScanResults) => {
     console.log('Scan completed with results:', results);
     setScanResults(results);
-    setIsScanning(false);
     setErrorMessage('');
   };
 
   const handleScanError = (error: string) => {
     console.error('Scan error:', error);
     setErrorMessage(error);
-    setIsScanning(false);
   };
 
   const handleStartNewScan = () => {
     setScanResults(null);
     setErrorMessage('');
-    setIsScanning(true);
     
     // Reset the SDK to measurement screen without re-initializing
     if (window.shenai && window.shenai.isInitialized()) {
