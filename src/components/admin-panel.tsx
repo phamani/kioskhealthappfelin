@@ -147,14 +147,23 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
   // #endregion 
 
  // #region Request Reading 
- const defaultMessage = `${t('requestReading.defaultMessageText')} ${t('requestReading.clickLink')} ${hostUrl}/` 
  const [isRequestReadingOpen, setIsRequestReadingOpen] = useState(false);
  const [sendMethod, setSendMethod] = useState<"Phone" | "Email">("Email");
  const [scheduleType, setScheduleType] = useState<"Now" | "Schedule For Later">("Now");
  const [messageType, setMessageType] = useState<"Default" | "Custom">("Default");
- const [requestReadingMessage, setRequestReadingMessage] = useState(defaultMessage); 
+ const [requestReadingMessage, setRequestReadingMessage] = useState(""); 
  const [isSendingEmail, setIsSendingEmail] = useState(false);
  const [requestReadingValidationError, setRequestReadingValidationError] = useState("");
+
+ // Create default message that updates when translations change
+ const defaultMessage = `${t('requestReading.defaultMessageText')} ${t('requestReading.clickLink')} ${hostUrl}/`;
+ 
+ // Update request reading message when translations change
+ useEffect(() => {
+   if (messageType === "Default") {
+     setRequestReadingMessage(defaultMessage);
+   }
+ }, [defaultMessage, messageType]);
 
  // #endregion 
 
@@ -322,7 +331,7 @@ useEffect(() => {
         setIsAdmin(data.UserType === 'Admin');
         setIsAuthenticated(true);
       } else {
-        setError("Invalid credentials");
+        setError(t('admin.validation.invalidCredentials'));
       }
     } catch (err) {
       setError(t('common.tryAgain'));
@@ -349,11 +358,65 @@ useEffect(() => {
       try { 
         setRequestReadingValidationError("");
         if(messageType == "Custom" && requestReadingMessage == ""){
-          setRequestReadingValidationError("Message is required!");
+          setRequestReadingValidationError(t('admin.validation.messageRequired'));
           return;
         }
 
         setIsSendingEmail(true);
+
+        // Create HTML email template
+        const htmlTemplate = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${t('admin.email.title')}</title>
+          </head>
+          <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8fafc;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+              <!-- Header -->
+              <div style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">${t('admin.email.title')}</h1>
+                <p style="color: #bfdbfe; margin: 10px 0 0 0; font-size: 16px;">${t('admin.email.subtitle')}</p>
+              </div>
+              
+              <!-- Content -->
+              <div style="padding: 40px 30px;">
+                <div style="background-color: #f1f5f9; border-left: 4px solid #2563eb; padding: 20px; margin-bottom: 30px; border-radius: 0 8px 8px 0;">
+                  <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #334155;">
+                    ${requestReadingMessage}
+                  </p>
+                </div>
+                
+                <!-- Call to Action Button -->
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${hostUrl}/" 
+                     style="display: inline-block; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: bold; font-size: 18px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); transition: all 0.3s ease;">
+                    ${t('admin.email.buttonText')}
+                  </a>
+                </div>
+                
+                <div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; border-radius: 8px; margin-top: 30px;">
+                  <p style="margin: 0; font-size: 14px; color: #92400e; text-align: center;">
+                    <strong>${t('admin.email.importantLabel')}</strong> ${t('admin.email.deviceInstructions')}
+                  </p>
+                </div>
+              </div>
+              
+              <!-- Footer -->
+              <div style="background-color: #f8fafc; padding: 20px 30px; text-align: center; border-radius: 0 0 8px 8px; border-top: 1px solid #e2e8f0;">
+                <p style="margin: 0; font-size: 14px; color: #64748b;">
+                  ${t('admin.email.providerMessage')}
+                </p>
+                <p style="margin: 10px 0 0 0; font-size: 12px; color: #94a3b8;">
+                  ${t('admin.email.copyright')}
+                </p>
+              </div>
+            </div>
+          </body>
+          </html>
+        `;
 
         const response = await fetch(`${apiUrl}/email/sendEmail`, {
           method: "POST",
@@ -362,8 +425,9 @@ useEffect(() => {
           },
           body: JSON.stringify({
             receiver: selectedRecord?.Email,
-            subject: "Request Reading",
-            text: requestReadingMessage
+            subject: t('admin.email.subject'),
+            text: htmlTemplate,
+            IsHtml: true
           }),
         });
   
@@ -559,7 +623,7 @@ return (
                 onChange={(e) => {setRequestReadingMessage(e.target.value); setRequestReadingValidationError("");}} 
               ></textarea>
               <div className="absolute bottom-2 right-2 text-sm text-gray-500">
-                Max: 100 chars
+                {t('admin.labels.maxCharacters')}
               </div>
             </div>
             {requestReadingValidationError && (
@@ -723,7 +787,7 @@ return (
               <div className="flex items-center space-x-2"> 
                 {gridFilterByArrhythmia &&(
                   <Card className="p-3">
-                    <span>Selected Arrhythmia: </span> <span>{getTranslatedConditionName(gridFilterByArrhythmia)}</span>
+                    <span>{t('admin.labels.selectedArrhythmia')} </span> <span>{getTranslatedConditionName(gridFilterByArrhythmia)}</span>
                   </Card> 
                 )} 
               </div>

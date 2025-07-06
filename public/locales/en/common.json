@@ -265,6 +265,24 @@
       "next": "Next",
       "last": "Last",
       "perPage": "per page"
+    },
+    "validation": {
+      "messageRequired": "Message is required!",
+      "invalidCredentials": "Invalid credentials"
+    },
+    "labels": {
+      "selectedArrhythmia": "Selected Arrhythmia:",
+      "maxCharacters": "Max: 100 chars"
+    },
+    "email": {
+      "subject": "Health Scan Request - CareVision",
+      "title": "Health Scan Request",
+      "subtitle": "CareVision Health Assessment",
+      "buttonText": "🔍 Start Health Scan Now",
+      "importantLabel": "Important:",
+      "deviceInstructions": "This scan should be completed for optimal results.",
+      "providerMessage": "This message was sent by your healthcare provider via CareVision Health Assessment System.",
+      "copyright": "© 2025 CareVision. All rights reserved."
     }
   },
   "doctor": {
