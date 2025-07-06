@@ -58,6 +58,62 @@
       "bpm": "نبضة/دقيقة"
     }
   },
+  "fastScan": {
+    "pageTitle": "كير فيجن",
+    "scannerTitle": "ماسح الوجه كير فيجن",
+    "scannerDescription": "ضع وجهك في الإطار واضغط على زر البدء لبدء المسح.",
+    "guideTitle": "دليل تدفق التجربة الكاملة",
+    "successMessage": "تم إكمال المسح بنجاح! تم التقاط النتائج الخالصة من SDK مع تحليل صحي شامل.",
+    "resultsTitle": "نتائج المسح",
+    "startNewScan": "بدء مسح جديد",
+    "instructions": {
+      "step1": "ستعرض الاداة التعليمات خطوة بخطوة تلقائيًا",
+      "step2": "اتبع إرشادات وضع الوجه والتوجيهات",
+      "step3": "راقب قيم المعاملات في الوقت الفعلي أثناء القياس",
+      "step4": "اعرض مؤشرات جودة الإشارة والتحذيرات البصرية",
+      "step5": "تُظهر شاشة الملخص الكاملة جميع المقاييس الصحية",
+      "step6": "تقييم المخاطر الصحية مُدرج في النتائج"
+    },
+    "metrics": {
+      "heartRate": "معدل ضربات القلب",
+      "bloodPressure": "ضغط الدم",
+      "breathingRate": "معدل التنفس",
+      "hrvSdnn": "HRV SDNN",
+      "hrvLnrmssd": "HRV LNRMSSD",
+      "cardiacStress": "الضغط القلبي",
+      "stressIndex": "مؤشر الضغط",
+      "parasympatheticActivity": "النشاط الباراسمبثاوي",
+      "cardiacWorkload": "حمولة القلب",
+      "estimatedAge": "العمر المُقدر",
+      "bmi": "مؤشر كتلة الجسم",
+      "estimatedWeight": "الوزن المُقدر",
+      "estimatedHeight": "الطول المُقدر",
+      "wellnessScore": "نقاط العافية",
+      "vascularAge": "العمر الوعائي",
+      "waistToHeightRatio": "نسبة الخصر إلى الطول",
+      "bodyFatPercentage": "نسبة دهون الجسم",
+      "basalMetabolicRate": "معدل الأيض الأساسي",
+      "totalDailyEnergyExpenditure": "إجمالي استهلاك الطاقة اليومي",
+      "hypertensionRisk": "خطر ارتفاع ضغط الدم",
+      "diabetesRisk": "خطر السكري",
+      "averageSignalQuality": "متوسط جودة الإشارة",
+      "badSignalDuration": "مدة الإشارة الضعيفة"
+    },
+    "units": {
+      "bpm": "نبضة/دقيقة",
+      "mmhg": "ملم زئبق",
+      "ms": "مللي ثانية",
+      "mmhgPerSec": "ملم زئبق/ثانية",
+      "years": "سنة",
+      "kgPerM2": "كيلو/متر²",
+      "kg": "كيلو",
+      "cm": "سم",
+      "calPerDay": "سعرة/يوم",
+      "seconds": "ثانية",
+      "percent": "%",
+      "outOf100": "/100"
+    }
+  },
       "userInfo": {
     "title": "أخبرنا عنك",
     "subtitle": "يرجى اختيار عمرك وجنسك لتخصيص تجربة التقييم الصحي الخاصة بك",

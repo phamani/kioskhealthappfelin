@@ -58,6 +58,62 @@
       "bpm": "BPM"
     }
   },
+  "fastScan": {
+    "pageTitle": "carevision",
+    "scannerTitle": "Carevision Face Scanner",
+    "scannerDescription": "Place your face in the frame and press start button to start the scan.",
+    "guideTitle": "Full UX Flow Guide",
+    "successMessage": "Scan completed successfully! Pure SDK results captured with comprehensive health analysis.",
+    "resultsTitle": "Scan Results",
+    "startNewScan": "Start New Scan",
+    "instructions": {
+      "step1": "The SDK will show step-by-step instructions automatically",
+      "step2": "Follow face positioning overlay and hints",
+      "step3": "Watch real-time parameter values during measurement",
+      "step4": "View signal quality indicators and visual warnings",
+      "step5": "Complete summary screen shows all health metrics",
+      "step6": "Health risk assessment is included in results"
+    },
+    "metrics": {
+      "heartRate": "Heart Rate",
+      "bloodPressure": "Blood Pressure",
+      "breathingRate": "Breathing Rate",
+      "hrvSdnn": "HRV SDNN",
+      "hrvLnrmssd": "HRV LNRMSSD",
+      "cardiacStress": "Cardiac Stress",
+      "stressIndex": "Stress Index",
+      "parasympatheticActivity": "Parasympathetic Activity",
+      "cardiacWorkload": "Cardiac Workload",
+      "estimatedAge": "Estimated Age",
+      "bmi": "BMI",
+      "estimatedWeight": "Estimated Weight",
+      "estimatedHeight": "Estimated Height",
+      "wellnessScore": "Wellness Score",
+      "vascularAge": "Vascular Age",
+      "waistToHeightRatio": "Waist-to-Height Ratio",
+      "bodyFatPercentage": "Body Fat Percentage",
+      "basalMetabolicRate": "Basal Metabolic Rate",
+      "totalDailyEnergyExpenditure": "Total Daily Energy Expenditure",
+      "hypertensionRisk": "Hypertension Risk",
+      "diabetesRisk": "Diabetes Risk",
+      "averageSignalQuality": "Average Signal Quality",
+      "badSignalDuration": "Bad Signal Duration"
+    },
+    "units": {
+      "bpm": "BPM",
+      "mmhg": "mmHg",
+      "ms": "ms",
+      "mmhgPerSec": "mmHg/sec",
+      "years": "years",
+      "kgPerM2": "kg/m²",
+      "kg": "kg",
+      "cm": "cm",
+      "calPerDay": "cal/day",
+      "seconds": "s",
+      "percent": "%",
+      "outOf100": "/100"
+    }
+  },
   "userInfo": {
     "title": "Tell Us About Yourself",
     "subtitle": "Please select your age and gender to help us personalize your health check.",

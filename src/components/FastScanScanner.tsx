@@ -13,35 +13,36 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
 
   // Function to completely reset SDK (only when needed)
   const resetSdk = () => {
-    if (window.shenai) {
+    if (typeof window !== 'undefined' && window.shenai) {
       try {
         window.shenai.deinitialize();
         delete window.shenai;
         delete window.fastScanSdkInitialized;
         setSdkInitialized(false);
-        console.log('SDK completely reset');
+        console.log('CareVision scanner completely reset');
       } catch (error) {
         console.warn('Error resetting SDK:', error);
       }
     }
   };
 
-  // Expose reset function globally if needed
-  window.resetFastScanSdk = resetSdk;
-
   // Fix hydration mismatch by ensuring client-side only rendering
   useEffect(() => {
     setIsClient(true);
+    // Expose reset function globally if needed (only on client side)
+    if (typeof window !== 'undefined') {
+      window.resetFastScanSdk = resetSdk;
+    }
   }, []);
 
   useEffect(() => {
-    if (!isClient || sdkInitialized || window.fastScanSdkInitialized) {
-      if (window.fastScanSdkInitialized) {
+    if (!isClient || sdkInitialized || (typeof window !== 'undefined' && window.fastScanSdkInitialized)) {
+      if (typeof window !== 'undefined' && window.fastScanSdkInitialized) {
         setSdkInitialized(true);
       }
       return;
     }
-    // Create and inject the SDK script for pure Shen.AI experience
+    // Create and inject the SDK script for CareVision experience
     const script = document.createElement('script');
     script.type = 'module';
     script.innerHTML = `
@@ -58,8 +59,8 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
              function handleScanCompletion(results) {
          console.log('Scan completed successfully with results:', results);
          
-         // Notify React component of scan completion (pure SDK results)
-         // DO NOT re-initialize SDK - preserve embedded UI state and continue button
+         // Notify React component of scan completion
+         // DO NOT re-initialize SDK - preserve embedded UI state
          if (window.onFastScanComplete) {
            window.onFastScanComplete(results);
          }
@@ -67,7 +68,7 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
        
       const shenaiSDK = await CreateShenaiSDK(); 
       
-             // Full UX mode configuration - configured to show all parameter values in embedded UI
+             // Simplified UI configuration for CareVision
        shenaiSDK.initialize(
          API_KEY,
          USER_ID,
@@ -140,27 +141,27 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
              realtimeCardiacStressPeriodSeconds: 10
            },
            
-           // Full UX settings - enable ALL UI elements for complete parameter visibility
+           // Simplified UI settings - minimal interface for CareVision
            showUserInterface: true,
            showFacePositioningOverlay: true,
            showVisualWarnings: true,
-           enableCameraSwap: true,
+           enableCameraSwap: false,
            showFaceMask: true,
-           showBloodFlow: true,
-           hideShenaiLogo: false, // Show logo in full UX mode
-           enableStartAfterSuccess: true,
-           enableSummaryScreen: true,
-           enableHealthRisks: true,
-           showOutOfRangeResultIndicators: true,
-           showTrialMetricLabels: true, // This shows metric labels in the UI
+           showBloodFlow: false,
+           hideShenaiLogo: true, // Hide Shen.AI logo for CareVision branding
+           enableStartAfterSuccess: false,
+           enableSummaryScreen: false,
+           enableHealthRisks: false,
+           showOutOfRangeResultIndicators: false,
+           showTrialMetricLabels: false,
            showSignalQualityIndicator: true,
-           showSignalTile: true,
+           showSignalTile: false,
            
            // Operating and precision modes for optimal parameter accuracy
            operatingMode: shenaiSDK.OperatingMode.POSITIONING,
            precisionMode: shenaiSDK.PrecisionMode.STRICT,
            cameraMode: shenaiSDK.CameraMode.FACING_USER,
-           onboardingMode: shenaiSDK.OnboardingMode.SHOW_ONCE,
+           onboardingMode: shenaiSDK.OnboardingMode.HIDE,
            enableFullFrameProcessing: false,
           
                      eventCallback: async (event) => { 
@@ -168,7 +169,7 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
              
              // Configure custom measurement when user starts scan
              if (event === "START_BUTTON_CLICKED") {
-               console.log('Configuring custom measurement with all parameters...');
+               console.log('Configuring custom measurement for CareVision...');
                shenaiSDK.setCustomMeasurementConfig({
                  durationSeconds: 60,
                  infiniteMeasurement: false,
@@ -289,13 +290,13 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
         },
         (result) => {
           if (result !== shenaiSDK.InitializationResult.OK) {
-            const errorMessage = "Shen.AI license activation error: " + result.toString();
+            const errorMessage = "CareVision scanner initialization error: " + result.toString();
             console.error(errorMessage);
             if (window.onFastScanError) {
               window.onFastScanError(errorMessage);
             }
                      } else {
-             console.log("Shen.AI SDK initialized successfully in Full UX mode");
+             console.log("CareVision scanner initialized successfully");
              
              // Mark SDK as initialized to prevent re-initialization
              window.fastScanSdkInitialized = true;
@@ -303,7 +304,7 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
              // Attach to canvas
              shenaiSDK.attachToCanvas("#fast-scan-canvas");
              
-             // Camera workaround as suggested by shen.ai team
+             // Camera workaround for better initialization
              setTimeout(() => {
                console.log("Applying camera workaround...");
                shenaiSDK.setCameraMode(shenaiSDK.CameraMode.OFF);
@@ -316,7 +317,7 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
         }
       );
 
-      // Make SDK available globally for debugging
+      // Make CareVision scanner available globally for debugging
       window.shenai = shenaiSDK; 
     `;
     
@@ -326,14 +327,17 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
     window.onFastScanComplete = onScanComplete;
     window.onFastScanError = onError;
 
-    // Create canvas style
+    // Create canvas style for centered CareVision interface
     const style = document.createElement("style");
     style.innerHTML = `
       #fast-scan-canvas {
         width: 100%;
+        max-width: 600px;
         height: 600px;
+        margin: 0 auto;
         border-radius: 12px;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        display: block;
       }
     `;
     document.head.appendChild(style);
@@ -369,7 +373,7 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
     return () => {
       // This cleanup runs only when the component is unmounting
       if (window.fastScanSdkInitialized) {
-        console.log('FastScanScanner unmounting - preserving SDK state');
+        console.log('CareVision scanner unmounting - preserving scanner state');
         // Don't reset SDK here to preserve state and embedded UI
       }
     };
@@ -379,20 +383,22 @@ const FastScanScanner: React.FC<FastScanScannerProps> = ({ onScanComplete, onErr
   if (!isClient) {
     return (
       <div className="w-full h-[600px] bg-gray-100 rounded-lg flex items-center justify-center">
-        <div className="text-gray-500">Loading scanner...</div>
+        <div className="text-gray-500">Loading CareVision scanner...</div>
       </div>
     );
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full flex justify-center">
       <canvas 
         id="fast-scan-canvas"
         style={{ 
           width: '100%', 
+          maxWidth: '600px',
           height: '600px',
           borderRadius: '12px',
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+          display: 'block'
         }}
       />
     </div>
