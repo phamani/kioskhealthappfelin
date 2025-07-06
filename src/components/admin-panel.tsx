@@ -355,7 +355,7 @@ useEffect(() => {
 
         setIsSendingEmail(true);
 
-        const response = await fetch(`${apiUrl}/email/SendMedicalReport`, {
+        const response = await fetch(`${apiUrl}/email/sendEmail`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
